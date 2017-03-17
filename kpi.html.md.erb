@@ -64,7 +64,7 @@ deployment and ensure it is in a good operational state.
    <tr><th colspan="2" style="text-align: center;"><br> auctioneer.AuctioneerLRPAuctionsFailed<br><br></th></tr>
    <tr>
       <th width="25%">Description</th>
-      <td>The cumulative number of LRP instances that the auctioneer failed to place on Diego cells <br><br>
+      <td>The cumulative number of Long Running Processes (LRP) instances that the auctioneer failed to place on Diego cells <br><br>
    
       <strong>Use</strong>: This metric can indicates that PCF is out of container space or that there is a lack of resources within your environment.
    
@@ -92,11 +92,17 @@ deployment and ensure it is in a good operational state.
             are the resource type causing the problem.</li> 
             <li>Consider scaling additional cells using Ops Manager.</li>
             <li>If scaling cells does not solve the problem, retrieve logs
-            from the brain VM and BBS node and open a ticket with PCF Support indicating that LRP auctions are failing.</li>
+            from the brain VM and BBS node and contact Pivotal Support indicating that LRP auctions are failing.</li>
          </ol>
       </td>
    </tr>
 </table>
+
+Q: We need to standardize on the adjectives for VM: brain VM, Brain VM, Diego-related VM, 
+BBS VM, cell VM, Router VM, router VM, Gorouter VM, and route_emitter VM. 
+Some are the same and some are different but I don't know for sure.
+
+Q: Then without the word VM, does it still mean VM? cells, Diego cells, 
 
 <a name="AuctioneerFetchStatesDuration"></a>
 
@@ -129,23 +135,25 @@ deployment and ensure it is in a good operational state.
           <ol>
              <li>Check the health of the cells by reviewing the logs and looking for errors.</li>
              <li>Review IaaS console metrics.</li>
-             <li>Collect logs from brain VMs and cells and open ticket with PCF support indicating that fetching cell states is taking too long.</li>
+             <li>Collect logs from brain VMs and cells and contact Pivotal Support indicating that fetching cell states is taking too long.</li>
           </ol>
        </td>
    </tr>
 </table>
+
+Q: "app stage requests" Is this an "request to stage an app"? "app staging request"? 
 
 <a name="AuctioneerLRPAuctionsStarted"></a>
 <table> 
    <tr><th colspan="2" style="text-align: center;"><br>auctioneer.AuctioneerLRPAuctionsStarted<br><br></th></tr>
         <tr>
                 <th width="25%">Description</th>
-                <td>Cumulative number of LRP instances that the auctioneer successfully placed on Diego cells. Emitted during each auction.
+                <td>Cumulative number of LRP instances that the auctioneer successfully placed on Diego cells.
                         <br><br>
-                <strong>Use</strong>: Provides a sense of running system activity levels occurring in your environment. 
+                <strong>Use</strong>: Provides a sense of running system activity levels in your environment. 
                 Can also give you a sense of how many AIs have been started over time.
                 Suggested alert threshold can help indicate a lot of container churn. 
-                However, for capacity planning purposes it may be more interesting to observe deltas over a long time window. 
+                However, for capacity planning purposes, it can be more helpful to observe deltas over a long time window. 
                  <br><br>
                  <strong>Origin</strong>: Doppler/Firehose<br>
                  <strong>Type</strong>: Counter (Integer)<br>
@@ -153,7 +161,7 @@ deployment and ensure it is in a good operational state.
         </tr>
         <tr>
                 <th>Recommended measurement</th>
-                <td>per minute average of auctioneer.AuctioneerLRPAuctionsStarted averaged over a 5-minute window</td>
+                <td>Per minute average of <code>auctioneer.AuctioneerLRPAuctionsStarted</code> averaged over a 5-minute window</td>
 </tr>
 <tr>
 <th>Recommended alert thresholds</th>
@@ -165,33 +173,39 @@ deployment and ensure it is in a good operational state.
 <td>
 When observing a lot of container churn, do the following:<br><br>
     <ol>
-    <li>Look to eliminate explainable causes of temporary churn, such as a deploy or a lot a current developer activity</li>
+    <li>Look to eliminate explainable causes of temporary churn, such as a deployment or a lot of developer activity</li>
     <li>For extended periods of high or low activity, consider scaling up or down CF components as necessary.</li>
     </ol>
     </td>
 </tr>
 </table>
 
+Q: What does cumulative mean here? When does this metric get reset? (Does it mean "The number of LRP instances that the auctioneer
+   successfully placed on Diego cells in one auction? or since when?)
+
+Q: What is an AI?
+
+Q: The Use description refers to a suggested threshold but there is no suggested threshold. How to fix?
 
 <a name="AuctioneerTaskAuctionsFailed"></a>
 <table>
      <tr><th colspan="2" style="text-align: center;"><br>auctioneer.AuctioneerTaskAuctionsFailed<br><br></th></tr>
         <tr>
                 <th width="25%">Description</th>
-                <td>Cumulative number of Tasks that the auctioneer failed to placed on Diego cells. Emitted during each auction.
+                <td>Cumulative number of Tasks that the auctioneer failed to placed on Diego cells.
                         <br><br>
-                <strong>Use</strong>: Failing task auctions indicate a lack of resources 
+                <strong>Use</strong>: Failing Task auctions indicate a lack of resources 
                         within your environment and that you likely need to scale. 
-                        This indicator can also increase when the task is requesting an isolation segment, volume drivers, 
-                        or stack that is unavailable, either not deployed or lacking in sufficient resources to accept the work.
+                        This indicator also increases when the Task is requesting an isolation segment, volume drivers, 
+                        or a stack that is unavailable, either not deployed or lacking in sufficient resources to accept the work.
                  <br><br>
                  <strong>Origin</strong>: Doppler/Firehose<br>
                  <strong>Type</strong>: Counter (Float)<br>
-                 <strong>Frequency</strong>: During Event<br>
+                 <strong>Frequency</strong>: During event, during each auction<br>
         </tr>
         <tr>
                 <th>Recommended measurement</th>
-                <td>per minute average of auctioneer.AuctioneerTaskAuctionsFailed averaged over a 5-minute window</td>
+                <td>Per minute average of <code>auctioneer.AuctioneerTaskAuctionsFailed</code> averaged over a 5-minute window</td>
         </tr>
         <tr>
                 <th>Recommended alert thresholds</th>
@@ -203,14 +217,16 @@ When observing a lot of container churn, do the following:<br><br>
 <td>
     <ol>
     <li>Investigate the health of Diego cells.</li>
-    <li>consider scaling additional cells using Ops Manager.</li>
+    <li>Consider scaling additional cells using Ops Manager.</li>
     <li>If scaling cells doesn't solve the problem, 
                         then get logs from the brain VM and BBS node for troubleshooting, 
-                        and open ticket with PCF Support indicating that task auctions are failing.</li>
+                        and contact Pivotal Support indicating that Task auctions are failing.</li>
     </ol>
     </td>
 </tr>
 </table>
+
+Q: I've written "Task" with a capital T everywhere. These are the Tasks that siblings of LRPs. Okay?
 
 ## <a id="bbs"></a> Diego BBS Metrics
 
@@ -222,7 +238,7 @@ When observing a lot of container churn, do the following:<br><br>
       <td>Time in ns that the BBS took to run its LRP convergence pass. 
           <br><br>
           <strong>Use</strong>: If the convergence run begins taking too long, 
-          it is possible that apps or tasks are crashing and not being restarted. 
+          maybe apps or Tasks are crashing and not being restarted. 
           This symptom can also indicate loss of connectivity to the BBS database.
           <br><br>
           <strong>Origin</strong>: Doppler/Firehose<br>
@@ -232,7 +248,7 @@ When observing a lot of container churn, do the following:<br><br>
    </tr>
    <tr>
       <th>Recommended measurement</th>
-      <td>15 minute maximum of bbs.ConvergenceLRPDuration divided by 1,000,000,000</td>
+      <td>15-minute maximum of <code>bbs.ConvergenceLRPDuration</code> divided by 1,000,000,000</td>
    </tr>
       <tr>
       <th>Recommended alert thresholds</th>
@@ -246,7 +262,8 @@ When observing a lot of container churn, do the following:<br><br>
               <li>Check Diego BBS logs for errors.</li>
               <li>Try vertically scaling the BBS VM resources up. 
               For example, add more CPUs/memory depending on its system.cpu/system.memory metrics.</li>
-              <li>If that does not solve the issue, collect logs from the BBS to provide to Pivotal Support for additional troubleshooting.
+              <li>If that does not solve the issue, collect logs from the BBS to provide to Pivotal Support 
+                  for additional troubleshooting.
           </ol>
           </td>
    </tr>
@@ -259,14 +276,14 @@ When observing a lot of container churn, do the following:<br><br>
    <tr>
       <th width="25%">Description</th>
       <td>Time in ns that the BBS took to handle requests, aggregated across all its API endpoints. 
-      Emitted when the BBS API handles requests (emission should be fairly constant on a running, Diego-based, PCF deployment.)
           <br><br>
           <strong>Use</strong>: If this rises, it indicates that the PCF API is slowing. 
-          Response to certain "cf" commands are slow if request latency is high.
+          Response to certain "cf" commands is slow if request latency is high.
           <br><br>
           <strong>Origin</strong>: Doppler/Firehose<br>
           <strong>Type</strong>: Gauge (Integer in ns)<br>
-          <strong>Frequency</strong>: During Event<br>
+          <strong>Frequency</strong>: During event, when the BBS API handles requests, 
+                  emission should be constant on a running, Diego-based, PCF deployment<br>
     </tr>
     <tr>
       <th>Recommended measurement</th>
@@ -281,12 +298,12 @@ When observing a lot of container churn, do the following:<br><br>
       <th>Recommended response</th>
       <td>
           <ol>
-              <li>Check CPU and Memory statistics in Ops Manager.</li>
-              <li>Check Diego BBS logs faults and errors that could indicate issues with BBS.</li>
+              <li>Check CPU and memory statistics in Ops Manager.</li>
+              <li>Check Diego BBS logs for faults and errors that can indicate issues with BBS.</li>
               <li>Try scaling the BBS VM resources up. For example, add more CPUs/memory 
                   depending on its system.cpu/system.memory metrics.</li>
               <li>If the above steps do not solve the issue, then collect a sample of the cell VM logs 
-                  from the BBS VMs for Pivotal Support to further troubleshoot.
+                  from the BBS VMs and contact Pivotal Support to troubleshoot further.
           </ol>
           </td>
     </tr>
@@ -326,7 +343,7 @@ When observing a lot of container churn, do the following:<br><br>
           <ol>
               <li>Check the nysnc bulker logs and Diego BBS logs.</li>
               <li>If the problem continues, collect logs from the Brain and BBS VMs 
-                  and contact Pivotal support to say that cf domain is not being kept fresh.</li>
+                  and contact Pivotal Support to say that cf domain is not being kept fresh.</li>
           </ol>
       </td>
    </tr>
@@ -346,9 +363,9 @@ Q: The master table says that the emit frequency is 30 s but also that it is "Em
                 <th width="25%">Description</th>
                 <td>Total number of LRP instances that are no longer desired but still have a BBS record. 
                     When Diego wants to add more apps, the BBS sends a request to the auctioneer 
-                    to spin up additional Long Running Processes (LRPs). 
+                    to spin up additional LRPs. 
                         <br><br>
-                <strong>Use</strong>: If Diego has more LRP running than expected. 
+                <strong>Use</strong>: If Diego has more LRP running than expected, 
                         there might be problems with the BBS.<br>
                         Deleting an app with many instances can temporarily spike this metric.  
                         However, a sustained spike in <code>bbs.LRPsExtra</code> is unusual and should be investigated.
@@ -370,8 +387,8 @@ Q: The master table says that the emit frequency is 30 s but also that it is "Em
                 <th>Recommended response</th>
                 <td>
                     <ol>
-                        <li>Review the BBS component logs for proper operation/errors, looking for detailed error messages.</li>
-                        <li>If the condition persists, collect Diego BBS logs, and contact Pivotal support.</li>
+                        <li>Review the BBS component logs for proper operation or errors, looking for detailed error messages.</li>
+                        <li>If the condition persists, collect Diego BBS logs and contact Pivotal Support.</li>
                     </ol>
                     </td>
         </tr>
@@ -383,15 +400,15 @@ Q: The master table says that the emit frequency is 30 s but also that it is "Em
      <tr><th colspan="2" style="text-align: center;"><br>bbs.LRPsMissing<br><br></th></tr>
         <tr>
                 <th width="25%">Description</th>
-                <td>Total number of LRP instances that are desired but have no record in the BBS. Emitted every 30 seconds.
+                <td>Total number of LRP instances that are desired but have no record in the BBS.
                         <br><br>
                 <strong>Use</strong>: Diego has less LRP running than expected. 
                         When Diego wants to add more apps, the BBS sends a request to the auctioneer 
-                        to spin up additional Long Running Processes(LRPs). 
+                        to spin up additional LRPs. 
                         LRPsMissing is the total number of LRP instances that are desired but have no BBS record. 
-                        This could indicate issues with the BBS. 
-                        Note that an app push with many instances can temporarily spike this metric, 
-                        however a sustained spike in bbs.LRPsMissing is unusual and should be investigated further.
+                        This can indicate issues with the BBS.<br> 
+                        An app push with many instances can temporarily spike this metric. 
+                        However, a sustained spike in <code>bbs.LRPsMissing</code> is unusual and should be investigated.
                  <br><br>
                  <strong>Origin</strong>: Doppler/Firehose<br>
                  <strong>Type</strong>: Gauge (Float)<br>
@@ -410,8 +427,8 @@ Q: The master table says that the emit frequency is 30 s but also that it is "Em
                 <th>Recommended response</th>
                 <td>
                     <ol>
-                        <li>Review the BBS component logs for proper operation/errors, looking for detailed error messages.</li>
-                        <li>If the condition persists, collect Diego BBS logs, and contact Pivotal support.</li>
+                        <li>Review the BBS component logs for proper operation or errors, looking for detailed error messages.</li>
+                        <li>If the condition persists, collect Diego BBS logs and contact Pivotal Support.</li>
                     </ol>
                     </td>
         </tr>
@@ -423,7 +440,7 @@ Q: The master table says that the emit frequency is 30 s but also that it is "Em
      <tr><th colspan="2" style="text-align: center;"><br>bbs.CrashedActualLRPs<br><br></th></tr>
         <tr>
                 <th width="25%">Description</th>
-                <td>Total number of LRP instances that have crashed. Emitted every 30 seconds.
+                <td>Total number of LRP instances that have crashed.
                 <br><br>
                 <strong>Use</strong>: Indicates how many instances in the deployment are in a crashed state. 
                 An increase in bbs.CrashedActualLRPs can indicate several problems, from a bad app with many instances associated, 
@@ -458,6 +475,10 @@ Q: The master table says that the emit frequency is 30 s but also that it is "Em
         </tr>
 </table>
 
+Q: Is "app causation" a thing? Or, can I write "Look at BBS logs for apps that are crashing 
+and then at their cells to find reasons for the crashes."
+
+Q: I don't understand step 3. Help?
 
 <a name="1hraverageofbbs.LRPsRunning"></a>
 <table>
@@ -465,8 +486,7 @@ Q: The master table says that the emit frequency is 30 s but also that it is "Em
         <tr>
                 <th width="25%">Description</th>
                 <td>Rate of change in app instances being started or stopped on the platform. 
-                    Derived from bbs.LRPsRunning, which is emitted periodically 
-                    (emission should be fairly constant on a running, Diego-based, PCF deployment),
+                    It is derived from <code>bbs.LRPsRunning</code>
                     and represents the total number of LRP instances that are running on cells.
                     <br><br>
                     <strong>Use</strong>: Delta reflects upward or downward trend for AIs started or stopped. 
@@ -475,7 +495,8 @@ Q: The master table says that the emit frequency is 30 s but also that it is "Em
                     <br><br>
                  <strong>Origin</strong>: Doppler/Firehose<br>
                  <strong>Type</strong>: Gauge (Float)<br>
-                 <strong>Frequency</strong>: During event<br>
+                 <strong>Frequency</strong>: During event, 
+                         emission should be constant on a running, Diego-based, PCF deployment<br>
         </tr>
         <tr>
                 <th>Recommended measurement</th>
@@ -505,7 +526,7 @@ Q: The master table says that the emit frequency is 30 s but also that it is "Em
    <tr><th colspan="2" style="text-align: center;"><br>rep.CapacityRemainingMemory<br><br></th></tr>
    <tr>
       <th width="25%">Description</th>
-      <td>Remaining amount in MiB of memory available for this cell to allocate to containers. Emitted every 30 seconds.
+      <td>Remaining amount in MiB of memory available for this cell to allocate to containers.
           <br><br>
           <strong>Use</strong>: Indicates the available cell memory. 
           If low memory, this could prevent app scaling and new deployments. 
@@ -557,7 +578,7 @@ Q: The master table says that the emit frequency is 30 s but also that it is "Em
        Alternative use.<br><br></th></tr>
    <tr>
       <th width="25%">Description</th>
-      <td>Remaining amount in MiB of memory available for this cell to allocate to containers. Emitted every 30 seconds.
+      <td>Remaining amount in MiB of memory available for this cell to allocate to containers.
           <br><br>
           <strong>Use</strong>: Can be used to indicate low memory capacity overall in the platform. 
           Low memory can prevent application scaling and new deployments. 
@@ -593,12 +614,12 @@ Q: The master table says that the emit frequency is 30 s but also that it is "Em
      <tr><th colspan="2" style="text-align: center;"><br> rep.CapacityRemainingDisk<br><br></th></tr>
         <tr>
                 <th width="25%">Description</th>
-                <td>Remaining amount in MiB of disk available for this cell to allocate to containers. Emitted every 30 seconds.
+                <td>Remaining amount in MiB of disk available for this cell to allocate to containers.
                     <br><br>
                     <strong>Use</strong>: Indicates the available cell disk. 
                 Low disk capacity could prevent app scaling and new deployments.
                 Similar to rep.CapacityRemainingMemory, it can be meaningful to assess how many chunks of free disk space are above a given threshold. 
-                As Diego staging tasks can fail without at least 4GB free, this recommend red 
+                As Diego staging Tasks can fail without at least 4GB free, this recommend red 
                 threshold is based on the minimum disk capacity 
                 across the deployment falling below 4GB in the prior 5 minutes.
                  <br><br>
@@ -944,7 +965,7 @@ Q: What is the metric for "the CPU utilization of the router VMs"? We should ref
                         <li>Check the BOSH logs to see if the NATS, Gorouter or route\_emitter VMs are failing.</li>
                         <li>Look more broadly at the health of all VMs, particularly Diego-related VMs.</li>
                         <li>If problems persist, pull the Gorouter and route\_emitter logs and contact 
-                            Pivotal support to say there are consistently long delays in route registry.</li>
+                            Pivotal Support to say there are consistently long delays in route registry.</li>
                     </ol>
                     </td>
         </tr>
@@ -990,7 +1011,7 @@ router last received a message from an app."? It is just a long-winded way to sa
                         <li>Check the BOSH logs to see if the NATS, Gorouter, or route\_emitter VMs are failing.</li>
                         <li>Look broadly at the health of all VMs, particularly Diego-related VMs.</li>
                         <li>If problems persist, pull Gorouter and route\_emitter logs and contact 
-                            Pivotal support to say there has been an unusual increase in router bad gateway responses.</li>
+                            Pivotal Support to say there has been an unusual increase in router bad gateway responses.</li>
                     </ol>
                     </td>
      </tr>
@@ -1086,7 +1107,7 @@ Q: I replaced "various apps on the platform" with just "apps". Okay?
                         <li>Look at the Gorouter and route\_emitter logs to look for connection issues to NATS.</li>
                         <li>Check the BOSH logs to see if the NATS, Gorouter or route\_emitter VMs are failing.</li>
                         <li>Look broadly at the health of all VMs, particularly Diego-related VMs.</li>
-                        <li>If problems persist, pull the Gorouter and route\_emitter logs and contact Pivotal support.</li>
+                        <li>If problems persist, pull the Gorouter and route\_emitter logs and contact Pivotal Support.</li>
                     </ol>
                     </td>
         </tr>
