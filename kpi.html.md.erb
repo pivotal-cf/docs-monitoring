@@ -3,62 +3,23 @@ title: Key Performance Indicators
 owner: PCF Metrics Platform Monitoring
 ---
 
-This topic describes how to use Key Performance Indicators (KPIs) to monitor your Pivotal Cloud Foundry (PCF) 
+This topic describes the Key Performance Indicators (KPIs) that you can use to monitor your Pivotal Cloud Foundry (PCF) 
 deployment and ensure it is in a good operational state. 
 
-## <a id="overview"></a> Overview
+The following PCF v1.10 Key Performance Indicators (KPI) are provided for operators and give general guidance 
+on monitoring a PCF deployment using platform component and system (BOSH) metrics. 
+Although many metrics are emitted from the platform, the following PCF v1.10 KPIs are 
+high-signal-value metrics that can indicate emerging platform issues. 
 
-<table>
-   <tr>
-      <th width="35%">For metrics related to the component&hellip;</th>
-      <th>and the source&hellip;</th>
-      <th>see&hellip;</th>
-   <tr>
-   </tr>
-       <td>Diego</td>
-       <td>Auctioneer</td>
-       <td><a href="#auctioneer">Link.</a></td>
-   </tr>
-   </tr>
-       <td>Diego</td>
-       <td>BBS</td>
-       <td><a href="#bbs">Link.</a></td>
-   </tr>
-   </tr>
-       <td>Diego</td>
-       <td>Cell</td>
-       <td><a href="#cell">Link.</a></td>
-   </tr>
-   </tr>
-       <td>Diego</td>
-       <td>nsync_bulker</td>
-       <td><a href="#nsync_bulker">Link.</a></td>
-   </tr>
-   </tr>
-       <td>Diego</td>
-       <td>router-emitter</td>
-       <td><a href="#route_emitter">Link.</a></td>
-   </tr>
-   </tr>
-       <td>Gorouter</td>
-       <td>Gorouter</td>
-       <td><a href="#gorouter">Link.</a></td>
-   </tr>
-   </tr>
-       <td>Doppler Server</td>
-       <td><em>N/A</em></td>
-       <td><a href="#doppler-server">Link.</a></td>
-   </tr>
-   </tr>
-       <td>System (BOSH)</td>
-       <td><em>N/A</em></td>
-       <td><a href="#bosh">Link.</a></td>
-   </tr>
-</table>
+This alerting and response guidance has been shown to apply to most deployments. 
+Pivotal recommends that operators continue to fine-tune the alert measures to their deployment 
+by observing historical trends. 
+Pivotal also recommends that operators expand beyond this guidance and create new, deployment-specific monitoring
+metrics, thresholds, and alerts based on learning from their deployments.
 
 ## <a id="auctioneer"></a> Diego Auctioneer Metrics
  
-<a name="AuctioneerLRPAuctionsFailed"></a>
+###<a id="AuctioneerLRPAuctionsFailed"></a>Auctioneer AI Placement Failures
 
 <table>
    <tr><th colspan="2" style="text-align: center;"><br> auctioneer.AuctioneerLRPAuctionsFailed<br><br></th></tr>
@@ -92,26 +53,14 @@ deployment and ensure it is in a good operational state.
             are the resource type causing the problem.</li> 
             <li>Consider scaling additional cells using Ops Manager.</li>
             <li>If scaling cells does not solve the problem, pull Diego brain logs and BBS logs
-             and contact Pivotal Support indicating that LRP auctions are failing.</li>
+             and contact Pivotal Support telling them that LRP auctions are failing.</li>
          </ol>
       </td>
    </tr>
 </table>
 
-Q: We need to standardize on the adjectives for VM: brain VM, Brain VM, Diego-related VM, 
-BBS VM, cell VM, Router VM, router VM, Gorouter VM, and route_emitter VM. 
 
-A: router and Router are Gorouter: DONE
-A: cell and Cell and Diego Cell are probably all the same.
-A: instance and VM are the same.
-A: brain and Diego brain and Diego Brain are all the same. We standardize on "Diego brain".
-A: route-emitter (not Route Emitter or route_emitter)
-
-Some are the same and some are different but I don't know for sure.
-
-Q: Then without the word VM, does it still mean VM? cells, Diego cells, 
-
-<a name="AuctioneerFetchStatesDuration"></a>
+###<a id="AuctioneerFetchStatesDuration"></a>Auctioneer Time to Fetch Cell State
 
 <table>
    <tr><th colspan="2" style="text-align: center;"><br>auctioneer.AuctioneerFetchStatesDuration<br><br></th></tr>
@@ -142,13 +91,13 @@ Q: Then without the word VM, does it still mean VM? cells, Diego cells,
           <ol>
              <li>Check the health of the cells by reviewing the logs and looking for errors.</li>
              <li>Review IaaS console metrics.</li>
-             <li>Pull Diego brain logs and cell logs and contact Pivotal Support indicating that fetching cell states is taking too long.</li>
+             <li>Pull Diego brain logs and cell logs and contact Pivotal Support telling them that fetching cell states is taking too long.</li>
           </ol>
        </td>
    </tr>
 </table>
 
-<a name="AuctioneerLRPAuctionsStarted"></a>
+###<a id="AuctioneerLRPAuctionsStarted"></a>Auctioneer Application Instance Starts
 <table> 
    <tr><th colspan="2" style="text-align: center;"><br>auctioneer.AuctioneerLRPAuctionsStarted<br><br></th></tr>
         <tr>
@@ -156,7 +105,7 @@ Q: Then without the word VM, does it still mean VM? cells, Diego cells,
                 <td>Cumulative number of LRP instances that the auctioneer successfully placed on Diego cells.
                         <br><br>
                 <strong>Use</strong>: Provides a sense of running system activity levels in your environment. 
-                Can also give you a sense of how many app instances have been started over time.
+                Can also give you a sense of how many application instances have been started over time.
                 The recommended measurement, below, can help indicate a lot of container churn. 
                 However, for capacity planning purposes, it is more helpful to observe deltas over a long time window. 
                  <br><br>
@@ -185,11 +134,7 @@ When observing a lot of container churn, do the following:<br><br>
 </tr>
 </table>
 
-Q for Eric Malm: What does cumulative mean here? When does this metric get reset? 
-(Does it mean "The number of LRP instances that the auctioneer
-successfully placed on Diego cells in one auction? or since when?)
-
-<a name="AuctioneerTaskAuctionsFailed"></a>
+###<a id="AuctioneerTaskAuctionsFailed"></a> Auctioneer Task Placement Failures
 <table>
      <tr><th colspan="2" style="text-align: center;"><br>auctioneer.AuctioneerTaskAuctionsFailed<br><br></th></tr>
         <tr>
@@ -222,17 +167,15 @@ successfully placed on Diego cells in one auction? or since when?)
     <li>Consider scaling additional cells using Ops Manager.</li>
     <li>If scaling cells doesn't solve the problem, 
                         then pull Diego brain logs and BBS logs for troubleshooting, 
-                        and contact Pivotal Support indicating that Task auctions are failing.</li>
+                        and contact Pivotal Support telling them that Task auctions are failing.</li>
     </ol>
     </td>
 </tr>
 </table>
 
-Q: I've written "Task" with a capital T everywhere. These are the Tasks that siblings of LRPs. Okay?
-
 ## <a id="bbs"></a> Diego BBS Metrics
 
-<a name="ConvergenceLRPDuration"></a>
+###<a id="ConvergenceLRPDuration"></a>BBS Time to Run LRP Convergence
 <table>
    <tr><th colspan="2" style="text-align: center;"><br>bbs.ConvergenceLRPDuration<br><br></th></tr>
    <tr>
@@ -272,7 +215,7 @@ Q: I've written "Task" with a capital T everywhere. These are the Tasks that sib
 </table>
 
 
-<a name="RequestLatency"></a>
+###<a id="RequestLatency"></a>BBS Time to Handle Requests
 <table>
    <tr><th colspan="2" style="text-align: center;"><br>bbs.RequestLatency<br><br></th></tr>
    <tr>
@@ -312,22 +255,23 @@ Q: I've written "Task" with a capital T everywhere. These are the Tasks that sib
 </table>
 
 
-<a name="Domain.cf-apps"></a>
+###<a id="Domain.cf-apps"></a>cf-apps Domain Is Updated
 <table>
    <tr><th colspan="2" style="text-align: center;"><br>bbs.Domain.cf-apps<br><br></th></tr>
    <tr>
       <th width="25%">Description</th>
-      <td>`1` means the <code>cf-apps</code> domain is up-to-date, so that the CF apps from the Cloud Controller
-           are synchronized with DesiredLRPs for Diego to run. Emmitted periodically.
-           `0` means that the 'cf-apps' domain is not up-to-date.
+      <td>Indicates if the ‘cf-apps’ domain is up-to-date, meaning that CF App requests 
+          from the Cloud Controller are synchronized to Diego-desired application instances (bbs.LRPsDesired) for execution. 
+          <code>1</code> means the ‘cf-apps’ domain is up-to-date. 
+          <code>0</code> means the ‘cf-apps’ domain is not up-to-date.
           <br><br>
-          <strong>Use</strong>: cf-apps is used to translate Cloud Controller desired state into Diego implementation. 
-          Without freshness, changes in Cloud Controller state is not guaranteed to propagate through the system. 
-          If Cloud Controller and Diego are out of sync, the running apps can stray 
-          from the set of desired apps.
+          <strong>Use</strong>: ‘cf-apps’ is used to translate the Cloud Controller desired state into Diego implementation. 
+          If it does not stay up-to-date, then the changes requested in Cloud Controller 
+          are not guaranteed to propagate throughout the system. 
+          If the Cloud Controller and Diego are out of sync, then apps running could vary from what is desired.
           <br><br>
           <strong>Origin</strong>: Doppler/Firehose<br>
-          <strong>Type</strong>: <br>
+          <strong>Type</strong>: Gauge (Float 0 or 1)<br>
           <strong>Frequency</strong>: 30 s<br>
    </tr>
    <tr>
@@ -351,13 +295,7 @@ Q: I've written "Task" with a capital T everywhere. These are the Tasks that sib
    </tr>
 </table>
 
-Q for Eric Malm: What are "CF apps"? How are they different from the apps that run on PCF deployments? 
-
-<a name="LRPsExtra"></a>
-
-Q: I think much of the table above needs a rewrite in language that our customers will easily understand.
-
-Q: The master table says that the emit frequency is 30 s but also that it is "Emitted periodically". Can we just say every 30 s?
+###<a id="LRPsExtra"></a>More Application Instances Than Expected
 
 <table>
      <tr><th colspan="2" style="text-align: center;"><br>bbs.LRPsExtra<br><br></th></tr>
@@ -397,7 +335,7 @@ Q: The master table says that the emit frequency is 30 s but also that it is "Em
 </table>
 
 
-<a name="LRPsMissing"></a>
+###<a id="LRPsMissing"></a>Fewer Application Instances Than Expected
 <table>
      <tr><th colspan="2" style="text-align: center;"><br>bbs.LRPsMissing<br><br></th></tr>
         <tr>
@@ -437,7 +375,7 @@ Q: The master table says that the emit frequency is 30 s but also that it is "Em
 </table>
 
 
-<a name="bbs.CrashedActualLRPs"></a>
+###<a id="bbs.CrashedActualLRPs"></a>Crashed Application Instances
 <table>
      <tr><th colspan="2" style="text-align: center;"><br>bbs.CrashedActualLRPs<br><br></th></tr>
         <tr>
@@ -445,10 +383,11 @@ Q: The master table says that the emit frequency is 30 s but also that it is "Em
                 <td>Total number of LRP instances that have crashed.
                 <br><br>
                 <strong>Use</strong>: Indicates how many instances in the deployment are in a crashed state. 
-                An increase in bbs.CrashedActualLRPs can indicate several problems, from a bad app with many instances associated, 
+                An increase in <code>bbs.CrashedActualLRPs</code> can indicate several problems, 
+                from a bad app with many instances associated, 
                 to a platform issue that is resulting in app crashes. 
                 This metric is most helpful to create a baseline in a deployment. 
-                Once a baseline is created, a deployment specific alert can be created to notify of a spike in crashes above trend line. 
+                After a baseline is created, a deployment specific alert can be created to notify of a spike in crashes above trend line. 
                 Alert values should be tuned to the deployment. 
                 <br><br>
                 <strong>Origin</strong>: Doppler/Firehose<br>
@@ -478,16 +417,16 @@ Q: The master table says that the emit frequency is 30 s but also that it is "Em
         </tr>
 </table>
 
-<a name="1hraverageofbbs.LRPsRunning"></a>
+###<a id="1hraverageofbbs.LRPsRunning"></a>Running Application Instances, Rate of Change
 <table>
-     <tr><th colspan="2" style="text-align: center;"><br>1hr average of bbs.LRPsRunning - prior 1hr average of bbs.LRPsRunning<br><br></th></tr>
+     <tr><th colspan="2" style="text-align: center;"><br>1hr average of bbs.LRPsRunning – prior 1hr average of bbs.LRPsRunning<br><br></th></tr>
         <tr>
                 <th width="25%">Description</th>
-                <td>Rate of change in app instances being started or stopped on the platform. 
+                <td>Rate of change in application instances being started or stopped on the platform. 
                     It is derived from <code>bbs.LRPsRunning</code>
                     and represents the total number of LRP instances that are running on cells.
                     <br><br>
-                    <strong>Use</strong>: Delta reflects upward or downward trend for app instances started or stopped. 
+                    <strong>Use</strong>: Delta reflects upward or downward trend for application instances started or stopped. 
                     Helps to provide a picture of the overall growth trend of the environment for capacity planning. 
                     May want to alert on delta values out of expected range.
                     <br><br>
@@ -498,7 +437,7 @@ Q: The master table says that the emit frequency is 30 s but also that it is "Em
         </tr>
         <tr>
                 <th>Recommended measurement</th>
-                <td>derived=(1-hour average of <code>bbs.LRPsRunning</code> - prior 1-hour average of <code>bbs.LRPsRunning</code>)</td>
+                <td>derived=(1-hour average of <code>bbs.LRPsRunning</code> – prior 1-hour average of <code>bbs.LRPsRunning</code>)</td>
         </tr>
         <tr>
                 <th>Recommended alert thresholds</th>
@@ -508,10 +447,8 @@ Q: The master table says that the emit frequency is 30 s but also that it is "Em
         <tr>
                 <th>Recommended response</th>
                 <td>
-                   <ol>
-                     <li>Scale up down CF components as necessary.</li>
-                   </ol>
-                    </td>
+                     Scale up down CF components as necessary.
+                </td>
         </tr>
 </table>
 
@@ -519,22 +456,24 @@ Q: The master table says that the emit frequency is 30 s but also that it is "Em
 
 ## <a id="cell"></a> Diego Cell Metrics
 
-<a name="rep.CapacityRemainingMemory"></a>
+###<a id="rep.CapacityRemainingMemory"></a>Remaining Memory Available — Cell Memory Chunks Available
 <table>
    <tr><th colspan="2" style="text-align: center;"><br>rep.CapacityRemainingMemory<br><br></th></tr>
    <tr>
       <th width="25%">Description</th>
-      <td>Remaining amount in MiB of memory available for this cell to allocate to containers.
+      <td>Remaining amount of memory in MiB available for this cell to allocate to containers.
           <br><br>
-          <strong>Use</strong>: Indicates the available cell memory. 
-          If low memory, this could prevent app scaling and new deployments. 
-          It is common to look at this metric as both a minimum value as well as a sum capacity across all cells. 
-          Minimum value over time of this metric has more informational value than alerting value. 
-          It can be an interesting heatmap, showing average variance and/or density over time. 
-          Sum capacity can also be an interesting indicator of the need to potentially scale an environment. 
-          However, the greater operational value is to understand a deployments average app size, 
-          and monitor/alert on ensuring that at least some cells have large enough capacity to accept standard app size pushes. 
-          For example, if pushing a 4&nbsp;GB app, Diego would have trouble placing that app if there is no one cell with sufficient capacity. 
+          <strong>Use</strong>: Indicates the available cell memory.<br>
+          If low memory, this can prevent app scaling and new deployments. 
+          It is common to look at this metric as both a minimum value and a sum capacity across all cells. <br>
+          The minimum value over time of this metric is more useful than a specific alert value. 
+          This metric can make an interesting heatmap, showing average variance and density over time.<br><br>
+          The sum capacity can also the need to scale an environment. 
+          However, the greater operational value is to understand the average app size of a deployment 
+          and to monitor and alert on ensuring that at least some cells have large enough 
+          capacity to accept standard app size pushes. <br><br>
+          For example, if pushing a 4&nbsp;GB app, Diego would have trouble placing that 
+          app if there is no one cell with sufficient capacity. 
           If deployment average was 3.9&nbsp;GB free, yet no one cell contained at least 4&nbsp;GB, the app push would fail. 
           As an example, Pivotal Cloud Ops uses a standard of 4&nbsp;GB, and computes and monitors 
           for the number of cells with at least 4&nbsp;GB free. 
@@ -571,18 +510,18 @@ Q: The master table says that the emit frequency is 30 s but also that it is "Em
         </tr>
 </table>
 
-<a name="rep.CapacityRemainingMemory2"></a>
+###<a id="rep.CapacityRemainingMemory2"></a>Remaining Memory Available — Overall Remaining Memory Available
 <table>
    <tr><th colspan="2" style="text-align: center;"><br>rep.CapacityRemainingMemory<br>
        (Alternative Use)<br><br></th></tr>
    <tr>
       <th width="25%">Description</th>
-      <td>Remaining amount in MiB of memory available for this cell to allocate to containers.
+      <td>Remaining amount of memory in MiB available for this cell to allocate to containers.
           <br><br>
-          <strong>Use</strong>: Can be used to indicate low memory capacity overall in the platform. 
+          <strong>Use</strong>: Can indicate low memory capacity overall in the platform. 
           Low memory can prevent app scaling and new deployments. 
-          Sum capacity overall is helpful to understanding the need to take action to scale the platform. 
-          Observing how capacity consumption trends over time is useful for ongoing capacity planning.
+          The overall sum of capacity can indicate that you need to scale the platform.
+          Observing capacity consumption trends over time helps with capacity planning.
           <br><br>
           <strong>Origin</strong>: Doppler/Firehose<br>
           <strong>Type</strong>: Gauge (Integer in bytes)<br>
@@ -602,25 +541,27 @@ Q: The master table says that the emit frequency is 30 s but also that it is "Em
       <th>Recommended response</th>
       <td>
           <ol>
-              <li>Assign more resources to the cells or assign more cells</li>
-              <li>Scale additional Diego cells via Ops Manager</li>
+              <li>Assign more resources to the cells or assign more cells.</li>
+              <li>Scale additional Diego cells via Ops Manager.</li>
           </ol>
                     </td>
         </tr>
 </table>
-<a name="CapacityRemainingDisk"></a>
+
+###<a id="CapacityRemainingDisk"></a>Remaining Disk Available
 <table>
      <tr><th colspan="2" style="text-align: center;"><br> rep.CapacityRemainingDisk<br><br></th></tr>
         <tr>
                 <th width="25%">Description</th>
-                <td>Remaining amount in MiB of disk available for this cell to allocate to containers.
+                <td>Remaining amount of disk in MiB available for this cell to allocate to containers.
                     <br><br>
-                    <strong>Use</strong>: Indicates the available cell disk. 
-                Low disk capacity could prevent app scaling and new deployments.
-                Similar to rep.CapacityRemainingMemory, it can be meaningful to assess how many chunks of free disk space are above a given threshold. 
-                As Diego staging Tasks can fail without at least 4GB free, this recommend red 
-                threshold is based on the minimum disk capacity 
-                across the deployment falling below 4GB in the prior 5 minutes.
+                    <strong>Use</strong>: Low disk capacity can prevent app scaling and new deployments.
+                Similar to <code>rep.CapacityRemainingMemory</code>, it is helpful to assess 
+                how many chunks of free disk space are above a given threshold. 
+                Because Diego staging Tasks can fail without at least 4&nbsp;GB free, 
+                the recommended red threshold is based on the minimum disk capacity across the deployment
+                falling below 4&nbsp;GB in the previous 5 minutes.
+                across the deployment falling below 4GB in the previous 5 minutes.
                  <br><br>
                  <strong>Origin</strong>: Doppler/Firehose<br>
                  <strong>Type</strong>: Gauge (Integer in bytes)<br>
@@ -639,7 +580,7 @@ Q: The master table says that the emit frequency is 30 s but also that it is "Em
                 <th>Recommended response</th>
                 <td>
                     <ol>
-                        <li>Assign more resources to the cells or assign more cells</li>
+                        <li>Assign more resources to the cells or assign more cells.</li>
                         <li>Scale additional cells using Ops Manager.</li>
                     </ol>
                     </td>
@@ -647,14 +588,14 @@ Q: The master table says that the emit frequency is 30 s but also that it is "Em
 </table>
 
 
-<a name="RepBulkSyncDuration"></a>
+###<a id="RepBulkSyncDuration"></a>Cell Rep Time to Sync
 <table>
      <tr><th colspan="2" style="text-align: center;"><br>rep.RepBulkSyncDuration<br><br></th></tr>
         <tr>
                 <th width="25%">Description</th>
-                <td>Time in ns that the Cell Rep took to synchronize the ActualLRPs it has claimed with its actual garden containers. 
+                <td>Time in ns that the Cell Rep took to sync the ActualLRPs that it claimed with its actual garden containers. 
                         <br><br>
-                <strong>Use</strong>: Sync times that are too high may indicate issues with the BBS.
+                <strong>Use</strong>: Sync times that are too high can indicate issues with the BBS.
                  <br><br>
                  <strong>Origin</strong>: Doppler/Firehose<br>
                  <strong>Type</strong>: Gauge (Float in ns)<br>
@@ -675,27 +616,25 @@ Q: The master table says that the emit frequency is 30 s but also that it is "Em
                     <ol>
                         <li>Investigate BBS logs for faults and errors.</li>
                         <li>If a particular cell or cells look to be problematic, 
-                            pull logs for that cell, as well as the BBS logs before contacting Pivotal Support.</li>
+                            pull logs for the cells and the BBS logs before contacting Pivotal Support.</li>
                     </ol>
                     </td>
         </tr>
 </table>
 
-Q: Are all "cells" "Diego cells"?
+###<a id="UnhealthyCell"></a>Unhealthy Cells
 
-<a name="UnhealthyCell"></a>
 <table>
      <tr><th colspan="2" style="text-align: center;"><br>rep.UnhealthyCell<br><br></th></tr>
         <tr>
                 <th width="25%">Description</th>
                 <td>The cell periodically checks its health against the garden backend. 
-                    When it fails this healthcheck, it emits a 1 (unhealthy).
-                    For Diego cells, 0 signifies healthy, and 1 signifies unhealthy.
+                    For Diego cells, <code>0</code> means healthy, and <code>1</code> means unhealthy.
                     <br><br>
-                    <strong>Use</strong>: Should alert for further investigation if 
+                    <strong>Use</strong>: Set an alert for further investigation if 
                     multiple unhealthy Diego cells are detected in the given time window. 
                     If one cell is impacted, it does not participate in auctions, 
-                    but customer impact is usually low. If multiple cells are impacted, 
+                    but end-user impact is usually low. If multiple cells are impacted, 
                     this can indicate a larger problem with Diego.
                  <br><br>
                  <strong>Origin</strong>: Doppler/Firehose<br>
@@ -726,15 +665,15 @@ Q: Are all "cells" "Diego cells"?
 
 ## <a id="nsync_bulker"></a> Diego nsync_bulker Metrics
 
-<a name="DesiredLRPSyncDuration"></a>
+###<a id="DesiredLRPSyncDuration"></a>Nsync-bulker Time to Sync
 <table>
-     <tr><th colspan="2" style="text-align: center;"><br>nsync\_bulker.DesiredLRPSyncDuration<br><br></th></tr>
+     <tr><th colspan="2" style="text-align: center;"><br>nsync_bulker.DesiredLRPSyncDuration<br><br></th></tr>
         <tr>
                 <th width="25%">Description</th>
                 <td>Time in ns that the nsync-bulker took to synchronize CF apps and Diego DesiredLRPs.
                     <br><br>
                     <strong>Use</strong>: Cloud Controller and Diego brain should be kept synchronized. 
-                    This symptom can indicate that the BBS database is in an unhealthy state. 
+                    This symptom can indicate that the BBS database is unhealthy. 
                  <br><br>
                  <strong>Origin</strong>: Doppler/Firehose<br>
                  <strong>Type</strong>: Gauge (Float in ns)<br>
@@ -760,18 +699,18 @@ Q: Are all "cells" "Diego cells"?
 
 ##<a id="route_emitter"></a>Diego router-emitter Metrics
 
-<a name="RouteEmitterSyncDuration"></a>
+###<a id="RouteEmitterSyncDuration"></a>Route Emitter Time to Sync
 <table>
-     <tr><th colspan="2" style="text-align: center;"><br>route\_emitter.RouteEmitterSyncDuration<br><br></th></tr>
+     <tr><th colspan="2" style="text-align: center;"><br>route_emitter.RouteEmitterSyncDuration<br><br></th></tr>
         <tr>
                 <th width="25%">Description</th>
                 <td>Time in ns that the active route-emitter took to perform its synchronization pass. 
                     <br><br>
-                    <strong>Use</strong>: Increases in this metric indicate that the route emitter may be having 
+                    <strong>Use</strong>: Increases in this metric indicate that the route emitter might be having 
                     trouble maintaining an accurate routing table to broadcast to the Gorouters. 
                     Alerting values need to be tuned per the deployment, based on historical data adjusted based on observations over time. 
                     The suggested starting point is &ge; 10 for the yellow threshold and &ge; 20 for the critical threshold. 
-                    Pivotal has observed on Pivotal Web Services that above 20 s, the BBS may be failing.
+                    Pivotal has observed on its Pivotal Web Services deployment that above 20 s, the BBS may be failing.
                  <br><br>
                  <strong>Origin</strong>: Doppler/Firehose<br>
                  <strong>Type</strong>: Gauge (Float in ns)<br>
@@ -794,17 +733,16 @@ Q: Are all "cells" "Diego cells"?
         </tr>
 </table>
 
-Q: How do customers investigate "Diego brains"? The docs show only one hit for this term and it is an architectural diagram. 
-
-<a name="ConsulDownMode"></a>
+###<a id="ConsulDownMode"></a>Consul Up or Down
 <table>
-     <tr><th colspan="2" style="text-align: center;"><br>route\_emitter.ConsulDownMode<br><br></th></tr>
+     <tr><th colspan="2" style="text-align: center;"><br>route_emitter.ConsulDownMode<br><br></th></tr>
         <tr>
                 <th width="25%">Description</th>
-                <td>`1` means the system is healthy, and `0` means that route emitter detects that consul is down.
+                <td><code>1</code> means the system is healthy, and <code>0</code> means that 
+                    route emitter detects that Consul is down.
                     <br><br>
-                    <strong>Use</strong>: During installation or upgrade, this can indicate that consul is down.
-                    Loss of the consul cluster results in apps becoming unavailable 
+                    <strong>Use</strong>: During installation or upgrade, this can indicate that Consul is down.
+                    Loss of the Consul cluster results in apps becoming unavailable 
                     because their routes were pruned from the routing table.
                  <br><br>
                  <strong>Origin</strong>: Doppler/Firehose<br>
@@ -824,28 +762,25 @@ Q: How do customers investigate "Diego brains"? The docs show only one hit for t
                 <th>Recommended response</th>
                 <td>
                     <ol>
-                        <li>During upgrade, reduce the consul server nodes to 1 and then upgrade.</li>
-                        <li>Outside of installation or upgrading, consider disaster recovery for consul.</li>
+                        <li>During upgrade, reduce the Consul server nodes to 1 and then upgrade.</li>
+                        <li>Outside of installation or upgrading, consider disaster recovery for Consul.</li>
                     </ol>
                     </td>
         </tr>
 </table>
 
-Q for Eric Malm: What action is recommended if you see this during installation? 
-The recommended response addresses the upgrade scenario and non-install/upgrade 
-but no mention of what to do if this happens during installation.
 ## <a id="gorouter"></a> Gorouter Metrics
 
-<a name="total_requests"></a>
+###<a id="total_requests"></a>Router Throughput
 <table>
-   <tr><th colspan="2" style="text-align: center;"><br>gorouter.total\_requests<br><br></th></tr>
+   <tr><th colspan="2" style="text-align: center;"><br>gorouter.total_requests<br><br></th></tr>
    <tr>
       <th width="25%">Description</th>
-      <td>The lifetime (since the Gorouter VM started) number of requests completed by component 
+      <td>The lifetime (since this Gorouter VM started) number of requests completed by component 
           <br><br>
           <strong>Use</strong>: Provides insight into the overall traffic flow through a deployment. 
           For performance and capacity management, consider this metric a measure of router throughput 
-          and convert it to "requests per second", by deriving <code>per\_second(sum:gorouter.total\_requests{*})</code>.
+          and convert it to requests-per-second, by deriving <code>per\_second(sum:gorouter.total\_requests{*})</code>.
           This helps you see trends in throughput rate that indicate a need to scale the Gorouter.
           Use the trends you observe to tune the threshold alerts for this metric. 
           <br><br>
@@ -864,7 +799,7 @@ but no mention of what to do if this happens during installation.
    </tr>
    <tr>
       <th>Recommended response</th>
-      <td>For optimizing the Gorouter, consider the "requests per second" 
+      <td>For optimizing the Gorouter, consider the requests-per-second
           derived metric in the context of router latency and Gorouter VM CPU utilization.
           In testing the Gorouter, Pivotal observed that at approximately 2500 requests 
           per second, latency increases. <br><br>
@@ -874,9 +809,7 @@ but no mention of what to do if this happens during installation.
    </tr>
 </table>
 
-Q: Should it be turned into a derived metric from the start? 
-
-<a name="latency"></a>
+###<a id="latency"></a>Router Handling Latency
 <table>
      <tr><th colspan="2" style="text-align: center;"><br>gorouter.latency<br><br></th></tr>
         <tr>
@@ -885,10 +818,10 @@ Q: Should it be turned into a derived metric from the start?
                     This is the average round trip response time to an app, which includes router handling. 
                     <br><br>
                     <strong>Use</strong>: Indicates how Gorouter jobs in PCF are impacting overall app responsiveness. 
-                    Latencies above 100ms can indicate problems with the network, misbehaving apps, 
+                    Latencies above 100 ms can indicate problems with the network, misbehaving apps, 
                     or the need to scale the Gorouter itself due to ongoing traffic congestion. 
                     An alert value on this metric should be tuned to the specifics of the deployment; 
-                    a suggested starting point is 100ms. 
+                    a suggested starting point is 100 ms. 
                  <br><br>
                  <strong>Origin</strong>: Doppler/Firehose<br>
                  <strong>Type</strong>: Gauge (Float in ms)<br>
@@ -917,26 +850,20 @@ Q: Should it be turned into a derived metric from the start?
                         <li>Resolve high utilization by scaling the Gorouter.</li>
                         <li>To increase throughput, while keeping latency low, 
                             scale the Gorouters, either horizontally or vertically, 
-                            while watching the Gorouter CPU utilization metric.</li>
+                            while watching the <a href="#cpu.user">system.cpu.user</a> metric for the Gorouter.</li>
                     </ol>
                     </td>
         </tr>
 </table>
 
-Q: Should we put "suggested starting point is 100ms" in the Red threshold?
-
-Q: What is the metric for "the CPU utilization of the router VMs"? We should reference it above.
-
-<a name="mssincelastregistryupdate"></a>
+###<a id="mssincelastregistryupdate"></a>Time Since Last Route Register Received
 <table>
-     <tr><th colspan="2" style="text-align: center;"><br>gorouter.ms\_since\_last\_registry\_update<br><br></th></tr>
+     <tr><th colspan="2" style="text-align: center;"><br>gorouter.ms_since_last_registry_update<br><br></th></tr>
         <tr>
                 <th width="25%">Description</th>
                 <td>Time in milliseconds since the last route register was received.
                         <br><br>
                 <strong>Use</strong>: Indicates if routes are not being registered to apps correctly. 
-                        If normal platform usage, consider alerting if it has been at least 30 seconds since the 
-                        Gorouter last received a message from an app.
                  <br><br>
                  <strong>Origin</strong>: Doppler/Firehose<br>
                  <strong>Type</strong>: Gauge (Float in ms)<br>
@@ -949,14 +876,16 @@ Q: What is the metric for "the CPU utilization of the router VMs"? We should ref
         <tr>
                 <th>Recommended alert thresholds</th>
                 <td><strong>Yellow warning</strong>: <em>N/A</em> <br>
-                <strong>Red critical</strong>: &gt; 30,000</td>
+                <strong>Red critical</strong>: &gt; 30,000<br>
+                        This threshold is suitable for normal platform usage. It alerts if it has been 
+                        at least 30 seconds since the Gorouter last received a message from an app.</td>
         </tr>
         <tr>
                 <th>Recommended response</th>
                 <td>
                     <ol>
                         <li>Look at the Gorouter and route\_emitter logs to look for connection issues to NATS.</li>
-                        <li>Check the BOSH logs to see if the NATS, Gorouter or route\_emitter VMs are failing.</li>
+                        <li>Check the BOSH logs to see if the NATS, Gorouter, or route\_emitter VMs are failing.</li>
                         <li>Look more broadly at the health of all VMs, particularly Diego-related VMs.</li>
                         <li>If problems persist, pull the Gorouter and route\_emitter logs and contact 
                             Pivotal Support to say there are consistently long delays in route registry.</li>
@@ -965,16 +894,13 @@ Q: What is the metric for "the CPU utilization of the router VMs"? We should ref
         </tr>
 </table>
 
-Q: Can we delete "If normal platform usage, consider alerting if it has been at least 30 seconds since the
-router last received a message from an app."? It is just a long-winded way to say "<strong>Red critical</strong>: &gt; 30,000". 
+###<a id="bad_gateways"></a>Router Error: 502 Bad Gateway
 
-
-<a name="bad_gateways"></a>
 <table>
      <tr><th colspan="2" style="text-align: center;"><br>gorouter.bad\_gateways<br><br></th></tr>
      <tr>
          <th width="25%">Description</th>
-            <td>The lifetime (since the Gorouter VM started) number of bad gateways, 502 response from Gorouter itself.<br>
+            <td>The lifetime (since this Gorouter VM started) number of bad gateways, 502 response from Gorouter itself.<br>
                 The Gorouter emits a 502 bad gateway error when it has a route in the routing table 
                 and, in attempting to make a connection to the backend, finds that backend not there, that it doesn't exist.
                     <br><br>
@@ -1011,17 +937,12 @@ router last received a message from an app."? It is just a long-winded way to sa
      </tr>
 </table>
 
-Q: Is there a simple way to say “route register management plane”? e.g. “route registration”?
-
-
-
-
-<a name="responses.5xx"></a>
+###<a id="responses.5xx"></a>Router Error: Server Error
 <table>
      <tr><th colspan="2" style="text-align: center;"><br>gorouter.responses.5xx<br><br></th></tr>
         <tr>
                 <th width="25%">Description</th>
-                <td>The lifetime (since the Gorouter VM started) number of requests completed by the component 
+                <td>The lifetime (since this Gorouter VM started) number of requests completed by the component 
                     for HTTP status family 5xx, server errors.
                     <br><br>
                     <strong>Use</strong>: A repeatedly crashing app is often the cause of a big increase in 5xx responses.
@@ -1052,11 +973,7 @@ Q: Is there a simple way to say “route register management plane”? e.g. “r
         </tr>
 </table>
 
-Q: Okay that I replaced "this instance of the router" with "since the Router VM started"?
-
-Q: I replaced "various apps on the platform" with just "apps". Okay?
-
-<a name="total_routes"></a>
+###<a id="total_routes"></a>Number of Gorouter Routes Registered
 <table>
      <tr><th colspan="2" style="text-align: center;"><br>gorouter.total\_routes<br><br></th></tr>
         <tr>
@@ -1107,24 +1024,10 @@ Q: I replaced "various apps on the platform" with just "apps". Okay?
         </tr>
 </table>
 
-Q: What is a "router negative case"?
-
-Q: Is my rewrite of this okay? "
-                    Regarding monitoring for Gorouter negative cases, Pivotal 
-                    recommends that 'gorouter.total\_routes' is a better visualization metric to draw 
-                    attention to a dramatic drop via dashboard monitoring, but the metric 
-                    'gorouter.ms\_since\_last\_registry\_update' is a superior metric to generate triggered alerts from.:
-
-Q: I changed "scale up or down the gorouter instances" to "scale up or down the router VMs" (We don't mention gorouter instances anywhere else — I assume that they are the same?)
-
-
-Q: Is there a simple way to say "route register management plane has failed"? e.g. "route registration has failed"?
-
-Q: Because this is for an external audience, I'm replacing all "TEAM-NAME recommends..." with "Pivotal recommends..."
 
 ## <a id="doppler-server"></a> Doppler Server Metrics
 
-<a name="listeners.receivedEnvelopes"></a>
+###<a id="listeners.receivedEnvelopes"></a>Firehose Throughput
 <table>
      <tr><th colspan="2" style="text-align: center;"><br>DopplerServer.listeners.receivedEnvelopes<br><br></th></tr>
         <tr>
@@ -1159,20 +1062,16 @@ Q: Because this is for an external audience, I'm replacing all "TEAM-NAME recomm
         </tr>
 </table>
 
-Q: How to rewrite the response? "Scale up the Firehose log receiver and the Dopplers" 
-(How does one do this? provide a link to elsewhere in the doc.)
-Why is scaling down not recommended? What can happen? We shouldn't reference internal teams in a customer-facing doc. 
-
-<a name="deriveddopplerserver.doppler"></a>
+###<a id="deriveddopplerserver.doppler"></a>Firehose Dropped Messages
 <table>
      <tr><th colspan="2" style="text-align: center;"><br>DopplerServer.doppler.shedEnvelopes 
                        + DopplerServer.TruncatingBuffer.totalDroppedMessages<br><br></th></tr>
         <tr>
                 <th width="25%">Description</th>
-                <td>The number of messages dropped per sink: the lifetime (since the VM started) total number of messages 
+                <td>The number of messages dropped per sink: the lifetime (since this VM started) total number of messages 
                     intentionally dropped by Doppler from all of its sinks due to back pressure.<br>
-                    The metric `DopplerServer.TruncatingBuffer.totalDroppedMessages` is 
-                    being transitioned to `DopplerServer.doppler.shedEnvelopes`. 
+                    The metric <code>DopplerServer.TruncatingBuffer.totalDroppedMessages</code> is 
+                    being transitioned to <code>DopplerServer.doppler.shedEnvelopes</code>. 
                     In PCF v1.10, both metrics are still present and should be combined to present a full picture of dropped messages. 
                     In PCF v1.10, truncating buffer usage is approximately 5% of all possible traffic, primarily syslog drains.
                     <br><br>
@@ -1204,12 +1103,12 @@ Why is scaling down not recommended? What can happen? We shouldn't reference int
 
 ## <a id="bosh"></a> System (BOSH) Metrics
 
-<a name="healthy"></a>
+###<a id="healthy"></a>VM Health
 <table>
      <tr><th colspan="2" style="text-align: center;"><br>system.healthy<br><br></th></tr>
         <tr>
                 <th width="25%">Description</th>
-                <td>`1` means the system is healthy, and `0` means the system is not healthy.
+                <td><code>1</code> means the system is healthy, and <code>0</code> means the system is not healthy.
                 <br><br>
                 <strong>Use</strong>: This is the most important BOSH metric to monitor. 
                  It indicates if the VM emitting the metric is healthy.
@@ -1238,7 +1137,7 @@ Why is scaling down not recommended? What can happen? We shouldn't reference int
 </table>
 
 
-<a name="mem.percent"></a>
+###<a id="mem.percent"></a>VM Memory Used
 <table>
      <tr><th colspan="2" style="text-align: center;"><br>system.mem.percent<br><br></th></tr>
         <tr>
@@ -1268,9 +1167,7 @@ Why is scaling down not recommended? What can happen? We shouldn't reference int
         </tr>
 </table>
 
-Q: Can we make examples for the recommended responses? If the job is x, then y.
-
-<a name="disk.system.percent"></a>
+###<a id="disk.system.percent"></a>VM Disk Used
 <table>
      <tr><th colspan="2" style="text-align: center;"><br>system.disk.system.percent<br><br></th></tr>
         <tr>
@@ -1302,15 +1199,15 @@ Q: Can we make examples for the recommended responses? If the job is x, then y.
 </table>
 
 
-<a name="disk.ephemeral.percent"></a>
+###<a id="disk.ephemeral.percent"></a>VM Ephemeral Disk Used
 <table>
      <tr><th colspan="2" style="text-align: center;"><br>system.disk.ephemeral.percent<br><br></th></tr>
         <tr>
                 <th width="25%">Description</th>
                 <td>Ephemeral disk — Percentage of the ephemeral disk used on the VM
                 <br><br>
-               <strong>Use</strong>: Set an alert and investigate further if the ephemeral 
-                disk consumption is too high for a given job over an extended period.
+               <strong>Use</strong>: Set an alert and investigate if the ephemeral 
+                disk usage is too high for a job over an extended period.
                 <br><br>
                 <strong>Origin</strong>: JMX Bridge or BOSH HM Forwarder<br>
                 <strong>Type</strong>: Gauge (%)<br>
@@ -1329,8 +1226,8 @@ Q: Can we make examples for the recommended responses? If the job is x, then y.
                 <th>Recommended response</th>
                 <td>
                     <ol>
-                        <li>Issue ```bosh vms --details``` to view jobs on affected deployments.</li>
-                        <li>Determine cause of the data consumption, and, if appropriate, 
+                        <li>Run <code>bosh vms --details</code> to view jobs on affected deployments.</li>
+                        <li>Determine cause of the disk usage, and, if appropriate, 
                             increase disk space or scale up the affected jobs.</li>
                     </ol>
                     </td>
@@ -1338,7 +1235,7 @@ Q: Can we make examples for the recommended responses? If the job is x, then y.
 </table>
 
 
-<a name="disk.persistent.percent"></a>
+###<a id="disk.persistent.percent"></a>VM System Disk Used
 <table>
      <tr><th colspan="2" style="text-align: center;"><br>system.disk.persistent.percent<br><br></th></tr>
         <tr>
@@ -1365,7 +1262,7 @@ Q: Can we make examples for the recommended responses? If the job is x, then y.
                 <th>Recommended response</th>
                 <td>
                     <ol>
-                        <li>Issue ```bosh vms --details``` to view jobs on affected deployments.</li>
+                        <li>Issue <code>bosh vms --details</code> to view jobs on affected deployments.</li>
                         <li>Determine cause of the data consumption, and, if appropriate, 
                             increase disk space or scale up affected jobs.</li>
                     </ol>
@@ -1373,15 +1270,7 @@ Q: Can we make examples for the recommended responses? If the job is x, then y.
         </tr>
 </table>
 
-Q: Is there any difference between use and consumption?
-
-Q: How long is an extended period?
-
-Q: Is there any difference between an extended period and a continued period?
-
-Q: Is there any difference between scale out and scale up?
-
-<a name="cpu.user"></a>
+###<a id="cpu.user"></a>VM CPU Utilization
 <table>
      <tr><th colspan="2" style="text-align: center;"><br>system.cpu.user<br><br></th></tr>
         <tr>
@@ -1389,7 +1278,7 @@ Q: Is there any difference between scale out and scale up?
                 <td>CPU utilization — The percentage of CPU spent in user processes
                 <br><br>
                 <strong>Use</strong>: Set an alert and investigate further if the CPU utilitization is
-                too high for a given job.<br>
+                too high for a job.<br>
                 For monitoring Gorouter performance, CPU utilization of the Gorouter VM is 
                 the recommended key capacity scaling indicator.
                 For more information, see <a href="./key-cap-scaling.html#system.cpu.user">Gorouter Latency and Throughput</a>.
@@ -1418,8 +1307,5 @@ Q: Is there any difference between scale out and scale up?
         </tr>
 </table>
 
-Q: WHAT is a "user process"? 
-
-Q: WHAT is a "given job"? 
 
 
