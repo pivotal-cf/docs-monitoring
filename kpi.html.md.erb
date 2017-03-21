@@ -276,7 +276,7 @@ When observing a lot of container churn, do the following:<br><br>
    </tr>
    <tr>
       <th>Recommended measurement</th>
-      <td>Average over the last 5 minutes of <code>bbs.Domain.cf\_apps</code></td>
+      <td>Average over the last 5 minutes of <code>bbs.Domain.cf_apps</code></td>
    </tr>
    <tr>
       <th>Recommended alert thresholds</th>
@@ -681,7 +681,7 @@ When observing a lot of container churn, do the following:<br><br>
         </tr>
         <tr>
                 <th>Recommended measurement</th>
-                <td>Maximum over the last 15 minutes of <code>nsync\_bulker.DesiredLRPSyncDuration</code> 
+                <td>Maximum over the last 15 minutes of <code>nsync_bulker.DesiredLRPSyncDuration</code> 
                     divided by 1,000,000,000</td>
         </tr>
         <tr>
@@ -718,7 +718,7 @@ When observing a lot of container churn, do the following:<br><br>
         </tr>
         <tr>
                 <th>Recommended measurement</th>
-                <td>Maximum over the last 15 minutes of <code>route\_emitter.RouteEmitterSyncDuration</code> divided by 1,000,000,000</td>
+                <td>Maximum over the last 15 minutes of <code>route_emitter.RouteEmitterSyncDuration</code> divided by 1,000,000,000</td>
         </tr>
         <tr>
                 <th>Recommended alert thresholds</th>
@@ -751,7 +751,7 @@ When observing a lot of container churn, do the following:<br><br>
         </tr>
         <tr>
                 <th>Recommended measurement</th>
-                <td>Average over the last 5 minutes of <code>route\_emitter.ConsulDownMode</code></td>
+                <td>Average over the last 5 minutes of <code>route_emitter.ConsulDownMode</code></td>
         </tr>
         <tr>
                 <th>Recommended alert thresholds</th>
@@ -780,7 +780,7 @@ When observing a lot of container churn, do the following:<br><br>
           <br><br>
           <strong>Use</strong>: Provides insight into the overall traffic flow through a deployment. 
           For performance and capacity management, consider this metric a measure of router throughput 
-          and convert it to requests-per-second, by deriving <code>per\_second(sum:gorouter.total\_requests{*})</code>.
+          and convert it to requests-per-second, by deriving <code>per_second(sum:gorouter.total_requests{*})</code>.
           This helps you see trends in throughput rate that indicate a need to scale the Gorouter.
           Use the trends you observe to tune the threshold alerts for this metric. 
           <br><br>
@@ -790,7 +790,7 @@ When observing a lot of container churn, do the following:<br><br>
    </tr>
    <tr>
       <th>Recommended measurement</th>
-      <td>Average over the last 5 minutes of the per second calculation of <code>gorouter.total\_requests</code></td>
+      <td>Average over the last 5 minutes of the per second calculation of <code>gorouter.total_requests</code></td>
    </tr>
    <tr>
       <th>Recommended alert thresholds</th>
@@ -871,7 +871,7 @@ When observing a lot of container churn, do the following:<br><br>
         </tr>
         <tr>
                 <th>Recommended measurement</th>
-                <td>Maximum over the last 5 minutes of <code>gorouter.ms\_since\_last\_registry\_update</code></td>
+                <td>Maximum over the last 5 minutes of <code>gorouter.ms_since_last_registry_update</code></td>
         </tr>
         <tr>
                 <th>Recommended alert thresholds</th>
@@ -884,10 +884,10 @@ When observing a lot of container churn, do the following:<br><br>
                 <th>Recommended response</th>
                 <td>
                     <ol>
-                        <li>Look at the Gorouter and route\_emitter logs to look for connection issues to NATS.</li>
-                        <li>Check the BOSH logs to see if the NATS, Gorouter, or route\_emitter VMs are failing.</li>
+                        <li>Look at the Gorouter and route_emitter logs to look for connection issues to NATS.</li>
+                        <li>Check the BOSH logs to see if the NATS, Gorouter, or route_emitter VMs are failing.</li>
                         <li>Look more broadly at the health of all VMs, particularly Diego-related VMs.</li>
-                        <li>If problems persist, pull the Gorouter and route\_emitter logs and contact 
+                        <li>If problems persist, pull the Gorouter and route_emitter logs and contact 
                             Pivotal Support to say there are consistently long delays in route registry.</li>
                     </ol>
                     </td>
@@ -897,7 +897,7 @@ When observing a lot of container churn, do the following:<br><br>
 ###<a id="bad_gateways"></a>Router Error: 502 Bad Gateway
 
 <table>
-     <tr><th colspan="2" style="text-align: center;"><br>gorouter.bad\_gateways<br><br></th></tr>
+     <tr><th colspan="2" style="text-align: center;"><br>gorouter.bad_gateways<br><br></th></tr>
      <tr>
          <th width="25%">Description</th>
             <td>The lifetime (since this Gorouter VM started) number of bad gateways, 502 response from Gorouter itself.<br>
@@ -916,7 +916,7 @@ When observing a lot of container churn, do the following:<br><br>
      </tr>
      <tr>
                 <th>Recommended measurement</th>
-                <td>Average over the last 5 minutes of the per second delta of <code>gorouter.bad\_gateways</code></td>
+                <td>Average over the last 5 minutes of the per second delta of <code>gorouter.bad_gateways</code></td>
      </tr>
      <tr>
                 <th>Recommended alert thresholds</th>
@@ -927,10 +927,10 @@ When observing a lot of container churn, do the following:<br><br>
                 <th>Recommended response</th>
                 <td>
                     <ol>
-                        <li>Look in the Gorouter and route\_emitter logs for connection issues to NATS.</li>
-                        <li>Check the BOSH logs to see if the NATS, Gorouter, or route\_emitter VMs are failing.</li>
+                        <li>Look in the Gorouter and route_emitter logs for connection issues to NATS.</li>
+                        <li>Check the BOSH logs to see if the NATS, Gorouter, or route_emitter VMs are failing.</li>
                         <li>Look broadly at the health of all VMs, particularly Diego-related VMs.</li>
-                        <li>If problems persist, pull Gorouter and route\_emitter logs and contact 
+                        <li>If problems persist, pull Gorouter and route_emitter logs and contact 
                             Pivotal Support to say there has been an unusual increase in Gorouter bad gateway responses.</li>
                     </ol>
                     </td>
@@ -975,7 +975,7 @@ When observing a lot of container churn, do the following:<br><br>
 
 ###<a id="total_routes"></a>Number of Gorouter Routes Registered
 <table>
-     <tr><th colspan="2" style="text-align: center;"><br>gorouter.total\_routes<br><br></th></tr>
+     <tr><th colspan="2" style="text-align: center;"><br>gorouter.total_routes<br><br></th></tr>
         <tr>
                 <th width="25%">Description</th>
                 <td>The current total number of routes registered with the Gorouter
@@ -991,7 +991,7 @@ When observing a lot of container churn, do the following:<br><br>
                     app outage or that something in the route register management plane has failed.<br><br>
                     This metric is good to draw attention to a dramatic drop
                     on a dashboard. However, for alerting, trigger alerts from the 
-                    <code>gorouter.ms\_since\_last\_registry\_update</code> and not the <code>gorouter.total\_routes</code>
+                    <code>gorouter.ms_since_last_registry_update</code> and not the <code>gorouter.total_routes</code>
                     metric. 
                  <br><br>
                  <strong>Origin</strong>: Doppler/Firehose<br>
@@ -1000,7 +1000,7 @@ When observing a lot of container churn, do the following:<br><br>
         </tr>
         <tr>
                 <th>Recommended measurement</th>
-                <td>5-minute average of the per second delta of <code>gorouter.bad\_gateways</code></td>
+                <td>5-minute average of the per second delta of <code>gorouter.bad_gateways</code></td>
         </tr>
         <tr>
                 <th>Recommended alert thresholds</th>
@@ -1013,12 +1013,12 @@ When observing a lot of container churn, do the following:<br><br>
                     <ol>
                         <li>For capacity needs, scale up or down the Gorouter VMs as necessary.</li>
                         <li>For significant drops in current total routes, see the 
-                           <a href="#mssincelastregistryupdate"> <code>gorouter.ms\_since\_last\_registry\_update</code></a>
+                           <a href="#mssincelastregistryupdate"> <code>gorouter.ms_since_last_registry_update</code></a>
                             metric value for additional context.</li>
-                        <li>Look at the Gorouter and route\_emitter logs to look for connection issues to NATS.</li>
-                        <li>Check the BOSH logs to see if the NATS, Gorouter or route\_emitter VMs are failing.</li>
+                        <li>Look at the Gorouter and route_emitter logs to look for connection issues to NATS.</li>
+                        <li>Check the BOSH logs to see if the NATS, Gorouter or route_emitter VMs are failing.</li>
                         <li>Look broadly at the health of all VMs, particularly Diego-related VMs.</li>
-                        <li>If problems persist, pull the Gorouter and route\_emitter logs and contact Pivotal Support.</li>
+                        <li>If problems persist, pull the Gorouter and route_emitter logs and contact Pivotal Support.</li>
                     </ol>
                     </td>
         </tr>
