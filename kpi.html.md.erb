@@ -447,7 +447,7 @@ When observing a lot of container churn, do the following:<br><br>
         <tr>
                 <th>Recommended response</th>
                 <td>
-                     Scale up down CF components as necessary.
+                     Scale components as necessary.
                 </td>
         </tr>
 </table>
@@ -464,40 +464,36 @@ When observing a lot of container churn, do the following:<br><br>
       <td>Remaining amount of memory in MiB available for this cell to allocate to containers.
           <br><br>
           <strong>Use</strong>: Indicates the available cell memory.<br>
-          If low memory, this can prevent app scaling and new deployments. 
-          It is common to look at this metric as both a minimum value and a sum capacity across all cells. <br>
-          The minimum value over time of this metric is more useful than a specific alert value. 
-          This metric can make an interesting heatmap, showing average variance and density over time.<br><br>
-          The sum capacity can also the need to scale an environment. 
-          However, the greater operational value is to understand the average app size of a deployment 
-          and to monitor and alert on ensuring that at least some cells have large enough 
-          capacity to accept standard app size pushes. <br><br>
-          For example, if pushing a 4&nbsp;GB app, Diego would have trouble placing that 
-          app if there is no one cell with sufficient capacity. 
-          If deployment average was 3.9&nbsp;GB free, yet no one cell contained at least 4&nbsp;GB, the app push would fail. 
-          As an example, Pivotal Cloud Ops uses a standard of 4&nbsp;GB, and computes and monitors 
-          for the number of cells with at least 4&nbsp;GB free. 
-          When the number of cells with at least 4&nbsp;GB falls below a defined threshold, 
-          this is a scaling indicator alert to add additional capacity. 
-          This "Free 4GB Chunk" count threshold should be tuned to the deployment size 
-          and the standard size of apps being pushed to the platform.<br>
-          <br><br>
+          Insufficient cell memory can prevent pushing and scaling apps.<br><br>
+          The operational value of this metric is to ensure that there are cells with enough capacity to receive 
+          pushes of apps. For example, your app push would fail if your app size is 4&nbsp;GB
+          and no cell contains at least 4&nbsp;GB. <br><br> 
+
           <strong>Origin</strong>: Doppler/Firehose<br>
           <strong>Type</strong>: Gauge (Integer in bytes)<br>
           <strong>Frequency</strong>: 30 s<br>
    </tr>
    <tr>
       <th>Recommended measurement</th>
-      <td>Minimum amount of memory in a 30-minute window that the cell can allocate to containers.<br><br>
-          <strong>Implementation Tip</strong>: Iterate through each Diego cell and grab the 
-          <code>rep.CapacityRemainingMemory</code> metric.<br><br>
-          Divide this metric by 1000 to get the value in GB. 
-          Then compare it to your minimum capacity threshold, and count the number of cells that have enough free space.</td>
+      <td><b>For alerting</b>: <ol>
+            <li>Determine the size of a standard app in your deployment. This is the size of the <em>free chunk</em> of memory 
+                that Diego cells must have to host a new app.</li>
+          <li> Determine a threshold: the number of cells that have at least the <em>free chunk</em> at any given time. </li>
+          <li> Monitor each Diego cell for <code>rep.CapacityRemainingMemory</code> and count of how many cells have at 
+               least the <em>free chunk</em>. Divide the metric by 1000 to get the value in GB.  </li>
+          <li> Set an alert to indicate when fewer than the threshold number of cells in your deployment have less than the 
+               <em>free chunk</em> of memory.</li></ol> 
+          <b>For informational purposes</b>:<br>
+           Using the minimum amount of memory in a 30-minute window that the cell can allocate to containers, produce a heatmap showing average variance and density over time. 
+             Divide this metric by 1000 to get the value in GB. 
+	    
+</td>
   </tr>
   <tr>
       <th>Recommended alert thresholds</th>
       <td><strong>Yellow warning</strong>: Dynamic<br>
-          <strong>Red critical</strong>: Dynamic</td>
+          <strong>Red critical</strong>: Dynamic<br>
+                 </td>
    </tr>
    <tr>
       <th>Recommended response</th>
@@ -1029,7 +1025,8 @@ When observing a lot of container churn, do the following:<br><br>
 
 ###<a id="listeners.receivedEnvelopes"></a>Firehose Throughput
 <table>
-     <tr><th colspan="2" style="text-align: center;"><br>DopplerServer.listeners.receivedEnvelopes<br><br></th></tr>
+     <tr><th colspan="2" style="text-align: center;"><br>DopplerServer.listeners.totalReceivedMessageCount
+<br><br></th></tr>
         <tr>
                 <th width="25%">Description</th>
                 <td>The total number of messages received across 
@@ -1044,7 +1041,9 @@ When observing a lot of container churn, do the following:<br><br>
         </tr>
         <tr>
                 <th>Recommended measurement</th>
-                <td>Maximum delta per minute of <code>dopplerserver.listeners.receivedEnvelopes</code> over a 5-minute window</td>
+                <td>Delta per minute of <code>DopplerServer.listeners.totalReceivedMessageCount
+</code> 
+                over a 5-minute window</td>
         </tr>
         <tr>
                 <th>Recommended alert thresholds</th>
@@ -1054,9 +1053,8 @@ When observing a lot of container churn, do the following:<br><br>
         <tr>
                 <th>Recommended response</th>
                 <td>
-                        Scale up or down the Firehose log receiver and Dopplers.<br>
-                        Recommendation from Firehose team: scaling down might be good for capacity planning, 
-                            but generally is not recommended.
+                        Scale up the Firehose log receiver and Dopplers.<br>
+                        Do not scale down these components because spikes in throughput can cause log loss.
                     </ol>
                     </td>
         </tr>
@@ -1228,7 +1226,7 @@ When observing a lot of container churn, do the following:<br><br>
                     <ol>
                         <li>Run <code>bosh vms --details</code> to view jobs on affected deployments.</li>
                         <li>Determine cause of the disk usage, and, if appropriate, 
-                            increase disk space or scale up the affected jobs.</li>
+                            increase disk space or scale out the affected jobs.</li>
                     </ol>
                     </td>
         </tr>
@@ -1264,7 +1262,7 @@ When observing a lot of container churn, do the following:<br><br>
                     <ol>
                         <li>Issue <code>bosh vms --details</code> to view jobs on affected deployments.</li>
                         <li>Determine cause of the data consumption, and, if appropriate, 
-                            increase disk space or scale up affected jobs.</li>
+                            increase disk space or scale out affected jobs.</li>
                     </ol>
                     </td>
         </tr>
