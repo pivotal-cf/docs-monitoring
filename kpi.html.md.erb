@@ -722,7 +722,14 @@ When observing a lot of container churn, do the following:<br><br>
         <tr>
                 <th>Recommended response</th>
                 <td>
-                        Investigate the routing table and the Diego brain logs for errors.
+                        <ol>
+                        <li>
+                        Investigate the route_emitter and Diego BBS logs for errors.
+                        </li>
+                        <li>
+                        Verify that app routes are functional by making a request to an app, pushing an app and pinging it, or if applicable, checking that your smoke tests have passed.
+                        </li>
+                        </ol>
                 </td>
         </tr>
 </table>
