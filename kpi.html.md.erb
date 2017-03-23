@@ -25,12 +25,12 @@ metrics, thresholds, and alerts based on learning from their deployments.
    <tr><th colspan="2" style="text-align: center;"><br> auctioneer.AuctioneerLRPAuctionsFailed<br><br></th></tr>
    <tr>
       <th width="25%">Description</th>
-      <td>The cumulative number of Long Running Processes (LRP) instances that the auctioneer failed to place on Diego cells <br><br>
+      <td>The number of Long Running Process (LRP) instances that the auctioneer failed to place on Diego cells. This metric is cumulative over the lifetime of the auctioneer job.<br><br>
    
-      <strong>Use</strong>: This metric can indicates that PCF is out of container space or that there is a lack of resources within your environment.
+      <strong>Use</strong>: This metric can indicate that PCF is out of container space or that there is a lack of resources within your environment.
    
       This error is most common due to capacity issues, for example, if cells do not have 
-      enough resources or if cells are blipping in and out of health.
+      enough resources or if cells are going back and forth between a healthy and unhealthy state.
       <br><br>
       <strong>Origin</strong>: Doppler/Firehose<br>
       <strong>Type</strong>: Counter, integer<br>
@@ -38,7 +38,7 @@ metrics, thresholds, and alerts based on learning from their deployments.
    </tr>
    <tr>
       <th>Recommended measurement</th>
-      <td>Per minute average over a 5-minute window</td>
+      <td>Per minute delta averaged over a 5-minute window</td>
    </tr>
    <tr>
       <th>Recommended alert thresholds</th>
@@ -66,7 +66,7 @@ metrics, thresholds, and alerts based on learning from their deployments.
    <tr><th colspan="2" style="text-align: center;"><br>auctioneer.AuctioneerFetchStatesDuration<br><br></th></tr>
    <tr>
       <th width="25%">Description</th>
-      <td> Time in ns that the auctioneer took to fetch state from all the cells when running its auction.<br><br>
+      <td> Time in ns that the auctioneer took to fetch state from all the Diego cells when running its auction.<br><br>
 
       <strong>Use</strong>: Indicates how the cells themselves are performing. 
       Alerting on this metric helps alert that app staging requests to Diego may be failing.
@@ -97,15 +97,15 @@ metrics, thresholds, and alerts based on learning from their deployments.
    </tr>
 </table>
 
-###<a id="AuctioneerLRPAuctionsStarted"></a>Auctioneer Application Instance Starts
+###<a id="AuctioneerLRPAuctionsStarted"></a>Auctioneer App Instance Starts
 <table> 
    <tr><th colspan="2" style="text-align: center;"><br>auctioneer.AuctioneerLRPAuctionsStarted<br><br></th></tr>
         <tr>
                 <th width="25%">Description</th>
-                <td>Cumulative number of LRP instances that the auctioneer successfully placed on Diego cells.
+                <td>The number of LRP instances that the auctioneer successfully placed on Diego cells. This metric is cumulative over the lifetime of the auctioneer job. 
                         <br><br>
                 <strong>Use</strong>: Provides a sense of running system activity levels in your environment. 
-                Can also give you a sense of how many application instances have been started over time.
+                Can also give you a sense of how many app instances have been started over time.
                 The recommended measurement, below, can help indicate a lot of container churn. 
                 However, for capacity planning purposes, it is more helpful to observe deltas over a long time window. 
                  <br><br>
@@ -115,7 +115,7 @@ metrics, thresholds, and alerts based on learning from their deployments.
         </tr>
         <tr>
                 <th>Recommended measurement</th>
-                <td>Per minute average of <code>auctioneer.AuctioneerLRPAuctionsStarted</code> averaged over a 5-minute window</td>
+                <td>Per minute delta averaged over a 5-minute window</td>
 </tr>
 <tr>
 <th>Recommended alert thresholds</th>
@@ -139,7 +139,7 @@ When observing a lot of container churn, do the following:<br><br>
      <tr><th colspan="2" style="text-align: center;"><br>auctioneer.AuctioneerTaskAuctionsFailed<br><br></th></tr>
         <tr>
                 <th width="25%">Description</th>
-                <td>Cumulative number of Tasks that the auctioneer failed to placed on Diego cells.
+                <td>The number of Tasks that the auctioneer failed to place on Diego cells. This metric is cumulative over the lifetime of the auctioneer job. 
                         <br><br>
                 <strong>Use</strong>: Failing Task auctions indicate a lack of resources 
                         within your environment and that you likely need to scale. 
@@ -152,7 +152,7 @@ When observing a lot of container churn, do the following:<br><br>
         </tr>
         <tr>
                 <th>Recommended measurement</th>
-                <td>Per minute average of <code>auctioneer.AuctioneerTaskAuctionsFailed</code> averaged over a 5-minute window</td>
+                <td>Per minute delta averaged over a 5-minute window</td>
         </tr>
         <tr>
                 <th>Recommended alert thresholds</th>
@@ -165,7 +165,7 @@ When observing a lot of container churn, do the following:<br><br>
     <ol>
     <li>Investigate the health of Diego cells.</li>
     <li>Consider scaling additional cells using Ops Manager.</li>
-    <li>If scaling cells doesn't solve the problem, 
+    <li>If scaling cells does not solve the problem, 
                         then pull Diego brain logs and BBS logs for troubleshooting, 
                         and contact Pivotal Support telling them that Task auctions are failing.</li>
     </ol>
@@ -183,17 +183,17 @@ When observing a lot of container churn, do the following:<br><br>
       <td>Time in ns that the BBS took to run its LRP convergence pass. 
           <br><br>
           <strong>Use</strong>: If the convergence run begins taking too long, 
-          maybe apps or Tasks are crashing and not being restarted. 
+          apps or Tasks may be crashing without restarting. 
           This symptom can also indicate loss of connectivity to the BBS database.
           <br><br>
           <strong>Origin</strong>: Doppler/Firehose<br>
           <strong>Type</strong>: Gauge (Integer in ns)<br>
           <strong>Frequency</strong>: During event,
-                  every 30 seconds when LRP convergence runs, emission should be constant on a running, Diego-based, PCF deployment
+                  every 30 seconds when LRP convergence runs, emission should be constant on a running deployment
    </tr>
    <tr>
       <th>Recommended measurement</th>
-      <td>15-minute maximum of <code>bbs.ConvergenceLRPDuration</code> divided by 1,000,000,000</td>
+      <td>15-minute maximum divided by 1,000,000,000</td>
    </tr>
       <tr>
       <th>Recommended alert thresholds</th>
@@ -206,7 +206,7 @@ When observing a lot of container churn, do the following:<br><br>
           <ol>
               <li>Check BBS logs for errors.</li>
               <li>Try vertically scaling the BBS VM resources up. 
-              For example, add more CPUs/memory depending on its system.cpu/system.memory metrics.</li>
+              For example, add more CPUs/memory depending on its <code>system.cpu</code>/<code>system.memory</code> metrics.</li>
               <li>If that does not solve the issue, pull the BBS logs and contact Pivotal Support 
                   for additional troubleshooting.
           </ol>
@@ -222,17 +222,17 @@ When observing a lot of container churn, do the following:<br><br>
       <th width="25%">Description</th>
       <td>Time in ns that the BBS took to handle requests, aggregated across all its API endpoints. 
           <br><br>
-          <strong>Use</strong>: If this rises, it indicates that the PCF API is slowing. 
-          Response to certain "cf" commands is slow if request latency is high.
+          <strong>Use</strong>: If this metric rises, the PCF API is slowing. 
+          Response to certain <code>cf</code> commands is slow if request latency is high.
           <br><br>
           <strong>Origin</strong>: Doppler/Firehose<br>
           <strong>Type</strong>: Gauge (Integer in ns)<br>
           <strong>Frequency</strong>: During event, when the BBS API handles requests, 
-                  emission should be constant on a running, Diego-based, PCF deployment<br>
+                  emission should be constant on a running deployment<br>
     </tr>
     <tr>
       <th>Recommended measurement</th>
-      <td>15 minute maximum of bbs.RequestLatency divided by 1,000,000,000</td>
+      <td>15 minute maximum divided by 1,000,000,000</td>
     </tr>
     <tr>
       <th>Recommended alert thresholds</th>
@@ -246,7 +246,7 @@ When observing a lot of container churn, do the following:<br><br>
               <li>Check CPU and memory statistics in Ops Manager.</li>
               <li>Check BBS logs for faults and errors that can indicate issues with BBS.</li>
               <li>Try scaling the BBS VM resources up. For example, add more CPUs/memory 
-                  depending on its system.cpu/system.memory metrics.</li>
+                  depending on its <code>system.cpu</code>/<code>system.memory</code> metrics.</li>
               <li>If the above steps do not solve the issue, then collect a sample of the cell logs 
                   from the BBS VMs and contact Pivotal Support to troubleshoot further.
           </ol>
@@ -255,20 +255,20 @@ When observing a lot of container churn, do the following:<br><br>
 </table>
 
 
-###<a id="Domain.cf-apps"></a>cf-apps Domain Is Updated
+###<a id="cc-diego-sync"></a>Cloud Controller and Diego in Sync
 <table>
    <tr><th colspan="2" style="text-align: center;"><br>bbs.Domain.cf-apps<br><br></th></tr>
    <tr>
       <th width="25%">Description</th>
-      <td>Indicates if the ‘cf-apps’ domain is up-to-date, meaning that CF App requests 
-          from the Cloud Controller are synchronized to Diego-desired application instances (bbs.LRPsDesired) for execution. 
-          <code>1</code> means the ‘cf-apps’ domain is up-to-date. 
-          <code>0</code> means the ‘cf-apps’ domain is not up-to-date.
+      <td>Indicates that that CF app requests 
+          from the Cloud Controller are synchronized to Diego-desired app instances for execution (<code>bbs.LRPsDesired</code>). 
+            <ul>
+              <li><code>1</code> means synchronized. </li>
+              <li><code>0</code> means not synchronized.</li>
+            </ul>
           <br><br>
-          <strong>Use</strong>: ‘cf-apps’ is used to translate the Cloud Controller desired state into Diego implementation. 
-          If it does not stay up-to-date, then the changes requested in Cloud Controller 
-          are not guaranteed to propagate throughout the system. 
-          If the Cloud Controller and Diego are out of sync, then apps running could vary from what is desired.
+          <strong>Use</strong>: If the Cloud Controller and Diego are out of sync, then changes requested by the Cloud Controller 
+          are not guaranteed to propagate throughout the system and running apps may vary from what is desired.
           <br><br>
           <strong>Origin</strong>: Doppler/Firehose<br>
           <strong>Type</strong>: Gauge (Float 0 or 1)<br>
@@ -276,7 +276,7 @@ When observing a lot of container churn, do the following:<br><br>
    </tr>
    <tr>
       <th>Recommended measurement</th>
-      <td>Average over the last 5 minutes of <code>bbs.Domain.cf_apps</code></td>
+      <td>Average over the last 5 minutes</code></td>
    </tr>
    <tr>
       <th>Recommended alert thresholds</th>
@@ -295,7 +295,7 @@ When observing a lot of container churn, do the following:<br><br>
    </tr>
 </table>
 
-###<a id="LRPsExtra"></a>More Application Instances Than Expected
+###<a id="LRPsExtra"></a>More App Instances Than Expected
 
 <table>
      <tr><th colspan="2" style="text-align: center;"><br>bbs.LRPsExtra<br><br></th></tr>
@@ -306,7 +306,7 @@ When observing a lot of container churn, do the following:<br><br>
                     to spin up additional LRPs. 
                         <br><br>
                 <strong>Use</strong>: If Diego has more LRP running than expected, 
-                        there might be problems with the BBS.<br>
+                        there may be problems with the BBS.<br>
                         Deleting an app with many instances can temporarily spike this metric.  
                         However, a sustained spike in <code>bbs.LRPsExtra</code> is unusual and should be investigated.
                  <br><br>
@@ -316,7 +316,7 @@ When observing a lot of container churn, do the following:<br><br>
         </tr>
         <tr>
                 <th>Recommended measurement</th>
-                <td>Average over the last 5 minutes of <code>bbs.LRPsExtra</code></td>
+                <td>Average over the last 5 minutes</td>
         </tr>
         <tr>
                 <th>Recommended alert thresholds</th>
@@ -335,7 +335,7 @@ When observing a lot of container churn, do the following:<br><br>
 </table>
 
 
-###<a id="LRPsMissing"></a>Fewer Application Instances Than Expected
+###<a id="LRPsMissing"></a>Fewer App Instances Than Expected
 <table>
      <tr><th colspan="2" style="text-align: center;"><br>bbs.LRPsMissing<br><br></th></tr>
         <tr>
@@ -356,7 +356,7 @@ When observing a lot of container churn, do the following:<br><br>
         </tr>
         <tr>
                 <th>Recommended measurement</th>
-                <td>Average over the last 5 minutes of <code>bbs.LRPsMissing</code></td>
+                <td>Average over the last 5 minutes</td>
         </tr>
         <tr>
                 <th>Recommended alert thresholds</th>
@@ -375,7 +375,7 @@ When observing a lot of container churn, do the following:<br><br>
 </table>
 
 
-###<a id="bbs.CrashedActualLRPs"></a>Crashed Application Instances
+###<a id="bbs.CrashedActualLRPs"></a>Crashed App Instances
 <table>
      <tr><th colspan="2" style="text-align: center;"><br>bbs.CrashedActualLRPs<br><br></th></tr>
         <tr>
@@ -386,9 +386,9 @@ When observing a lot of container churn, do the following:<br><br>
                 An increase in <code>bbs.CrashedActualLRPs</code> can indicate several problems, 
                 from a bad app with many instances associated, 
                 to a platform issue that is resulting in app crashes. 
-                This metric is most helpful to create a baseline in a deployment. 
-                After a baseline is created, a deployment specific alert can be created to notify of a spike in crashes above trend line. 
-                Alert values should be tuned to the deployment. 
+                Use this metric to help create a baseline for your deployment. 
+                After you have a baseline, you can create a deployment-specific alert to notify of a spike in crashes above the trend line. 
+                Tune alert values to your deployment. 
                 <br><br>
                 <strong>Origin</strong>: Doppler/Firehose<br>
                  <strong>Type</strong>: Gauge (Float)<br>
@@ -396,7 +396,7 @@ When observing a lot of container churn, do the following:<br><br>
         </tr>
         <tr>
                 <th>Recommended measurement</th>
-                <td>Average over last 5 minutes of <code>bbs.CrashedActualLRPs</code></td>
+                <td>Average over last 5 minutes</td>
         </tr>
         <tr>
                 <th>Recommended alert thresholds</th>
@@ -411,29 +411,29 @@ When observing a lot of container churn, do the following:<br><br>
                             and at the cell logs to see if the problem is with the apps themselves, rather than 
                             a platform issue.</li>
                         <li>Before contacting Pivotal Support, pull the BBS logs and, if particular apps are the problem,
-                            pull the logs from their cells too.</li>
+                            pull the logs from their Diego cells too.</li>
                     </ol>
                     </td>
         </tr>
 </table>
 
-###<a id="1hraverageofbbs.LRPsRunning"></a>Running Application Instances, Rate of Change
+###<a id="1hraverageofbbs.LRPsRunning"></a>Running App Instances, Rate of Change
 <table>
      <tr><th colspan="2" style="text-align: center;"><br>1hr average of bbs.LRPsRunning – prior 1hr average of bbs.LRPsRunning<br><br></th></tr>
         <tr>
                 <th width="25%">Description</th>
-                <td>Rate of change in application instances being started or stopped on the platform. 
+                <td>Rate of change in app instances being started or stopped on the platform. 
                     It is derived from <code>bbs.LRPsRunning</code>
-                    and represents the total number of LRP instances that are running on cells.
+                    and represents the total number of LRP instances that are running on Diego cells.
                     <br><br>
-                    <strong>Use</strong>: Delta reflects upward or downward trend for application instances started or stopped. 
+                    <strong>Use</strong>: Delta reflects upward or downward trend for app instances started or stopped. 
                     Helps to provide a picture of the overall growth trend of the environment for capacity planning. 
-                    May want to alert on delta values out of expected range.
+                    You may want to alert on delta values outside of the expected range.
                     <br><br>
                  <strong>Origin</strong>: Doppler/Firehose<br>
                  <strong>Type</strong>: Gauge (Float)<br>
                  <strong>Frequency</strong>: During event, 
-                         emission should be constant on a running, Diego-based, PCF deployment<br>
+                         emission should be constant on a running deployment<br>
         </tr>
         <tr>
                 <th>Recommended measurement</th>
@@ -461,7 +461,7 @@ When observing a lot of container churn, do the following:<br><br>
    <tr><th colspan="2" style="text-align: center;"><br>rep.CapacityRemainingMemory<br><br></th></tr>
    <tr>
       <th width="25%">Description</th>
-      <td>Remaining amount of memory in MiB available for this cell to allocate to containers.
+      <td>Remaining amount of memory in MiB available for this Diego cell to allocate to containers.
           <br><br>
           <strong>Use</strong>: Indicates the available cell memory.<br>
           Insufficient cell memory can prevent pushing and scaling apps.<br><br>
@@ -512,7 +512,7 @@ When observing a lot of container churn, do the following:<br><br>
        (Alternative Use)<br><br></th></tr>
    <tr>
       <th width="25%">Description</th>
-      <td>Remaining amount of memory in MiB available for this cell to allocate to containers.
+      <td>Remaining amount of memory in MiB available for this Diego cell to allocate to containers.
           <br><br>
           <strong>Use</strong>: Can indicate low memory capacity overall in the platform. 
           Low memory can prevent app scaling and new deployments. 
@@ -525,8 +525,7 @@ When observing a lot of container churn, do the following:<br><br>
    </tr>
    <tr>
       <th>Recommended measurement</th>
-      <td>Sum of the total available memory capacity across across all cells for the past 5 minutes<br>
-             5 minute sum of <code>rep.CapacityRemainingMemory</code> divided by 0.000001024</td>
+      <td>5 minute sum across all cells divided by 0.000001024</td>
   </tr>
   <tr>
       <th>Recommended alert thresholds</th>
@@ -549,7 +548,7 @@ When observing a lot of container churn, do the following:<br><br>
      <tr><th colspan="2" style="text-align: center;"><br> rep.CapacityRemainingDisk<br><br></th></tr>
         <tr>
                 <th width="25%">Description</th>
-                <td>Remaining amount of disk in MiB available for this cell to allocate to containers.
+                <td>Remaining amount of disk in MiB available for this Diego cell to allocate to containers.
                     <br><br>
                     <strong>Use</strong>: Low disk capacity can prevent app scaling and new deployments.
                 Similar to <code>rep.CapacityRemainingMemory</code>, it is helpful to assess 
@@ -557,7 +556,6 @@ When observing a lot of container churn, do the following:<br><br>
                 Because Diego staging Tasks can fail without at least 4&nbsp;GB free, 
                 the recommended red threshold is based on the minimum disk capacity across the deployment
                 falling below 4&nbsp;GB in the previous 5 minutes.
-                across the deployment falling below 4GB in the previous 5 minutes.
                  <br><br>
                  <strong>Origin</strong>: Doppler/Firehose<br>
                  <strong>Type</strong>: Gauge (Integer in bytes)<br>
@@ -565,7 +563,7 @@ When observing a lot of container churn, do the following:<br><br>
         </tr>
         <tr>
                 <th>Recommended measurement</th>
-                <td>Minimum over the last 5 minutes of <code>rep.CapacityRemainingDisk</code> divided by 1024 (across all instances)</td>
+                <td>Minimum over the last 5 minutes divided by 1024 (across all instances)</td>
         </tr>
         <tr>
                 <th>Recommended alert thresholds</th>
@@ -589,7 +587,7 @@ When observing a lot of container churn, do the following:<br><br>
      <tr><th colspan="2" style="text-align: center;"><br>rep.RepBulkSyncDuration<br><br></th></tr>
         <tr>
                 <th width="25%">Description</th>
-                <td>Time in ns that the Cell Rep took to sync the ActualLRPs that it claimed with its actual garden containers. 
+                <td>Time in ns that the Diego Cell Rep took to sync the ActualLRPs that it claimed with its actual garden containers. 
                         <br><br>
                 <strong>Use</strong>: Sync times that are too high can indicate issues with the BBS.
                  <br><br>
@@ -599,7 +597,7 @@ When observing a lot of container churn, do the following:<br><br>
         </tr>
         <tr>
                 <th>Recommended measurement</th>
-                <td>Maximum over the last 15 minutes of <code>rep.RepBulkSyncDuration</code> divided by 1,000,000,000</td>
+                <td>Maximum over the last 15 minutes divided by 1,000,000,000</td>
         </tr>
         <tr>
                 <th>Recommended alert thresholds</th>
@@ -611,7 +609,7 @@ When observing a lot of container churn, do the following:<br><br>
                 <td>
                     <ol>
                         <li>Investigate BBS logs for faults and errors.</li>
-                        <li>If a particular cell or cells look to be problematic, 
+                        <li>If a particular cell or cells appear problematic, 
                             pull logs for the cells and the BBS logs before contacting Pivotal Support.</li>
                     </ol>
                     </td>
@@ -624,7 +622,7 @@ When observing a lot of container churn, do the following:<br><br>
      <tr><th colspan="2" style="text-align: center;"><br>rep.UnhealthyCell<br><br></th></tr>
         <tr>
                 <th width="25%">Description</th>
-                <td>The cell periodically checks its health against the garden backend. 
+                <td>The Diego cell periodically checks its health against the garden backend. 
                     For Diego cells, <code>0</code> means healthy, and <code>1</code> means unhealthy.
                     <br><br>
                     <strong>Use</strong>: Set an alert for further investigation if 
@@ -639,7 +637,7 @@ When observing a lot of container churn, do the following:<br><br>
         </tr>
         <tr>
                 <th>Recommended measurement</th>
-                <td>Maximum over the last 5 minutes of <code>rep.UnhealthyCell</code></td>
+                <td>Maximum over the last 5 minutes</td>
         </tr>
         <tr>
                 <th>Recommended alert thresholds</th>
@@ -651,7 +649,7 @@ When observing a lot of container churn, do the following:<br><br>
                 <td>
                     <ol>
                         <li>Investigate Diego cell servers for faults and errors.</li>
-                        <li>If a particular cell or cells look to be problematic, 
+                        <li>If a particular cell or cells appear problematic, 
                             pull logs for that cell, as well as the BBS logs before contacting Pivotal Support.</li>
                     </ol>
                     </td>
@@ -677,7 +675,7 @@ When observing a lot of container churn, do the following:<br><br>
         </tr>
         <tr>
                 <th>Recommended measurement</th>
-                <td>Maximum over the last 15 minutes of <code>nsync_bulker.DesiredLRPSyncDuration</code> 
+                <td>Maximum over the last 15 minutes 
                     divided by 1,000,000,000</td>
         </tr>
         <tr>
@@ -702,9 +700,9 @@ When observing a lot of container churn, do the following:<br><br>
                 <th width="25%">Description</th>
                 <td>Time in ns that the active route-emitter took to perform its synchronization pass. 
                     <br><br>
-                    <strong>Use</strong>: Increases in this metric indicate that the route emitter might be having 
+                    <strong>Use</strong>: Increases in this metric indicate that the route emitter may have 
                     trouble maintaining an accurate routing table to broadcast to the Gorouters. 
-                    Alerting values need to be tuned per the deployment, based on historical data adjusted based on observations over time. 
+                    Tune alerting values to your deployment based on historical data and adjust based on observations over time. 
                     The suggested starting point is &ge; 10 for the yellow threshold and &ge; 20 for the critical threshold. 
                     Pivotal has observed on its Pivotal Web Services deployment that above 20 s, the BBS may be failing.
                  <br><br>
@@ -714,7 +712,7 @@ When observing a lot of container churn, do the following:<br><br>
         </tr>
         <tr>
                 <th>Recommended measurement</th>
-                <td>Maximum over the last 15 minutes of <code>route_emitter.RouteEmitterSyncDuration</code> divided by 1,000,000,000</td>
+                <td>Maximum over the last 15 minutes divided by 1,000,000,000</td>
         </tr>
         <tr>
                 <th>Recommended alert thresholds</th>
@@ -724,7 +722,7 @@ When observing a lot of container churn, do the following:<br><br>
         <tr>
                 <th>Recommended response</th>
                 <td>
-                        Investigate the routing table and Diego brains for errors.
+                        Investigate the routing table and the Diego brain logs for errors.
                 </td>
         </tr>
 </table>
@@ -734,10 +732,10 @@ When observing a lot of container churn, do the following:<br><br>
      <tr><th colspan="2" style="text-align: center;"><br>route_emitter.ConsulDownMode<br><br></th></tr>
         <tr>
                 <th width="25%">Description</th>
-                <td><code>1</code> means the system is healthy, and <code>0</code> means that 
+                <td><code>0</code> means the system is healthy, and <code>1</code> means that 
                     route emitter detects that Consul is down.
                     <br><br>
-                    <strong>Use</strong>: During installation or upgrade, this can indicate that Consul is down.
+                    <strong>Use</strong>: During an upgrade, this can indicate that Consul is down.
                     Loss of the Consul cluster results in apps becoming unavailable 
                     because their routes were pruned from the routing table.
                  <br><br>
@@ -747,7 +745,7 @@ When observing a lot of container churn, do the following:<br><br>
         </tr>
         <tr>
                 <th>Recommended measurement</th>
-                <td>Average over the last 5 minutes of <code>route_emitter.ConsulDownMode</code></td>
+                <td>Average over the last 5 minutes</td>
         </tr>
         <tr>
                 <th>Recommended alert thresholds</th>
@@ -759,7 +757,7 @@ When observing a lot of container churn, do the following:<br><br>
                 <td>
                     <ol>
                         <li>During upgrade, reduce the Consul server nodes to 1 and then upgrade.</li>
-                        <li>Outside of installation or upgrading, consider disaster recovery for Consul.</li>
+                        <li>Outside of an upgrade, consider disaster recovery for Consul.</li>
                     </ol>
                     </td>
         </tr>
@@ -772,12 +770,12 @@ When observing a lot of container churn, do the following:<br><br>
    <tr><th colspan="2" style="text-align: center;"><br>gorouter.total_requests<br><br></th></tr>
    <tr>
       <th width="25%">Description</th>
-      <td>The lifetime (since this Gorouter VM started) number of requests completed by component 
+      <td>The lifetime number of requests completed by the Gorouter VM 
           <br><br>
           <strong>Use</strong>: Provides insight into the overall traffic flow through a deployment. 
           For performance and capacity management, consider this metric a measure of router throughput 
           and convert it to requests-per-second, by deriving <code>per_second(sum:gorouter.total_requests{*})</code>.
-          This helps you see trends in throughput rate that indicate a need to scale the Gorouter.
+          This helps you see trends in the throughput rate that indicate a need to scale the Gorouter.
           Use the trends you observe to tune the threshold alerts for this metric. 
           <br><br>
           <strong>Origin</strong>: Doppler/Firehose<br>
@@ -799,10 +797,10 @@ When observing a lot of container churn, do the following:<br><br>
           derived metric in the context of router latency and Gorouter VM CPU utilization.
           In testing the Gorouter, Pivotal observed that at approximately 2500 requests 
           per second, latency increases. <br><br>
-          To increase throughput, while keeping latency low, 
-          scale the Gorouters, either horizontally or vertically, 
-          while watching the Gorouter CPU utilization metric.
-   </tr>
+          To increase throughput and maintain low latency, 
+          scale the Gorouters either horizontally or vertically 
+          and watch the <a href="#cpu.user">system.cpu.user</a> metric for the Gorouter.
+</tr>
 </table>
 
 ###<a id="latency"></a>Router Handling Latency
@@ -822,11 +820,11 @@ When observing a lot of container churn, do the following:<br><br>
                  <strong>Origin</strong>: Doppler/Firehose<br>
                  <strong>Type</strong>: Gauge (Float in ms)<br>
                  <strong>Frequency</strong>: Emitted per Gorouter request,
-                         emission should be constant on a running, Diego-based, PCF deployment
+                         emission should be constant on a running deployment
         </tr>
         <tr>
                 <th>Recommended measurement</th>
-                <td>Average over the last 30 minutes of <code>gorouter.latency</code></td>
+                <td>Average over the last 30 minutes</td>
         </tr>
         <tr>
                 <th>Recommended alert thresholds</th>
@@ -844,9 +842,9 @@ When observing a lot of container churn, do the following:<br><br>
                             Also look at the CPU utilization of the Gorouter VMs.</li>
                         <li>Keep CPU utilization within a maximum 60-70% range.</li>
                         <li>Resolve high utilization by scaling the Gorouter.</li>
-                        <li>To increase throughput, while keeping latency low, 
-                            scale the Gorouters, either horizontally or vertically, 
-                            while watching the <a href="#cpu.user">system.cpu.user</a> metric for the Gorouter.</li>
+                        <li>To increase throughput and maintain low latency, 
+                            scale the Gorouters either horizontally or vertically 
+                            and watch the <a href="#cpu.user">system.cpu.user</a> metric for the Gorouter.</li>
                     </ol>
                     </td>
         </tr>
@@ -867,7 +865,7 @@ When observing a lot of container churn, do the following:<br><br>
         </tr>
         <tr>
                 <th>Recommended measurement</th>
-                <td>Maximum over the last 5 minutes of <code>gorouter.ms_since_last_registry_update</code></td>
+                <td>Maximum over the last 5 minutes</td>
         </tr>
         <tr>
                 <th>Recommended alert thresholds</th>
@@ -880,7 +878,7 @@ When observing a lot of container churn, do the following:<br><br>
                 <th>Recommended response</th>
                 <td>
                     <ol>
-                        <li>Look at the Gorouter and route_emitter logs to look for connection issues to NATS.</li>
+                        <li>Search the Gorouter and route_emitter logs for connection issues to NATS.</li>
                         <li>Check the BOSH logs to see if the NATS, Gorouter, or route_emitter VMs are failing.</li>
                         <li>Look more broadly at the health of all VMs, particularly Diego-related VMs.</li>
                         <li>If problems persist, pull the Gorouter and route_emitter logs and contact 
@@ -896,9 +894,9 @@ When observing a lot of container churn, do the following:<br><br>
      <tr><th colspan="2" style="text-align: center;"><br>gorouter.bad_gateways<br><br></th></tr>
      <tr>
          <th width="25%">Description</th>
-            <td>The lifetime (since this Gorouter VM started) number of bad gateways, 502 response from Gorouter itself.<br>
+            <td>The lifetime number of bad gateways, or 502 responses, from Gorouter itself.<br>
                 The Gorouter emits a 502 bad gateway error when it has a route in the routing table 
-                and, in attempting to make a connection to the backend, finds that backend not there, that it doesn't exist.
+                and, in attempting to make a connection to the backend, finds that the backend does not exist.
                     <br><br>
                     <strong>Use</strong>: Indicates that route tables might be stale.
                     Stale routing tables suggest an issue in the route register management plane, 
@@ -912,7 +910,7 @@ When observing a lot of container churn, do the following:<br><br>
      </tr>
      <tr>
                 <th>Recommended measurement</th>
-                <td>Average over the last 5 minutes of the per second delta of <code>gorouter.bad_gateways</code></td>
+                <td>Average over the last 5 minutes of the per second delta</td>
      </tr>
      <tr>
                 <th>Recommended alert thresholds</th>
@@ -938,8 +936,7 @@ When observing a lot of container churn, do the following:<br><br>
      <tr><th colspan="2" style="text-align: center;"><br>gorouter.responses.5xx<br><br></th></tr>
         <tr>
                 <th width="25%">Description</th>
-                <td>The lifetime (since this Gorouter VM started) number of requests completed by the component 
-                    for HTTP status family 5xx, server errors.
+                <td>The lifetime number of requests completed by the Gorouter VM for HTTP status family 5xx, server errors.
                     <br><br>
                     <strong>Use</strong>: A repeatedly crashing app is often the cause of a big increase in 5xx responses.
                     However, response issues from apps can also cause an increase in 5xx responses.
@@ -951,7 +948,7 @@ When observing a lot of container churn, do the following:<br><br>
         </tr>
         <tr>
                 <th>Recommended measurement</th>
-                <td>5-minute average of the per second delta of <code>gorouter.responses.5xx</code></td>
+                <td>5-minute average of the per second delta</code></td>
         </tr>
         <tr>
                 <th>Recommended alert thresholds</th>
@@ -985,10 +982,8 @@ When observing a lot of container churn, do the following:<br><br>
                     Or, dramatic decreases in this metric volume might indicate a problem with 
                     the route registration process (occurs periodically), such as an
                     app outage or that something in the route register management plane has failed.<br><br>
-                    This metric is good to draw attention to a dramatic drop
-                    on a dashboard. However, for alerting, trigger alerts from the 
-                    <code>gorouter.ms_since_last_registry_update</code> and not the <code>gorouter.total_routes</code>
-                    metric. 
+                    The metric <code>gorouter.total_routes</code> can be helpful on a dashboard when it shows a dramatic drop. However, for alerting, trigger alerts from the metric 
+                    <code>gorouter.ms_since_last_registry_update</code>. 
                  <br><br>
                  <strong>Origin</strong>: Doppler/Firehose<br>
                  <strong>Type</strong>: Gauge (Float)<br>
@@ -996,7 +991,7 @@ When observing a lot of container churn, do the following:<br><br>
         </tr>
         <tr>
                 <th>Recommended measurement</th>
-                <td>5-minute average of the per second delta of <code>gorouter.bad_gateways</code></td>
+                <td>5-minute average of the per second delta</td>
         </tr>
         <tr>
                 <th>Recommended alert thresholds</th>
@@ -1030,10 +1025,9 @@ When observing a lot of container churn, do the following:<br><br>
         <tr>
                 <th width="25%">Description</th>
                 <td>The total number of messages received across 
-                    all of the Doppler’s listeners (UDP, TCP, TLS, and GRPC).
+                    all Doppler listeners: UDP, TCP, TLS, and GRPC.
                     <br><br>
-                    <strong>Use</strong>: Provides insight into how much traffic is being 
-                    handled by the logging system. This metric is an indicator of logging consistency.
+                    <strong>Use</strong>: Provides insight into how much traffic the logging system handles. This metric is an indicator of logging consistency.
                  <br><br>
                  <strong>Origin</strong>: Doppler/Firehose<br>
                  <strong>Type</strong>: Counter (Integer)<br>
@@ -1041,8 +1035,7 @@ When observing a lot of container churn, do the following:<br><br>
         </tr>
         <tr>
                 <th>Recommended measurement</th>
-                <td>Delta per minute of <code>DopplerServer.listeners.totalReceivedMessageCount
-</code> 
+                <td>Delta per minute
                 over a 5-minute window</td>
         </tr>
         <tr>
@@ -1066,16 +1059,16 @@ When observing a lot of container churn, do the following:<br><br>
                        + DopplerServer.TruncatingBuffer.totalDroppedMessages<br><br></th></tr>
         <tr>
                 <th width="25%">Description</th>
-                <td>The number of messages dropped per sink: the lifetime (since this VM started) total number of messages 
-                    intentionally dropped by Doppler from all of its sinks due to back pressure.<br>
-                    The metric <code>DopplerServer.TruncatingBuffer.totalDroppedMessages</code> is 
-                    being transitioned to <code>DopplerServer.doppler.shedEnvelopes</code>. 
-                    In PCF v1.10, both metrics are still present and should be combined to present a full picture of dropped messages. 
+                <td>The lifetime total number of messages 
+                    intentionally dropped by Doppler from all of its sinks due to back pressure.<br><br>
+                    In PCF v1.10, Pivotal recommends combining both of these metrics to present a full picture of dropped messages.
+                    However, the metric <code>DopplerServer.TruncatingBuffer.totalDroppedMessages</code> is 
+                    being transitioned to <code>DopplerServer.doppler.shedEnvelopes</code>.  
                     In PCF v1.10, truncating buffer usage is approximately 5% of all possible traffic, primarily syslog drains.
                     <br><br>
-                    <strong>Use</strong>: Set an alert to indicate if there is too much traffic coming in to the Dopplers 
+                    <strong>Use</strong>: This metric is an important indicator of consistent logging. Set an alert to indicate if there is too much traffic coming in to the Dopplers 
                      or if the Firehose consumers are not keeping pace. 
-                     Both issues result in dropped messages. This metric is an important indicator of consistent logging.
+                     Both issues result in dropped messages. 
                  <br><br>
                  <strong>Origin</strong>: Doppler/Firehose<br>
                  <strong>Type</strong>: Counter (Integer)<br>
@@ -1083,7 +1076,7 @@ When observing a lot of container churn, do the following:<br><br>
         </tr>
         <tr>
                 <th>Recommended measurement</th>
-                <td>Maximum delta per minute of <code>derived=(dopplerserver.doppler.shedenvelopes + dopplerServer.TruncatingBuffer.totalDroppedMessages)</code>
+                <td>Maximum delta per minute
                     over a 5-minute window</td>
         </tr>
         <tr>
@@ -1118,7 +1111,7 @@ When observing a lot of container churn, do the following:<br><br>
         </tr>
         <tr>
                 <th>Recommended measurement</th>
-                <td>Average over the last 5 minutes of <code>system.healthy</code></td>
+                <td>Average over the last 5 minutes</td>
         </tr>
         <tr>
                 <th>Recommended alert thresholds</th>
@@ -1150,7 +1143,7 @@ When observing a lot of container churn, do the following:<br><br>
         </tr>
         <tr>
                 <th>Recommended measurement</th>
-                <td>Average over the last 10 minutes of <code>system.mem.percent</code></td>
+                <td>Average over the last 10 minutes</td>
         </tr>
         <tr>
                 <th>Recommended alert thresholds</th>
@@ -1180,7 +1173,7 @@ When observing a lot of container churn, do the following:<br><br>
         </tr>
         <tr>
                 <th>Recommended measurement</th>
-                <td>Average over the last 30 minutes of <code>system.disk.system.percent</code></td>
+                <td>Average over the last 30 minutes</td>
         </tr>
         <tr>
                 <th>Recommended alert thresholds</th>
@@ -1213,7 +1206,7 @@ When observing a lot of container churn, do the following:<br><br>
         </tr>
         <tr>
                 <th>Recommended measurement</th>
-                <td>Average over the last 30 minutes of <code>system.disk.ephermal.percent</code></td>
+                <td>Average over the last 30 minutes</td>
         </tr>
         <tr>
                 <th>Recommended alert thresholds</th>
@@ -1249,7 +1242,7 @@ When observing a lot of container churn, do the following:<br><br>
         </tr>
         <tr>
                 <th>Recommended measurement</th>
-                <td>Average over the last 30 minutes of <code>system.disk.persistent.percent<code></td>
+                <td>Average over the last 30 minutes</td>
         </tr>
         <tr>
                 <th>Recommended alert thresholds</th>
@@ -1260,7 +1253,7 @@ When observing a lot of container churn, do the following:<br><br>
                 <th>Recommended response</th>
                 <td>
                     <ol>
-                        <li>Issue <code>bosh vms --details</code> to view jobs on affected deployments.</li>
+                        <li>Run <code>bosh vms --details</code> to view jobs on affected deployments.</li>
                         <li>Determine cause of the data consumption, and, if appropriate, 
                             increase disk space or scale out affected jobs.</li>
                     </ol>
@@ -1287,7 +1280,7 @@ When observing a lot of container churn, do the following:<br><br>
         </tr>
         <tr>
                 <th>Recommended measurement</th>
-                <td>Average over the last 5 minutes of <code>system.cpu.user</code></td>
+                <td>Average over the last 5 minutes</td>
         </tr>
         <tr>
                 <th>Recommended alert thresholds</th>
