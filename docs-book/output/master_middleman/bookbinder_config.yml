@@ -3,18 +3,18 @@
   ".": 
 :production_host: hello
 :subnav_templates:
-  myservice: myservice_subnav
+  monitoring: myservice_subnav
 :template_variables: 
-:local_repo_dir: "/Users/ljarzynski/workspace/docs-partners-template"
+:local_repo_dir: "/Users/ljarzynski/workspace/docs-monitoring"
 :workspace: !ruby/object:Pathname
-  path: "/Users/ljarzynski/workspace/docs-partners-template/docs-book/output/master_middleman/source"
+  path: "/Users/ljarzynski/workspace/docs-monitoring/docs-book/output/master_middleman/source"
 :feedback_enabled: 
 :repo_link_enabled: true
 :repo_links:
-  myservice:
+  monitoring:
     repo: docs-content
     ref: master
     at_path: 
 :product_info:
-  myservice: {}
+  monitoring: {}
 :elastic_search: false
