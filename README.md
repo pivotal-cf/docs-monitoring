@@ -21,8 +21,8 @@
   - [Deprovisioning](#deprovisioning)
   - [Broker Errors](#broker-errors)
   - [Orphans](#orphans)
-  
-## Changes
+
+ ##  <div id="changes"/> Changes
 
 <div id="change-policy"/>
 ### Change Policy 
