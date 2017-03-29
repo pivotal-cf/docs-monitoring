@@ -23,10 +23,10 @@
   - [Orphans](#orphans)
 
 <div id="changes"/> 
-## Changes ##
+## Changes
 
 <div id="change-policy"/>
-###Change Policy 
+### Change Policy 
 
 * Existing endpoints and fields will not be removed or renamed.
 * New optional endpoints, or new HTTP methods for existing endpoints, may be
