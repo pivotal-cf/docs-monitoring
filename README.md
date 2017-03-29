@@ -1,4 +1,4 @@
-#Table of Contents#
+# Table of Contents
   - [API Release Notes](#release-notes)
   - [Changes](#changes)
     - [Change Policy](#change-policy)
