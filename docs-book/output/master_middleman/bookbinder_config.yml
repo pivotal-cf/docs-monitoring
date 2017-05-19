@@ -5,9 +5,9 @@
 :subnav_templates:
   monitoring: myservice_subnav
 :template_variables: 
-:local_repo_dir: "/Users/ljarzynski/workspace/docs-monitoring"
+:local_repo_dir: "/Users/jday/workspace/docs-monitoring"
 :workspace: !ruby/object:Pathname
-  path: "/Users/ljarzynski/workspace/docs-monitoring/docs-book/output/master_middleman/source"
+  path: "/Users/jday/workspace/docs-monitoring/docs-book/output/master_middleman/source"
 :feedback_enabled: 
 :repo_link_enabled: true
 :repo_links:
