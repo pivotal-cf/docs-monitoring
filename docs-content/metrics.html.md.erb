@@ -55,7 +55,7 @@ The Traffic Controller aggregates both metrics and log messages system-wide from
 
 PCF includes [smoke tests](https://github.com/pivotal-cloudops/cf-smoke-tests/tree/Dockerfile), which are functional unit and integration tests on all major system components. By default, whenever an operator upgrades to a new version of Elastic Runtime, these smoke tests run as a post-deploy errand.
 
-Production systems typically also have an app that runs smoke tests periodically, for example every five minutes, and generate "pass/fail" metrics from the results. For example smoke tests, see the Pivotal Cloud Ops [CF Smoke Tests](https://github.com/pivotal-cloudops/cf-smoke-tests/tree/Dockerfile) repo.
+Production systems typically also have an app that runs smoke tests periodically, for example every five minutes, and generate "pass/fail" metrics from the results. For example smoke tests, see the Pivotal Cloud Ops [CF Smoke Tests](https://github.com/pivotal-cloudops/cf-smoke-tests/tree/Dockerfile) repository.
 
 Operators can also generate other custom system metrics based on multi-component tests. An example is average outbound latency between components.
 
@@ -85,7 +85,7 @@ For production systems, Pivotal recommends deploying an app that runs regular sm
 
 A custom system metrics app sends metrics to the monitoring platform directly, so you must configure it with your platform endpoint and account information. The app does not run a Metron agent, and the Firehose does not carry custom system metrics.
 
-The app can run in own Docker container, on a [Concourse](http://concourse.ci) VM, or elsewhere.
+The app can run in its own Docker container, on a [Concourse](http://concourse.ci) VM, or elsewhere.
 
 See the Pivotal Cloud Ops [CF Smoke Tests](https://github.com/pivotal-cloudops/cf-smoke-tests/tree/Dockerfile) repository for more information and examples of smoke test and custom system metrics apps.
 
