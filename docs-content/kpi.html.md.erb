@@ -700,7 +700,7 @@ When observing extended periods of high or low activity trends, scale up or down
                 <td>Time in ns that the active route-emitter took to perform its synchronization pass. 
                     <br><br>
                     <strong>Use</strong>: Increases in this metric indicate that the route emitter may have 
-                    trouble maintaining an accurate routing table to broadcast to the Gorouters. 
+                    trouble maintaining an accurate routing table to broadcast to the GoRouters. 
                     Tune alerting values to your deployment based on historical data and adjust based on observations over time. 
                     The suggested starting point is &ge; 10 for the yellow threshold and &ge; 20 for the critical threshold. 
                     Pivotal has observed on its Pivotal Web Services deployment that above 20 s, the BBS may be failing.
@@ -840,16 +840,16 @@ When Elastic Runtime v1.10.25+ uses an internal MySQL database, as configured in
 | **Recommended alert thresholds** | **Yellow warning:** > 80%<br> **Red critical:** > 90% |
 | **Recommended response** | - If this metric meets or exceeds the recommended thresholds for extended periods of time, run `SHOW PROCESSLIST` and identify which queries or apps are using so much CPU. Optionally redeploy the MySQL jobs using VMs with more CPU capacity.<br> - Run [`mysql-diag`](http://docs.pivotal.io/p-mysql/1-9/mysql-diag.html) and check the MySQL Server logs for errors. |
 
-## <a id="Gorouter"></a> Gorouter Metrics
+## <a id="gorouter"></a> GoRouter Metrics
 
 ###<a id="total_requests"></a>Router Throughput
 <table>
-   <tr><th colspan="2" style="text-align: center;"><br>Gorouter.total_requests<br><br></th></tr>
+   <tr><th colspan="2" style="text-align: center;"><br>gorouter.total_requests<br><br></th></tr>
    <tr>
       <th width="25%">Description</th>
-      <td>The lifetime number of requests completed by the Gorouter VM, emitted per Gorouter instance
+      <td>The lifetime number of requests completed by the GoRouter VM, emitted per Gorouter instance
           <br><br>
-          <strong>Use</strong>: The aggregation of these values across all Gorouters provide insight into the overall traffic flow of a deployment. Unusually high spikes, if not known to be associated with an expected increase in demand, could indicate a DDoS risk. For performance and capacity management, consider this metric a measure of router throughput per job, converting it to requests-per-second, by looking at the delta value of <code>Gorouter.total_requests</code> and deriving back to 1s, or <code>Gorouter.total_requests.delta)/5</code> (per Gorouter instance). This helps you see trends in the throughput rate that indicate a need to scale the Gorouter instances. Use the trends you observe to tune the threshold alerts for this metric. 
+          <strong>Use</strong>: The aggregation of these values across all Gorouters provide insight into the overall traffic flow of a deployment. Unusually high spikes, if not known to be associated with an expected increase in demand, could indicate a DDoS risk. For performance and capacity management, consider this metric a measure of router throughput per job, converting it to requests-per-second, by looking at the delta value of <code>gorouter.total_requests</code> and deriving back to 1s, or <code>gorouter.total_requests.delta)/5</code> (per gorouter instance). This helps you see trends in the throughput rate that indicate a need to scale the Gorouter instances. Use the trends you observe to tune the threshold alerts for this metric. 
           <br><br>
           <strong>Origin</strong>: Doppler/Firehose<br>
           <strong>Type</strong>: Counter (Integer)<br>
@@ -866,32 +866,32 @@ When Elastic Runtime v1.10.25+ uses an internal MySQL database, as configured in
    </tr>
    <tr>
       <th>Recommended response</th>
-      <td>For optimizing the Gorouter, consider the requests-per-second
-          derived metric in the context of router latency and Gorouter VM CPU utilization. From performance and load testing of the Gorouter, Pivotal has observed that at approximately 2500 requests per second, latency can begin to increase. 
+      <td>For optimizing the GoRouter, consider the requests-per-second
+          derived metric in the context of router latency and GoRouter VM CPU utilization. From performance and load testing of the GoRouter, Pivotal has observed that at approximately 2500 requests per second, latency can begin to increase. 
           <br><br>
           To increase throughput and maintain low latency, 
-          scale the Gorouters either horizontally or vertically 
-          and watch that the <a href="#cpu.user">system.cpu.user</a> metric for the Gorouter stays in the suggested range of 60-70% CPU Utilization.
+          scale the GoRouters either horizontally or vertically 
+          and watch that the <a href="#cpu.user">system.cpu.user</a> metric for the GoRouter stays in the suggested range of 60-70% CPU Utilization.
 </tr>
 </table>
 
 ###<a id="latency"></a>Router Handling Latency
 <table>
-     <tr><th colspan="2" style="text-align: center;"><br>Gorouter.latency<br><br></th></tr>
+     <tr><th colspan="2" style="text-align: center;"><br>gorouter.latency<br><br></th></tr>
         <tr>
                 <th width="25%">Description</th>
-                <td>The time in milliseconds that the Gorouter takes to handle requests to its app endpoints. 
+                <td>The time in milliseconds that the GoRouter takes to handle requests to its app endpoints. 
                     This is the average round trip response time to an app, which includes router handling. 
                     <br><br>
-                    <strong>Use</strong>: Indicates how Gorouter jobs in PCF are impacting overall app responsiveness. 
+                    <strong>Use</strong>: Indicates how GoRouter jobs in PCF are impacting overall app responsiveness. 
                     Latencies above 100 ms can indicate problems with the network, misbehaving apps, 
-                    or the need to scale the Gorouter itself due to ongoing traffic congestion. 
+                    or the need to scale the GoRouter itself due to ongoing traffic congestion. 
                     An alert value on this metric should be tuned to the specifics of the deployment and its underlying network considerations; 
                     a suggested starting point is 100 ms. 
                  <br><br>
                  <strong>Origin</strong>: Doppler/Firehose<br>
                  <strong>Type</strong>: Gauge (Float in ms)<br>
-                 <strong>Frequency</strong>: Emitted per Gorouter request,
+                 <strong>Frequency</strong>: Emitted per GoRouter request,
                          emission should be constant on a running deployment
         </tr>
         <tr>
@@ -906,12 +906,12 @@ When Elastic Runtime v1.10.25+ uses an internal MySQL database, as configured in
         <tr>
                 <th>Recommended response</th>
                 <td>Extended periods of high latency can point to several factors. 
-                    The Gorouter latency measure includes network and app latency impacts as well.<br><br>
+                    The GoRouter latency measure includes network and app latency impacts as well.<br><br>
                     <ol>
                         <li>First inspect logs for network issues and indications of misbehaving apps.</li>
-                        <li>If it appears that the Gorouter needs to scale due to ongoing traffic congestion, 
-                            do not scale on the latency metric alone. You should also look at the CPU utilization of the Gorouter VMs and keep it within a maximum 60-70% range.</li>
-                        <li>Resolve high utilization by scaling the Gorouter.</li>
+                        <li>If it appears that the GoRouter needs to scale due to ongoing traffic congestion, 
+                            do not scale on the latency metric alone. You should also look at the CPU utilization of the GoRouter VMs and keep it within a maximum 60-70% range.</li>
+                        <li>Resolve high utilization by scaling the GoRouter.</li>
                     </ol>
                     </td>
         </tr>
@@ -919,7 +919,7 @@ When Elastic Runtime v1.10.25+ uses an internal MySQL database, as configured in
 
 ###<a id="mssincelastregistryupdate"></a>Time Since Last Route Register Received
 <table>
-     <tr><th colspan="2" style="text-align: center;"><br>Gorouter.ms_since_last_registry_update<br><br></th></tr>
+     <tr><th colspan="2" style="text-align: center;"><br>gorouter.ms_since_last_registry_update<br><br></th></tr>
         <tr>
                 <th width="25%">Description</th>
                 <td>Time in milliseconds since the last route register was received, emitted per Gorouter instance.
@@ -939,16 +939,16 @@ When Elastic Runtime v1.10.25+ uses an internal MySQL database, as configured in
                 <td><strong>Yellow warning</strong>: <em>not applicable</em> <br>
                 <strong>Red critical</strong>: &gt; 30,000<br>
                         This threshold is suitable for normal platform usage. It alerts if it has been 
-                        at least 30 seconds since the Gorouter last received a message from an app.</td>
+                        at least 30 seconds since the GoRouter last received a message from an app.</td>
         </tr>
         <tr>
                 <th>Recommended response</th>
                 <td>
                     <ol>
-                        <li>Search the Gorouter and route_emitter logs for connection issues to NATS.</li>
-                        <li>Check the BOSH logs to see if the NATS, Gorouter, or route_emitter VMs are failing.</li>
+                        <li>Search the GoRouter and route_emitter logs for connection issues to NATS.</li>
+                        <li>Check the BOSH logs to see if the NATS, GoRouter, or route_emitter VMs are failing.</li>
                         <li>Look more broadly at the health of all VMs, particularly Diego-related VMs.</li>
-                        <li>If problems persist, pull the Gorouter and route_emitter logs and contact 
+                        <li>If problems persist, pull the GoRouter and route_emitter logs and contact 
                             Pivotal Support to say there are consistently long delays in route registry.</li>
                     </ol>
                     </td>
@@ -958,11 +958,11 @@ When Elastic Runtime v1.10.25+ uses an internal MySQL database, as configured in
 ###<a id="bad_gateways"></a>Router Error: 502 Bad Gateway
 
 <table>
-     <tr><th colspan="2" style="text-align: center;"><br>Gorouter.bad_gateways<br><br></th></tr>
+     <tr><th colspan="2" style="text-align: center;"><br>gorouter.bad_gateways<br><br></th></tr>
      <tr>
          <th width="25%">Description</th>
-            <td>The lifetime number of bad gateways, or 502 responses, from Gorouter itself, emitted per Gorouter instance.<br>
-                The Gorouter emits a `502 bad gateway error` when it has a route in the routing table 
+            <td>The lifetime number of bad gateways, or 502 responses, from GoRouter itself, emitted per Gorouter instance.<br>
+                The GoRouter emits a `502 bad gateway error` when it has a route in the routing table 
                 and, in attempting to make a connection to the backend, finds that the backend does not exist.
                     <br><br>
                     <strong>Use</strong>: Indicates that route tables might be stale.
@@ -988,11 +988,11 @@ When Elastic Runtime v1.10.25+ uses an internal MySQL database, as configured in
                 <th>Recommended response</th>
                 <td>
                     <ol>
-                        <li>Look in the Gorouter and route_emitter logs for connection issues to NATS.</li>
-                        <li>Check the BOSH logs to see if the NATS, Gorouter, or route_emitter VMs are failing.</li>
+                        <li>Look in the GoRouter and route_emitter logs for connection issues to NATS.</li>
+                        <li>Check the BOSH logs to see if the NATS, GoRouter, or route_emitter VMs are failing.</li>
                         <li>Look broadly at the health of all VMs, particularly Diego-related VMs.</li>
-                        <li>If problems persist, pull Gorouter and route_emitter logs and contact 
-                            Pivotal Support to say there has been an unusual increase in Gorouter bad gateway responses.</li>
+                        <li>If problems persist, pull GoRouter and route_emitter logs and contact 
+                            Pivotal Support to say there has been an unusual increase in GoRouter bad gateway responses.</li>
                     </ol>
                     </td>
      </tr>
@@ -1000,10 +1000,10 @@ When Elastic Runtime v1.10.25+ uses an internal MySQL database, as configured in
 
 ###<a id="responses.5xx"></a>Router Error: Server Error
 <table>
-     <tr><th colspan="2" style="text-align: center;"><br>Gorouter.responses.5xx<br><br></th></tr>
+     <tr><th colspan="2" style="text-align: center;"><br>gorouter.responses.5xx<br><br></th></tr>
         <tr>
                 <th width="25%">Description</th>
-                <td>The lifetime number of requests completed by the Gorouter VM for HTTP status family 5xx, server errors, emitted per Gorouter instance.
+                <td>The lifetime number of requests completed by the GoRouter VM for HTTP status family 5xx, server errors, emitted per Gorouter instance.
                     <br><br>
                     <strong>Use</strong>: A repeatedly crashing app is often the cause of a big increase in 5xx responses.
                     However, response issues from apps can also cause an increase in 5xx responses.
@@ -1033,18 +1033,18 @@ When Elastic Runtime v1.10.25+ uses an internal MySQL database, as configured in
         </tr>
 </table>
 
-###<a id="total_routes"></a>Number of Gorouter Routes Registered
+###<a id="total_routes"></a>Number of GoRouter Routes Registered
 <table>
-     <tr><th colspan="2" style="text-align: center;"><br>Gorouter.total_routes<br><br></th></tr>
+     <tr><th colspan="2" style="text-align: center;"><br>gorouter.total_routes<br><br></th></tr>
         <tr>
                 <th width="25%">Description</th>
-                <td>The current total number of routes registered with the Gorouter, emitted per Gorouter instance
+                <td>The current total number of routes registered with the GoRouter, emitted per Gorouter instance
                     <br><br>
                     <strong>Use</strong>: The aggregation of these values across all Gorouters indicates uptake and gives a picture of the overall growth of the environment for capacity planning.
 			<br><br>
 		Pivotal also recommends alerting on this metric if the number of routes falls outside of the normal range for your deployment. Dramatic decreases in this metric volume may indicate a problem with the route registration process, such as an app outage or that something in the route register management plane has failed.
 			<br><br>
-			If visualizing these metrics on a dashboard, <code>Gorouter.total_routes</code> can be helpful by visualizing dramatic drops. However, for alerting purposes, the metric <code>Gorouter.ms_since_last_registry_update</code> is more valuable for quicker identification of Gorouter issues. Alerting thresholds for <code>Gorouter.total_routes</code> should focus on dramatic increases or decreases out of expected range.   
+			If visualizing these metrics on a dashboard, <code>gorouter.total_routes</code> can be helpful by visualizing dramatic drops. However, for alerting purposes, the metric <code>gorouter.ms_since_last_registry_update</code> is more valuable for quicker identification of GoRouter issues. Alerting thresholds for <code>gorouter.total_routes</code> should focus on dramatic increases or decreases out of expected range.   
                  <br><br>
                  <strong>Origin</strong>: Doppler/Firehose<br>
                  <strong>Type</strong>: Gauge (Float)<br>
@@ -1063,14 +1063,14 @@ When Elastic Runtime v1.10.25+ uses an internal MySQL database, as configured in
                 <th>Recommended response</th>
                 <td>
                     <ol>
-                        <li>For capacity needs, scale up or down the Gorouter VMs as necessary.</li>
+                        <li>For capacity needs, scale up or down the GoRouter VMs as necessary.</li>
                         <li>For significant drops in current total routes, see the 
-                           <a href="#mssincelastregistryupdate"> <code>Gorouter.ms_since_last_registry_update</code></a>
+                           <a href="#mssincelastregistryupdate"> <code>gorouter.ms_since_last_registry_update</code></a>
                             metric value for additional context.</li>
-                        <li>Look at the Gorouter and route_emitter logs to look for connection issues to NATS.</li>
-                        <li>Check the BOSH logs to see if the NATS, Gorouter or route_emitter VMs are failing.</li>
+                        <li>Look at the GoRouter and route_emitter logs to look for connection issues to NATS.</li>
+                        <li>Check the BOSH logs to see if the NATS, GoRouter or route_emitter VMs are failing.</li>
                         <li>Look broadly at the health of all VMs, particularly Diego-related VMs.</li>
-                        <li>If problems persist, pull the Gorouter and route_emitter logs and contact Pivotal Support.</li>
+                        <li>If problems persist, pull the GoRouter and route_emitter logs and contact Pivotal Support.</li>
                     </ol>
                     </td>
         </tr>
@@ -1332,9 +1332,9 @@ When Elastic Runtime v1.10.25+ uses an internal MySQL database, as configured in
                 <br><br>
                 <strong>Use</strong>: Set an alert and investigate further if the CPU utilization is
                 too high for a job.<br><br>
-                For monitoring Gorouter performance, CPU utilization of the Gorouter VM is 
+                For monitoring GoRouter performance, CPU utilization of the GoRouter VM is 
                 the recommended key capacity scaling indicator.
-                For more information, see <a href="./key-cap-scaling.html#system.cpu.user">Gorouter Latency and Throughput</a>.
+                For more information, see <a href="./key-cap-scaling.html#system.cpu.user">GoRouter Latency and Throughput</a>.
                 <br><br>
                 <strong>Origin</strong>: JMX Bridge or BOSH HM Forwarder<br>
                 <strong>Type</strong>: Gauge (%)<br>
