@@ -50,6 +50,34 @@ This table highlights new and changed KPIs in PCF v2.0.
   </tr>
   <tr>
     <td><em>New</em></td>
+    <td>KPI: <strong><code>uaa.requests.global.completed.count</code></strong><br><br>
+      New recommendation for monitoring UAA Throughput.
+    </td>
+    <td><a href="./kpi.html#uaa_throughput">Link</a></td>
+  </tr>
+  <tr>
+    <td><em>New</em></td>
+    <td>KPI: <strong><code>gorouter.latency.uaa</code></strong><br><br>
+      New recommendation for monitoring UAA Request Latency.
+    </td>
+    <td><a href="./kpi.html#uaa_latency">Link</a></td>
+  </tr>
+  <tr>
+    <td><em>New</em></td>
+    <td>KPI: <strong><code>uaa.server.inflight.count</code></strong><br><br>
+      New recommendation for monitoring UAA Requests-In-Flight.
+    </td>
+    <td><a href="./kpi.html#uaa_requests_inflight">Link</a></td>
+  </tr>
+  <tr>
+    <td><em>New</em></td>
+    <td>KSI: <strong><code>system.cpu.user of the UAA VM(s)</code></strong><br><br>
+      CPU Utilization of the UAA VM(s) can indicate the need to scale UAA instances. 
+    </td>
+    <td><a href="./key-cap-scaling.html#uaa-system.cpu.user">Link</a></td>
+  </tr>  
+  <tr>
+    <td><em>New</em></td>
     <td>KPI: <strong><code>Number of Route Registration Messages Sent and Received</code></strong><br><br>
       New capability to monitor for issues in the control plane responsible for updating the routers with changes to the routing table. This recommendation was also added to the PCF 1.12, 1.11, and 1.10 versions of the Key Performance Indicators documentation.
     </td>
