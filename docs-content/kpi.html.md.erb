@@ -1339,7 +1339,7 @@ When PAS uses an internal MySQL database, as configured in the PAS tile **Settin
         From performance and load testing of UAA, Pivotal has observed that while UAA endpoints can have different throughput behavior, once throughput reaches its peak value per VM, it stays constant and latency increases.
         <br><br>
         <strong>Origin</strong>: Firehose<br>
-        <strong>Type</strong>: Gauge (Integer), emitted value increments over the lifetime of the VM like a counter<br>
+        <strong>Type</strong>: Counter (Integer)<br>
         <strong>Frequency</strong>: 5 s<br>
       </td>
     </tr>
@@ -1428,78 +1428,6 @@ When PAS uses an internal MySQL database, as configured in the PAS tile **Settin
       <td>To increase throughput and maintain low latency when the number of in-flight requests is high, scale UAA VMs horizontally by editing the <b>UAA</b> VM field in the <b>Resource Config</b> pane of the PAS tile. Ensure that the <code>system.cpu.user</code> metric for UAA is not sustained in the suggested range of 80-90% maximum CPU utilization.
       </td>
     </tr>
-</table>
-
-## <a id="doppler-server"></a> Firehose Metrics
-
-###<a id="listeners.receivedEnvelopes"></a>Firehose Throughput
-<table>
-     <tr><th colspan="2" style="text-align: center;"><br>DopplerServer.listeners.totalReceivedMessageCount + loggregator.doppler.ingress
-<br><br></th></tr>
-        <tr>
-                <th width="25%">Description</th>
-                <td>The total number of messages received across 
-                    all Doppler listeners: UDP, TCP, TLS, and GRPC.
-                    <br><br>
-                    <strong>Use</strong>: Provides insight into how much traffic the logging system handles. This metric is an indicator of logging consistency.
-                 <br><br>
-                 <strong>Origin</strong>: Firehose<br>
-                 <strong>Type</strong>: Counter (Integer)<br>
-                 <strong>Frequency</strong>: 5 s<br>
-        </tr>
-        <tr>
-                <th>Recommended measurement</th>
-                <td>Maximum delta per minute
-                    over a 5-minute window</td>
-        </tr>
-        <tr>
-                <th>Recommended alert thresholds</th>
-                <td><strong>Yellow warning</strong>: Dynamic<br>
-                <strong>Red critical</strong>: Dynamic</td>
-        </tr>
-        <tr>
-                <th>Recommended response</th>
-                <td>
-                        Scale up the Firehose log receiver and Dopplers on consistent upward trends.<br>
-                        Pivotal recommends that you do not scale down these components on flat or downward delta trends because unexpected spikes in throughput can cause log loss if not scaled appropriately.
-                    </ol>
-                    </td>
-        </tr>
-</table>
-
-###<a id="deriveddopplerserver.doppler"></a>Firehose Dropped Messages
-<table>
-     <tr><th colspan="2" style="text-align: center;"><br>DopplerServer.doppler.shedEnvelopes + loggregator.doppler.dropped 
-     <br><br></th></tr>
-        <tr>
-                <th width="25%">Description</th>
-                <td>The lifetime total number of messages 
-                    intentionally dropped by Doppler due to back pressure.
-		<br><br>
-                    <strong>Use</strong>: Indicates logging consistency. Set an alert to indicate if too much traffic is coming into the Dopplers 
-                     or if the Firehose consumers are not keeping pace. 
-                     Both issues result in dropped messages. 
-                 <br><br>
-                 <strong>Origin</strong>: Firehose<br>
-                 <strong>Type</strong>: Counter (Integer)<br>
-                 <strong>Frequency</strong>: 5 s<br>
-        </tr>
-        <tr>
-                <th>Recommended measurement</th>
-                <td>Maximum delta per minute
-                    over a 5-minute window</td>
-        </tr>
-        <tr>
-                <th>Recommended alert thresholds</th>
-                <td><strong>Yellow warning</strong>: &ge; 5<br>
-                <strong>Red critical</strong>: &ge; 10</td>
-        </tr>
-        <tr>
-                <th>Recommended response</th>
-                <td>
-                        Scale up the Firehose log receiver and Dopplers.
-                    </td>
-        </tr>
 </table>
 
 ## <a id="bosh"></a> System (BOSH) Metrics
