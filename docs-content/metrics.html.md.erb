@@ -5,7 +5,7 @@ owner: Cloud Ops
 
 <strong><%= modified_date %></strong>
 
-This topic describes how to set up Pivotal Cloud Foundry (PCF) with third-party monitoring platforms to continuously monitor system metrics and trigger health alerts.
+This topic describes how to set up Pivotal Cloud Foundry (PCF) with third-party monitoring platforms to continuously monitor component metrics and trigger health alerts.
 
 To perform a manual, one-time check of current PCF system status from Ops Manager, see [Monitoring Virtual Machines in Pivotal Cloud Foundry](../customizing/monitoring.html).
 
@@ -55,13 +55,13 @@ PCF component metrics originate from the Metron agents on their source component
 
 The Traffic Controller aggregates both metrics and log messages system-wide from all Dopplers, and emits them from its Firehose endpoint.
 
-## <a id='smoke-tests'></a> Smoke Tests and Custom System Metrics
+## <a id='smoke-tests'></a> Smoke Tests and Custom Component Metrics
 
 PCF includes [smoke tests](https://github.com/pivotal-cloudops/cf-smoke-tests/tree/Dockerfile), which are functional unit and integration tests on all major system components. By default, whenever an operator upgrades to a new version of Elastic Runtime, these smoke tests run as a post-deploy errand.
 
 Production systems typically also have an app that runs smoke tests periodically, for example every five minutes, and generate "pass/fail" metrics from the results. For example smoke tests, see the Pivotal Cloud Ops [CF Smoke Tests](https://github.com/pivotal-cloudops/cf-smoke-tests/tree/Dockerfile) repository.
 
-Operators can also generate other custom system metrics based on multi-component tests. An example is average outbound latency between components.
+Operators can also generate other custom component metrics based on multi-component tests. An example is average outbound latency between components.
 
 ## <a id='process'></a>PCF Monitoring Setup
 
@@ -71,7 +71,7 @@ Perform the following steps to set up PCF monitoring:
 
 2. If you are not using the JMX Bridge nozzle, install the [HM Forwarder](https://github.com/cloudfoundry/bosh-hm-forwarder) process to run on the BOSH Health Monitor VM. This process routes health metrics to the local Metron agent, and it does not install automatically as part of PCF. You do not need the HM Forwarder with the JMX Bridge nozzle, which queries the Health Monitor directly.
 
-3. Install a custom app to generate smoke test or other custom system metrics.
+3. Install a custom app to generate smoke test or other custom component metrics.
 
 4. Customize your monitoring platform dashboard and alerts.
 
@@ -83,17 +83,17 @@ If you do not use the [JMX Bridge](http://docs.pivotal.io/jmx-bridge) OpenTSDB F
 
 You can see an example nozzle for sending metrics to Datadog in the  [datadog-firehose-nozzle](https://github.com/cloudfoundry-incubator/datadog-firehose-nozzle) GitHub repository. You configure the Datadog account credentials, API location, and other fields and options in the `config/datadog-firehose-nozzle.json` file.
 
-### <a id='deploy-app'></a>Deploy a Custom System Metrics App
+### <a id='deploy-app'></a>Deploy a Custom Component Metrics App
 
 For production systems, Pivotal recommends deploying an app that runs regular smoke tests and other custom tests and generates metrics from the results.
 
-A custom system metrics app sends metrics to the monitoring platform directly, so you must configure it with your platform endpoint and account information. The app does not run a Metron agent, and the Firehose does not carry custom system metrics.
+A custom component metrics app sends metrics to the monitoring platform directly, so you must configure it with your platform endpoint and account information. The app does not run a Metron agent, and the Firehose does not carry custom component metrics.
 
 The app can run in its own Docker container, on a [Concourse](http://concourse.ci) VM, or elsewhere.
 
-See the Pivotal Cloud Ops [CF Smoke Tests](https://github.com/pivotal-cloudops/cf-smoke-tests/tree/Dockerfile) repository for more information and examples of smoke test and custom system metrics apps.
+See the Pivotal Cloud Ops [CF Smoke Tests](https://github.com/pivotal-cloudops/cf-smoke-tests/tree/Dockerfile) repository for more information and examples of smoke test and custom component metrics apps.
 
-See the [Metrics](https://concourse.ci/metrics.html) topic in the Concourse documentation for how to set up Concourse to generate custom system metrics.
+See the [Metrics](https://concourse.ci/metrics.html) topic in the Concourse documentation for how to set up Concourse to generate custom component metrics.
 
 ## <a id='config-mon'></a>Configure your Monitoring Platform
 
