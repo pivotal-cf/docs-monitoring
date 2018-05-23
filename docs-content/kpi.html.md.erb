@@ -1339,6 +1339,52 @@ When PAS uses an internal MySQL database, as configured in the PAS tile **Settin
         </tr>
 </table>
 
+###<a id="invalid-backend-id"></a>Number of Rejected Requests: Invalid TLS Cert ID
+
+<table>
+     <tr><th colspan="2" style="text-align: center;"><br>gorouter.backend_invalid_id<br><br></th></tr>
+        <tr>
+                <th width="25%">Description</th>
+                <td>
+                  The lifetime number of router requests that were rejected when connecting to a backend because the backend presented a certificate with an invalid ID.
+                  Emitted per Router instance.
+                  <strong>Use</strong>: Indicates that the gorouter could not validate the identify of the app instance using TLS.
+                  Increases in the reported number of invalid TLS cert IDs will also correspond with an increase in HTTP 503 error responses.
+                  <br><br>
+                  If this metric is increasing, it can indicate that routes are getting stale, and that there is likely a failure occurring in the Routing Control Plane.
+                  Over time this could lead in routes being pruned and downstream clients receiving HTTP 502 errors.
+                  <br><br>
+                  <strong>Origin</strong>: Firehose<br>
+                  <strong>Type</strong>: Counter<br>
+                  <strong>Frequency</strong>: 5 s<br>
+		</td>
+        </tr>
+        <tr>
+                <th>Recommended measurement</th>
+                <td>Delta of the number of backends marked as invalid per Gorouter every Xs.
+                Since routes are pruned every 120 s this should be monitored at a higher frequency than 120s.</td>
+        </tr>
+        <tr>
+                <th>Recommended alert thresholds</th>
+                <td><strong>Yellow warning</strong>: Dynamic<br>
+                <strong>Red critical</strong>: Dynamic</td>
+        </tr>
+        <tr>
+                <th>Recommended response</th>
+                <td>
+                    To help confirm the potential issue is the Routing Control Plan, look at <code>gorouter.total_routes</code>,
+                    which would also show a decline in the current number of routes registered. Potential issues to look for here could be
+                    <br>
+                    <br>
+                    <ol>
+                        <li>Network latency issues</li>
+                        <li>Network partitions</li>
+                        <li>NATS cluster issues</li>
+                    </ol>
+                    </td>
+        </tr>
+</table>
+
 ##<a id="uaa"></a>UAA Metrics
 
 ###<a id="uaa_throughput"></a>UAA Throughput
