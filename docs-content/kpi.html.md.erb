@@ -1090,8 +1090,7 @@ When PAS uses an internal MySQL database, as configured in the PAS tile **Settin
      <tr><th colspan="2" style="text-align: center;"><br>gorouter.latency<br><br></th></tr>
         <tr>
                 <th width="25%">Description</th>
-                <td>The time in milliseconds that the Gorouter takes to handle requests to its app endpoints. 
-                    This is the average round trip response time to an app, which includes router handling. 
+                <td>The time in milliseconds that the Gorouter takes to handle requests to backend endpoints, which include both applications routable platform system APIs like Cloud Controller and UAA. This is the average round trip response time, which includes router handling. 
                     <br><br>
                     <strong>Use</strong>: Indicates how Gorouter jobs in PCF are impacting overall app responsiveness. 
                     Latencies above 100 ms can indicate problems with the network, misbehaving apps, 
