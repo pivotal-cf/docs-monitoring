@@ -370,10 +370,11 @@ There are three key capacity scaling indicators recommended for CF Syslog Drain 
    </tr>
    <tr>
       <th>Purpose</th>
-      <td>Each Syslog Adapter can handle approximately 250 drain bindings.
-          The recommended initial configuration is a minimum of two Syslog Adapters
-          (to handle approximately 500 drain bindings). 
-          A new Adapter instance should be added for each 250 additional drain bindings.
+      <td>
+          Each scalable syslog adapter can handle approximately 250 drain bindings.
+          The recommended initial configuration is a minimum of two scalable syslog adapters
+          (to handle approximately 500 drain bindings).
+          A new adapter instance should be added for each 250 additional drain bindings.
         <br><br>
         Therefore, the recommended initial scaling indicator is 450 (as a maximum value over a 1-hr window).
         This indicates the need to scale up to three Adapters from the initial two-Adapter configuration.
