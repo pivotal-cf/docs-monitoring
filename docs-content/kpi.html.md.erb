@@ -946,7 +946,7 @@ When PAS uses an internal MySQL database, as configured in the PAS tile **Settin
 | **Description** | Shows the primary status of the cluster component that the node is in.<br>Values are:<br> - Primary = 1<br> - Non-primary = 0<br> - Disconnected = -1<br> See: [https://mariadb.com/kb/en/mariadb/galera-cluster-status-variables/](https://mariadb.com/kb/en/mariadb/galera-cluster-status-variables/ ) <br><br> **Use:** Any value other than "Primary" indicates that the node is part of a nonoperational component. This occurs in cases of multiple membership changes that result in a loss of quorum.<br><br>**Origin:** Firehose<br> **Envelope Type:** Gauge<br> **Unit:** integer (see above)<br>**Frequency:** 30 s (default) |
 | **Recommended measurement** | Sum of each of the nodes, over the last 5 minutes |
 | **Recommended alert thresholds** | **Yellow warning:** < 3 <br> **Red critical:** < 1  |
-| **Recommended response** | - Check node status to ensure that they are all in working order and able to receive write-sets.<br> - Run [`mysql-diag`](./2-2/pas/mysql-diag.html) and check the MySQL Server logs for errors.  |
+| **Recommended response** | - Check node status to ensure that they are all in working order and able to receive write-sets.<br> - Run [`mysql-diag`](http://docs.pivotal.io/pas/2-2/mysql-diag.html) and check the MySQL Server logs for errors.  |
 
 ### <a id="connections"></a> Connections per Second
 
@@ -973,7 +973,7 @@ When PAS uses an internal MySQL database, as configured in the PAS tile **Settin
 | **Description** | Percentage of CPU time spent by MySQL on user activity, executing user code, as opposed to kernel activity processing system calls.<br><br> **Use:** This closely reflects the amount of server activity dedicated to app queries.<br><br>**Origin:** Firehose<br> **Envelope Type:** Gauge<br> **Unit:** percentage<br> **Frequency:** 30 s (default) |
 | **Recommended measurement** | Average over last 2 minutes |
 | **Recommended alert thresholds** | **Yellow warning:** > 80%<br> **Red critical:** > 90% |
-| **Recommended response** | - If this metric meets or exceeds the recommended thresholds for extended periods of time, run `SHOW PROCESSLIST` and identify which queries or apps are using so much CPU. Optionally redeploy the MySQL jobs using VMs with more CPU capacity.<br> - Run [`mysql-diag`](./2-2/pas/mysql-diag.html) and check the MySQL Server logs for errors. |
+| **Recommended response** | - If this metric meets or exceeds the recommended thresholds for extended periods of time, run `SHOW PROCESSLIST` and identify which queries or apps are using so much CPU. Optionally redeploy the MySQL jobs using VMs with more CPU capacity.<br> - Run [`mysql-diag`](http://docs.pivotal.io/pas/2-2/mysql-diag.html) and check the MySQL Server logs for errors. |
 
 ##<a id="gorouter"></a>Gorouter Metrics
 
