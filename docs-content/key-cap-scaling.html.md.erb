@@ -301,7 +301,8 @@ There are three key capacity scaling indicators recommended for Scalable Syslog 
         <br><br>
         Therefore, the recommended initial scaling indicator is 350 (as a maximum value over a 1-hr window).
         This indicates the need to scale up to three adapters from the initial two-adapter configuration. 
-         
+        <br><br>
+	Please note that while `scalablesyslog.scheduler.drains` is emitted by each scheduler instance, the metric emitted is the aggregated total number of active drains. Therefore this metric should not be summed across instances, as the total value is already emitted.   
    </tr>
    <tr>
       <th>Recommended thresholds</th>
