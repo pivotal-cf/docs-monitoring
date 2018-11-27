@@ -157,7 +157,7 @@ There are three key capacity scaling indicators recommended for Diego cell:
 
 ## <a id="doppler-server"></a> Firehose Performance Scaling Indicator
 
-There is one key capacity scaling indicator recommended for Firehose performance. 
+There are two key capacity scaling indicators recommended for Firehose performance. 
 
 ### <a id="firehose-loss-rate"></a> Firehose Loss Rate
 
@@ -188,6 +188,7 @@ There is one key capacity scaling indicator recommended for Firehose performance
    <tr>
       <th>How to scale</th>
       <td>Scale up the Firehose Traffic Controllers and Dopplers. 
+        <p class="note"><b>Note</b>: At approximately 40 Doppler instances and 20 Traffic Controller instances, performance declines and horizontal scaling is no longer useful. To address performance issues, add vertical scale to the existing Doppler and Traffic Controller instances by increasing CPU resources.</p> 
       </td>
    </tr>
    <tr>
