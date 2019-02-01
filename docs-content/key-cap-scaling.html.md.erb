@@ -258,22 +258,22 @@ Pivotal recommends the following scaling indicator for monitoring the performanc
   </tr>
    <tr>
       <th width="25">Description</th>
-      <td>Within PAS, metrics and logs enter the Firehose for transport and exit out of the platform via a consumer nozzle. If the consuming downstream system fails to keep up with the exiting stream of metrics, the Firehose is forced to close the connection to protect itself from back-pressure. The Firehose increments <code>slow_consumer</code> with each connection that it closes because a consumer could not keep up. 
+      <td>Within PAS, metrics and logs enter the Firehose for transport and exit out of the platform through a consumer nozzle. If the consuming downstream system fails to keep up with the exiting stream of metrics, the Firehose is forced to close the connection to protect itself from back-pressure. The Firehose increments <code>slow_consumer</code> with each connection that it closes because a consumer could not keep up. 
        </td>
    </tr>
    <tr>
       <th>Purpose</th>
-      <td>This metric indicates that a Firehose consumer, such as a monitoring tool nozzle, is ingesting too slowly. If this number is anomalous, it may result in the downstream monitoring tool not having all expected data, even though that data was successfully transported through the Firehose.
+      <td>This metric indicates that a Firehose consumer, such as a monitoring tool nozzle, is ingesting Firehose messages too slowly. If this number is anomalous, it may result in the downstream monitoring tool not having all expected data, even though that data was successfully transported through the Firehose.
         <br><br>
-        This can also be confirmed via the Loggregator emitted log message <code>TB: Output channel too full. Dropped N messages</code>, where N is the number of dropped messages.
+        This can also be confirmed in the Loggregator emitted log message <code>TB: Output channel too full. Dropped N messages</code>, where N is the number of dropped messages.
    </tr>
    <tr>
       <th>Recommended thresholds</th>
-      <td><strong>Scale indicator</strong>: It is recommended to scale when the rate of Firehose Slow Consumer Drops is anomalous for a given environment.<br>
+      <td><strong>Scale indicator</strong>: Scale when the rate of Firehose Slow Consumer Drops is anomalous for a given environment.<br>
    </tr>
    <tr>
       <th>How to scale</th>
-      <td>Scale up the number of nozzle instances. You can scale a nozzle using the subscription ID specified when the nozzle connects to the Firehose. If you use the same subscription ID on each nozzle instance, the Firehose evenly distributes data across all instances of the nozzle. For example, if you have two nozzle instances with the same subscription ID, the Firehose sends half of the data to one nozzle instance and half to the other. Similarly, if you have three nozzle instances with the same subscription ID, the Firehose sends one-third of the data to each instance. If you want to scale a nozzle, the number of nozzle instances should match the number of Traffic Controller instances. 
+      <td>Scale up the number of nozzle instances. The number of nozzle instances should match the number of Traffic Controller instances. You can scale a nozzle using the subscription ID specified when the nozzle connects to the Firehose. If you use the same subscription ID on each nozzle instance, the Firehose evenly distributes data across all instances of the nozzle. For example, if you have two nozzle instances with the same subscription ID, the Firehose sends half of the data to one nozzle instance and half to the other. Similarly, if you have three nozzle instances with the same subscription ID, the Firehose sends one-third of the data to each instance. 
       </td>
    </tr>
    <tr>
@@ -286,7 +286,7 @@ Pivotal recommends the following scaling indicator for monitoring the performanc
    </tr>
 </table>
 
-### <a id="rlp-egress-dropped"></a>
+### <a id="rlp-egress-dropped"></a> Reverse Log Proxy Egress Dropped Messages
 
 <table>
   <tr>
@@ -295,21 +295,21 @@ Pivotal recommends the following scaling indicator for monitoring the performanc
    <tr>
       <th width="25">Description</th>
       <td>
-      <p><strong>Note</strong>: The <code>rlp.dropped</code> metric includes both <code>ingress</code> and <code>egress</code>directions. To differentiate them, refer to the <code>direction</code> tag on the metric.</p>
-      <p>Within PAS, v2 metrics and logs enter Loggregator for transport and exit out of the platform via the Reverse Log Proxy (RLP). If consumers of the RLP fail to keep up with the exiting stream of logs and metrics, the RLP will drop messages.</p>
+      <p>Within PAS, logs and metrics enter Loggregator for transport and then egress through the Reverse Log Proxy (RLP). The RLP drops messages when consumers of the RLP, such as monitoring tool nozzles, ingest the exiting stream of logs and metrics too slowly.</p>
+      <p class="note"><strong>Note</strong>: The <code>rlp.dropped</code> metric includes both <code>ingress</code> and <code>egress</code> directions. To differentiate between <code>ingress</code> and <code>egress</code>, refer to the <code>direction</code> tag on the metric.</p>
       </td>
    </tr>
    <tr>
       <th>Purpose</th>
-      <td>This metric indicates that an RLP consumer, such as a monitoring tool nozzle, is ingesting too slowly.
+      <td>This metric indicates that a consumer of logs and metrics from the RLP, such as a monitoring tool nozzle, is ingesting RLP messages too slowly.
    </tr>
    <tr>
       <th>Recommended thresholds</th>
-      <td><strong>Scale indicator</strong>: It is recommended to scale when the rate of <code>rlp.dropped, direction: egress</code> metrics is continuously increasing.<br>
+      <td><strong>Scale indicator</strong>: Scale when the rate of <code>rlp.dropped, direction: egress</code> metrics is continuously increasing.<br>
    </tr>
    <tr>
       <th>How to scale</th>
-      <td>Scale up the number of nozzle instances. You can scale a nozzle using the subscription ID specified when the nozzle connects to the RLP. If you use the same subscription ID on each nozzle instance, the RLP evenly distributes data across all instances of the nozzle. For example, if you have two nozzle instances with the same subscription ID, the RLP sends half of the data to one nozzle instance and half to the other. Similarly, if you have three nozzle instances with the same subscription ID, the RLP sends one-third of the data to each instance. If you want to scale a nozzle, the number of nozzle instances should match the number of Traffic Controller instances.
+      <td>Scale up the number of nozzle instances. The number of nozzle instances should match the number of Traffic Controller instances. You can scale a nozzle using the subscription ID specified when the nozzle connects to the RLP. If you use the same subscription ID on each nozzle instance, the RLP evenly distributes data across all instances of the nozzle. For example, if you have two nozzle instances with the same subscription ID, the RLP sends half of the data to one nozzle instance and half to the other. Similarly, if you have three nozzle instances with the same subscription ID, the RLP sends one-third of the data to each instance.
       </td>
    </tr>
    <tr>
