@@ -68,16 +68,13 @@ and [Google Stackdriver](https://cloud.google.com/stackdriver/).
 
 ### <a id='component-metrics'></a>BOSH VM and PCF Component Health Metrics
 
-Most monitoring service tiles for PCF come packaged with the Firehose
-[nozzle](https://docs.pivotal.io/pivotalcf/2-1/loggregator/architecture.html#nozzles)
-necessary to extract the BOSH and CF metrics leveraged for platform
-monitoring. 
+Most monitoring service tiles for PCF come packaged with the Firehose nozzle necessary to extract the BOSH and CF metrics leveraged for platform monitoring. Nozzles are programs that consume data from the Loggregator Firehose. Nozzles can be configured to select, buffer, and transform data, and to forward it to other apps and services. 
 
 The nozzles gather the component logs and metrics streaming from
 the Loggregator
-[Firehose](https://docs.pivotal.io/pivotalcf/2-1/loggregator/architecture.html#firehose)
+Firehose
 endpoint. As of PCF v2.0, both BOSH VM Health metrics and Cloud Foundry
-component metrics stream through the Firehose by default. 
+component metrics stream through the Firehose by default. For more information about the Firehose, see [Loggregator Architecture](https://docs.pivotal.io/pivotalcf/2-1/loggregator/architecture.html). 
 
   - PCF component metrics originate from the Metron agents on their
     source components, then travel through Dopplers to the Traffic
