@@ -227,7 +227,7 @@ There are two key capacity scaling indicators recommended for Firehose performan
    </tr>
    <tr>
       <th>How to scale</th>
-      <td>Increase the number of Doppler VMs in the <strong>Resource Config</strong> pane of the Pivotal Application Service (PAS) tile.
+      <td>Increase the number of Doppler VMs in the <strong>Resource Config</strong> pane of the PAS tile.
       </td>
    </tr>
    <tr>
@@ -384,7 +384,7 @@ There are three key capacity scaling indicators recommended for CF Syslog Drain 
       <th>Recommended thresholds</th>
       <td><strong>Scale indicator</strong>: &ge; 450<br>
          Consider this threshold to be dynamic.
-         Adjust the threshold to the PCF deployment as adoption of CF Syslog Drain increases or decreases.</td>
+         Adjust the threshold to the PAS deployment as adoption of CF Syslog Drain increases or decreases.</td>
    </tr>
    <tr>
       <th>How to scale</th>
@@ -516,7 +516,7 @@ There is one key capacity scaling indicator for external S3 external storage.
    <tr>
        <th>Purpose</th>
        <td>If you do not use an external S3 repository for external storage with no capacity constraints,
-           you must monitor the PCF object store to push new app and buildpacks.
+           you must monitor the PAS object store to push new app and buildpacks.
      <br><br>
      If you use an internal NFS/WebDAV backed blobstore, consider scaling the persistent disk when it reaches 75% capacity.
      </td>
