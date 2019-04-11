@@ -322,6 +322,41 @@ Pivotal recommends the following scaling indicator for monitoring the performanc
    </tr>
 </table>
 
+### <a id="rlp-subscription-count"></a> Reverse Log Proxy Subscription Count
+
+<table>
+  <tr>
+      <th colspan="2" style="text-align: center;">rlp.subscriptions</th>
+  </tr>
+   <tr>
+      <th width="25">Description</th>
+      <td>
+      <p>Within PAS, the Reverse Log Proxy (RLP) limits the number of subscriptions. A subscription is a consumer of the RLP so this metric concerns the number of concurrent consumer of and RLP instance. Any RLP can have a maximum of 1000 subscriptions.</p>
+      </td>
+   </tr>
+   <tr>
+      <th>Purpose</th>
+	   <td>This metric indicates that the RLP has reached its concurrent consumer limit</td>
+   </tr>
+   <tr>
+      <th>Recommended thresholds</th>
+      <td><strong>Scale indicator</strong>: Scale when the average number of <code>rlp.subscriptions</code> is greater than 900.<br>
+   </tr>
+   <tr>
+      <th>How to scale</th>
+      <td>Increase the number of RLPs. 
+      </td>
+   </tr>
+   <tr>
+      <th>Additional details</th>
+      <td> <strong>Origin</strong>: Reverse Log Proxy<br>
+           <strong>Type</strong>: Gauge<br>
+           <strong>Frequency</strong>: Emitted every 5&nbsp;s<br>
+           <strong>Applies to</strong>: cf:loggregator_trafficcontroller<br>
+      </td>
+   </tr>
+</table>
+
 ## <a id="scalable-syslog"></a> CF Syslog Drain Performance Scaling Indicators
 There are three key capacity scaling indicators recommended for CF Syslog Drain performance. 
 
