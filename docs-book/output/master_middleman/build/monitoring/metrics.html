@@ -1,0 +1,368 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <!-- Always force latest IE rendering engine or request Chrome Frame -->
+  <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+
+  <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,300italic,400italic,400,600' rel='stylesheet' type='text/css'>
+  <!-- Use title if it's in the page YAML frontmatter -->
+  <title>
+      Configuring a Monitoring System |
+    
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="/stylesheets/all.css" rel="stylesheet" media="screen, print" />
+  <link href="/stylesheets/print.css" rel="stylesheet" media="print" />
+  <link href='/images/favicon.ico' rel='shortcut icon'>
+
+  <script src="/javascripts/all.js"></script>
+  <script>
+//Global Google Search
+(function() {
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + '';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+})();
+</script>
+
+<script type="text/javascript">
+  if (window.location.host === 'hello') {
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '']);
+    _gaq.push(['_setDomainName', '']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script');
+      ga.type = 'text/javascript';
+      ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(ga, s);
+    })();
+  }
+</script>
+
+<script type="text/javascript">
+  var blackList = ['acceptance'];
+
+  blackList.forEach(function(blackListedEnv) {
+    if (document.URL.indexOf(blackListedEnv) > -1 && blackListedEnv != "") {
+      $('head').append('<meta name="hashtag" content="PivotalMoment">');
+    }
+  });
+</script>
+
+<!-- CrazyEgg Tracking Script -->
+<script type="text/javascript">
+  setTimeout(function() {
+    var a = document.createElement("script");
+    var b = document.getElementsByTagName("script")[0];
+    a.src = document.location.protocol + "//script.crazyegg.com/pages/scripts/0020/8294.js?" + Math.floor(new Date().getTime() / 3600000);
+    a.async = true;
+    a.type = "text/javascript";
+    b.parentNode.insertBefore(a, b)
+  }, 1);
+</script>
+
+<script type="text/javascript">
+  (function() {
+    var didInit = false;
+
+    function initMunchkin() {
+      if (didInit === false) {
+        didInit = true;
+        Munchkin.init('625-IUJ-009');
+      }
+    }
+
+    var s = document.createElement('script');
+    s.type = 'text/javascript';
+    s.async = true;
+    s.src = document.location.protocol + '//munchkin.marketo.net/munchkin.js';
+    s.onreadystatechange = function() {
+      if (this.readyState == 'complete' || this.readyState == 'loaded') {
+        initMunchkin();
+      }
+    };
+    s.onload = initMunchkin;
+    document.getElementsByTagName('head')[0].appendChild(s);
+  })();
+</script>
+
+</head>
+
+<body class="monitoring monitoring_metrics has-subnav">
+
+<div class="viewport">
+  <div class='wrap'>
+    <script type="text/javascript">
+      document.domain = "";
+    </script>
+
+       
+    <header class="header header-layout">
+      <h1 class="logo">
+        <a href="/">Default Book Title</a>
+      </h1>
+      
+      <div class="header-links js-bar-links">
+        <div class="btn-menu" data-behavior="MenuMobile"></div>
+        
+        <div class="header-item">
+          
+        </div>
+        <!--Default search-->
+<!--If book needs something different, add a book-search partial to the book's layouts folder-->
+<div class="header-item searchbar js-searchbar">
+  <a class="search-icon" data-behavior="Search"></a>
+  <div class="search-input">
+    <div class="search-input-inner" id="docs-search">
+        <gcse:searchbox></gcse:searchbox>
+    </div>
+  </div>
+</div>
+
+      </div>
+    </header>
+
+
+
+    <div class="container">
+
+      <!--googleoff: index-->
+      <div id="sub-nav" class="js-sidenav nav-container" role="navigation">
+  <a class="sidenav-title" data-behavior="SubMenuMobile">
+    Doc Index
+  </a>
+  <div class="nav-content">
+    <ul>
+      <li>
+        <a id='home-nav-link' href="/monitoring/kpi.html">Key Performance Indicators</a>
+      </li>
+
+      <li>
+        <a href="/monitoring/key-cap-scaling.html">Key Capacity Scaling Indicators</a>
+      </li>
+    </ul>
+  </div>
+</div><!--end of sub-nav-->
+
+      <!--googleon: index-->
+
+      <main class="content content-layout" id="js-content" role="main">
+        <a id="top"></a>
+        
+          <h1 class="title-container" >
+    Configuring a Monitoring System
+  </h1>
+
+          <div id="js-quick-links" >
+            <div class="quick-links"><ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#bosh-cf">BOSH Health Monitor and CF Component Metrics</a></li>
+<li><a href="#smoke-tests">Smoke Tests and Custom System Metrics</a></li>
+<li>
+<a href="#process">PCF Monitoring Setup</a><ul>
+<li><a href="#nozzle">Install a Nozzle</a></li>
+<li><a href="#deploy-app">Deploy a Custom System Metrics App</a></li>
+</ul>
+</li>
+<li>
+<a href="#config-mon">Configure your Monitoring Platform</a><ul>
+<li><a href="#dashboard">Customize Your Dashboard</a></li>
+<li><a href="#alerts">Create Alerts</a></li>
+</ul>
+</li>
+<li><a href="#platforms">Monitoring Platforms</a></li>
+</ul></div>
+          </div>
+        <div class="to-top" id="js-to-top">
+          <a href="#top" title="back to top"></a>
+        </div>
+        <p><strong></strong></p>
+
+<p>This topic describes how to set up Pivotal Cloud Foundry (PCF) with third-party monitoring platforms to continuously monitor system metrics and trigger health alerts.</p>
+
+<p>To perform a manual, one-time check of current PCF system status from Ops Manager, see <a href="../customizing/monitoring.html">Monitoring Virtual Machines in Pivotal Cloud Foundry</a>.</p>
+
+<p>Pivotal recommends that operators experiment with different combinations of metrics and alerts appropriate to their specific requirements. As an example, the <a href="https://github.com/pivotal-cf-experimental/datadog-config-oss/blob/master/cloud-ops-example-doc.md">Datadog Config repository</a> shows how the Pivotal Cloud Ops team monitors the health of its Cloud Foundry deployments using a customized Datadog dashboard.</p>
+
+<p class='note'><strong>Note</strong>: Pivotal does not support any monitoring platforms.</p>
+
+<h2><a id='overview'></a>Overview</h2>
+
+<p>As a prerequisite to PCF monitoring, you need an account with a monitoring platform such as <a href="https://www.datadoghq.com/">Datadog</a> or <a href="http://opentsdb.net/">OpenTDSB</a>.</p>
+
+<p>To set up PCF monitoring, you then configure PCF and your monitoring platform as follows:</p>
+
+<ul>
+<li><p>In PCF:</p>
+
+<ul>
+<li>Install a <a href="#nozzle">nozzle</a> that extracts BOSH and CF metrics from the Firehose and sends them to the monitoring platform.</li>
+<li>(Optional) Deploy <a href="#smoke-tests">smoke tests</a> or other apps that generate custom metrics. Pivotal recommends  custom metrics for production environments.</li>
+</ul></li>
+<li><p>In your monitoring platform:</p>
+
+<ul>
+<li>Customize a <a href="#dashboard">dashboard</a> that lets you check and diagnose system health.</li>
+<li>Create <a href="#alerts">alerts</a> that generate communications regarding attention-worthy conditions.</li>
+</ul></li>
+</ul>
+
+<h2><a id='bosh-cf'></a>BOSH Health Monitor and CF Component Metrics</h2>
+
+<p>You can configure PCF to direct metrics from all Elastic Runtime component VMs, including system components and hosts, to a monitoring platform. To do this, you configure component logs and metrics to stream from from the Loggregator <a href="../loggregator/architecture.html#firehose">Firehose</a> endpoint and install a <a href="../loggregator/architecture.html#nozzles">nozzle</a> that filters out the logs and directs the metrics to the monitoring platform.</p>
+
+<p>The Firehose metrics come from two sources: </p>
+
+<ul>
+<li><strong>BOSH Health Monitor</strong>: The BOSH layer that underlies PCF generates <code>healthmonitor</code> metrics for all VMs in the deployment. 
+
+<ul>
+<li>These metrics are not in the Firehose by default. You must install the Open-Source <a href="https://github.com/cloudfoundry/bosh-hm-forwarder">HM Forwarder</a> to send VM metrics through the Firehose. </li>
+<li>You can also retrieve BOSH health metrics outside of the Firehose with the <a href="https://docs.pivotal.io/jmx-bridge/1-8/index.html">JMX Bridge</a> for PCF tile.</li>
+</ul></li>
+<li><strong>Cloud Foundry components</strong>: Cloud Foundry component VMs for executive control, hosting, routing, traffic control, authentication, and other internal functions generate metrics.</li>
+</ul>
+
+<p class="note"><b>Note</b>: PCF components specific to your IaaS also generate key metrics for health monitoring.</p>
+
+<p>See the  following topics for lists of high-signal-value metrics and capacity scaling indicators in a PCF deployment:</p>
+
+<ul>
+<li><a href="/monitoring/kpi.html">Key Performance Indicators</a></li>
+<li><a href="/monitoring/key-cap-scaling.html">Key Capacity Scaling Indicators</a></li>
+</ul>
+
+<h3>Metrics Path from Component to Firehose</h3>
+
+<p>PCF component metrics originate from the Metron agents on their source components, then travel through Dopplers to the Traffic Controller.</p>
+
+<p>The Traffic Controller aggregates both metrics and log messages system-wide from all Dopplers, and emits them from its Firehose endpoint.</p>
+
+<h2><a id='smoke-tests'></a> Smoke Tests and Custom System Metrics</h2>
+
+<p>PCF includes <a href="https://github.com/pivotal-cloudops/cf-smoke-tests/tree/Dockerfile">smoke tests</a>, which are functional unit and integration tests on all major system components. By default, whenever an operator upgrades to a new version of Elastic Runtime, these smoke tests run as a post-deploy errand.</p>
+
+<p>Production systems typically also have an app that runs smoke tests periodically, for example every five minutes, and generate &ldquo;pass/fail&rdquo; metrics from the results. For example smoke tests, see the Pivotal Cloud Ops <a href="https://github.com/pivotal-cloudops/cf-smoke-tests/tree/Dockerfile">CF Smoke Tests</a> repo.</p>
+
+<p>Operators can also generate other custom system metrics based on multi-component tests. An example is average outbound latency between components.</p>
+
+<h2><a id='process'></a>PCF Monitoring Setup</h2>
+
+<p>Perform the following steps to set up PCF monitoring: </p>
+
+<ol>
+<li><p>Install a <a href="../loggregator/architecture.html#nozzles">nozzle</a> that extracts BOSH and CF metrics from the Loggregator Firehose and sends them to the monitoring platform.</p></li>
+<li><p>If you are not using the JMX Bridge nozzle, install the <a href="https://github.com/cloudfoundry/bosh-hm-forwarder">HM Forwarder</a> process to run on the BOSH Health Monitor VM. This process routes health metrics to the local Metron agent, and it does not install automatically as part of PCF. You do not need the HM Forwarder with the JMX Bridge nozzle, which queries the Health Monitor directly.</p></li>
+<li><p>Install a custom app to generate smoke test or other custom system metrics.</p></li>
+<li><p>Customize your monitoring platform dashboard and alerts.</p></li>
+</ol>
+
+<h3><a id='nozzle'></a>Install a Nozzle</h3>
+
+<p>To monitor BOSH and CF component metrics, you install a <a href="../loggregator/architecture.html#nozzles">nozzle</a> that directs the metrics from the Firehose to your monitoring platform. The nozzle process takes the Firehose output, ignores the logs, and sends the metrics.</p>
+
+<p>If you do not use the <a href="http://docs.pivotal.io/jmx-bridge">JMX Bridge</a> OpenTSDB Firehose Nozzle, you must install a BOSH HM Forwarder job on the VM that runs the BOSH Health Monitor and its Metron agent.</p>
+
+<p>You can see an example nozzle for sending metrics to Datadog in the  <a href="https://github.com/cloudfoundry-incubator/datadog-firehose-nozzle">datadog-firehose-nozzle</a> GitHub repository. You configure the Datadog account credentials, API location, and other fields and options in the <code>config/datadog-firehose-nozzle.json</code> file.</p>
+
+<h3><a id='deploy-app'></a>Deploy a Custom System Metrics App</h3>
+
+<p>For production systems, Pivotal recommends deploying an app that runs regular smoke tests and other custom tests and generates metrics from the results.</p>
+
+<p>A custom system metrics app sends metrics to the monitoring platform directly, so you must configure it with your platform endpoint and account information. The app does not run a Metron agent, and the Firehose does not carry custom system metrics.</p>
+
+<p>The app can run in own Docker container, on a <a href="http://concourse.ci">Concourse</a> VM, or elsewhere.</p>
+
+<p>See the Pivotal Cloud Ops <a href="https://github.com/pivotal-cloudops/cf-smoke-tests/tree/Dockerfile">CF Smoke Tests</a> repository for more information and examples of smoke test and custom system metrics apps.</p>
+
+<p>See the <a href="https://concourse.ci/metrics.html">Metrics</a> topic in the Concourse documentation for how to set up Concourse to generate custom system metrics.</p>
+
+<h2><a id='config-mon'></a>Configure your Monitoring Platform</h2>
+
+<p>Monitoring platforms support two types of monitoring:</p>
+
+<ul>
+<li>A <em>dashboard</em> for active monitoring when you are at a keyboard and screen</li>
+<li>Automated <em>alerts</em> for when your attention is elsewhere</li>
+</ul>
+
+<p>Some monitoring solutions offer both in one package. Others require putting the two pieces together.</p>
+
+<p>See the <a href="https://github.com/pivotal-cf-experimental/datadog-config-oss/blob/master/cloud-ops-example-doc.md">Datadog Config repository</a> for an example of how to configure a dashboard and alerts for Cloud Foundry in Datadog.</p>
+
+<h3><a id='dashboard'></a>Customize Your Dashboard</h3>
+
+<p>You customize a dashboard by defining elements on the screen that show values derived from one or more metrics. These dashboard elements typically use simple formulas, such as averaging metric values over the past 60 seconds or summing them up over related instances. They are also often normalized to display with 3 or fewer digits for easy reading and color-coded red, yellow, or green to indicate health conditions.</p>
+
+<p><img alt="Datadog dashboard" src="images/dashboard.png" /></p>
+
+<p>In Datadog, for example, you can define a <code>screen_template</code> query that watches the <code>auctioneer.AuctioneerLRPAuctionsFailed</code> metric and displays its current average over the past minute.</p>
+
+<h3><a id='alerts'></a>Create Alerts</h3>
+
+<p>You create alerts by defining boolean conditions based on operations over one or more metrics, and an action that the platform takes when an alert triggers. The booleans typically check whether metric values exceed or fall below thresholds, or compare metric values against each other.</p>
+
+<p><a href="https://github.com/pivotal-cf-experimental/datadog-config-oss/blob/master/alert_templates/shared/diego/LRPs_auction_failure_per_min_too_high.json.erb">In Datadog, for example,</a> you can define an <code>alert_template</code> condition that triggers when the <code>auctioneer.AuctioneerLRPAuctionsFailed</code> metric indicates an average of more than one failed auction per minute for the past 15 minutes:</p>
+
+<pre><code>
+    {
+        "query": "min(last_15m):per_minute(avg:datadog.nozzle.auctioneer.AuctioneerLRPAuctionsFailed{deployment:&lt;%= metron_agent_diego_deployment %>}) > 1",
+        "message": "##Description:\nDiego internal metrics \n\n## Escalation Path:\nDiego \n\n## Possible Causes:\nThose alerts were a pretty strong signal for us to look at the BBS, which was locked up\n\n## Potential Solutions:\nEscalate to Diego team\n>&lt;%= cloudops_pagerduty %> &lt;%= diego_oncall %>",
+        "name": "&lt;%= environment %> Diego: LRP Auction Failure per min is too high",
+        "no_data_timeframe": 30,
+        "notify_no_data": false
+    }
+</code></pre>
+
+<p>Actions that an alert triggers can include sending a pager or SMS message, sending an email, generating a support ticket, or passing the alert to a alerting system such as <a href="https://www.pagerduty.com/">PagerDuty</a>.</p>
+
+<h2><a id='platforms'></a>Monitoring Platforms</h2>
+
+<p>Some monitoring solutions offer both alerts and a dashboard in one package, while others require separate packages for alerts and dashboard.</p>
+
+<p>Popular monitoring platforms among PCF customers include the following:</p>
+
+<ul>
+<li><a href="https://www.datadoghq.com/">Datadog</a></li>
+<li><a href="http://opentsdb.net/">OpenTSDB</a> alerts and <a href="http://grafana.org/">Grafana</a> dashboard</li>
+<li><a href="https://newrelic.com/">New Relic</a></li>
+<li><a href="http://www.vmware.com/products/vrealize-operations.html">vRealize Operations (vROPS)</a></li>
+<li><a href="https://www.appdynamics.com">AppDynamics</a></li>
+</ul>
+
+          <gcse:searchresults></gcse:searchresults>
+<a id='repo-link' href='http://github.com/docs-content/tree/master/metrics.html.md.erb'>View the source for this page in GitHub</a>
+
+      </main>
+    </div>
+  </div>
+</div>
+
+<div id="scrim"></div>
+
+<div class="container">
+  <footer class="site-footer-links">
+    <div class="copyright">
+  <a href='http://pivotal.io/privacy-policy'>Privacy Policy</a> | 
+  <a href='http://pivotal.io/terms-of-use'>Terms of Use</a><br/>
+  <a href='/'>Pivotal Documentation</a>
+  &copy; 2017 <a href='http://pivotal.io'>Pivotal Software</a>, Inc. All Rights Reserved.
+</div>
+<div class="support">
+  Need help? <a href="" target="_blank">Visit Support</a>
+</div>
+
+  </footer>
+</div><!--end of container-->
+
+</body>
+</html>

@@ -1,0 +1,483 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <!-- Always force latest IE rendering engine or request Chrome Frame -->
+  <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+
+  <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,300italic,400italic,400,600' rel='stylesheet' type='text/css'>
+  <!-- Use title if it's in the page YAML frontmatter -->
+  <title>
+      Key Capacity Scaling Indicators |
+    
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="/stylesheets/all.css" rel="stylesheet" media="screen, print" />
+  <link href="/stylesheets/print.css" rel="stylesheet" media="print" />
+  <link href='/images/favicon.ico' rel='shortcut icon'>
+
+  <script src="/javascripts/all.js"></script>
+  <script>
+//Global Google Search
+(function() {
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + '';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+})();
+</script>
+
+<script type="text/javascript">
+  if (window.location.host === 'hello') {
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '']);
+    _gaq.push(['_setDomainName', '']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script');
+      ga.type = 'text/javascript';
+      ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(ga, s);
+    })();
+  }
+</script>
+
+<script type="text/javascript">
+  var blackList = ['acceptance'];
+
+  blackList.forEach(function(blackListedEnv) {
+    if (document.URL.indexOf(blackListedEnv) > -1 && blackListedEnv != "") {
+      $('head').append('<meta name="hashtag" content="PivotalMoment">');
+    }
+  });
+</script>
+
+<!-- CrazyEgg Tracking Script -->
+<script type="text/javascript">
+  setTimeout(function() {
+    var a = document.createElement("script");
+    var b = document.getElementsByTagName("script")[0];
+    a.src = document.location.protocol + "//script.crazyegg.com/pages/scripts/0020/8294.js?" + Math.floor(new Date().getTime() / 3600000);
+    a.async = true;
+    a.type = "text/javascript";
+    b.parentNode.insertBefore(a, b)
+  }, 1);
+</script>
+
+<script type="text/javascript">
+  (function() {
+    var didInit = false;
+
+    function initMunchkin() {
+      if (didInit === false) {
+        didInit = true;
+        Munchkin.init('625-IUJ-009');
+      }
+    }
+
+    var s = document.createElement('script');
+    s.type = 'text/javascript';
+    s.async = true;
+    s.src = document.location.protocol + '//munchkin.marketo.net/munchkin.js';
+    s.onreadystatechange = function() {
+      if (this.readyState == 'complete' || this.readyState == 'loaded') {
+        initMunchkin();
+      }
+    };
+    s.onload = initMunchkin;
+    document.getElementsByTagName('head')[0].appendChild(s);
+  })();
+</script>
+
+</head>
+
+<body class="monitoring monitoring_key-cap-scaling has-subnav">
+
+<div class="viewport">
+  <div class='wrap'>
+    <script type="text/javascript">
+      document.domain = "";
+    </script>
+
+       
+    <header class="header header-layout">
+      <h1 class="logo">
+        <a href="/">Default Book Title</a>
+      </h1>
+      
+      <div class="header-links js-bar-links">
+        <div class="btn-menu" data-behavior="MenuMobile"></div>
+        
+        <div class="header-item">
+          
+        </div>
+        <!--Default search-->
+<!--If book needs something different, add a book-search partial to the book's layouts folder-->
+<div class="header-item searchbar js-searchbar">
+  <a class="search-icon" data-behavior="Search"></a>
+  <div class="search-input">
+    <div class="search-input-inner" id="docs-search">
+        <gcse:searchbox></gcse:searchbox>
+    </div>
+  </div>
+</div>
+
+      </div>
+    </header>
+
+
+
+    <div class="container">
+
+      <!--googleoff: index-->
+      <div id="sub-nav" class="js-sidenav nav-container" role="navigation">
+  <a class="sidenav-title" data-behavior="SubMenuMobile">
+    Doc Index
+  </a>
+  <div class="nav-content">
+    <ul>
+      <li>
+        <a id='home-nav-link' href="/monitoring/kpi.html">Key Performance Indicators</a>
+      </li>
+
+      <li>
+        <a href="/monitoring/key-cap-scaling.html">Key Capacity Scaling Indicators</a>
+      </li>
+    </ul>
+  </div>
+</div><!--end of sub-nav-->
+
+      <!--googleon: index-->
+
+      <main class="content content-layout" id="js-content" role="main">
+        <a id="top"></a>
+        
+          <h1 class="title-container" >
+    Key Capacity Scaling Indicators
+  </h1>
+
+          <div id="js-quick-links" >
+            <div class="quick-links"><ul>
+<li>
+<a href="#cell">Diego Cell Capacity Scaling Indicators</a><ul>
+<li><a href="#cell-memory">Diego Cell Memory Capacity</a></li>
+<li><a href="#cell-disk">Diego Cell Disk Capacity</a></li>
+<li><a href="#cell-container">Diego Cell Container Capacity</a></li>
+</ul>
+</li>
+<li>
+<a href="#doppler-server">Firehose Performance Scaling Indicator</a><ul><li><a href="#firehose-loss-rate">Firehose Loss Rate</a></li></ul>
+</li>
+<li>
+<a href="#Router">Router Performance Scaling Indicator</a><ul><li><a href="#system.cpu.user">Router VM CPU Utilization</a></li></ul>
+</li>
+<li><a href="#systemdiskpersist">NFS/WebDAV Backed Blobstore</a></li>
+</ul></div>
+          </div>
+        <div class="to-top" id="js-to-top">
+          <a href="#top" title="back to top"></a>
+        </div>
+        <style>
+    .note.warning {
+        background-color: #fdd;
+        border-color: #fbb
+    }
+
+    .note.warning:before {
+        color: #f99;
+     }
+</style>
+
+<p>This topic describes key capacity scaling indicators that operators monitor to determine when
+they need to scale their Pivotal Cloud Foundry (PCF) deployments.</p>
+
+<p>Pivotal provides these indicators to operators as general guidance for capacity scaling. 
+Each indicator is based on platform metrics from different components. 
+This guidance is applicable to most PCF v1.10 deployments.
+Pivotal recommends that operators fine-tune the suggested alert thresholds 
+by observing historical trends for their deployments. </p>
+
+<h2><a id="cell"></a>Diego Cell Capacity Scaling Indicators</h2>
+
+<p>Currently, there are three key capacity scaling indicators recommended for Diego cell:</p>
+
+<ul>
+<li><a href="#cell-memory">Diego Cell Memory Capacity</a> is a measure of the percentage of remaining memory capacity</li>
+<li><a href="#cell-disk">Diego Cell Disk Capacity</a> is a measure of the percentage of remaining disk capacity</li>
+<li><a href="#cell-container">Diego Cell Container Capacity</a> is a measure of the percentage of remaining container capacity</li>
+</ul>
+
+<h3><a id="cell-memory"></a>Diego Cell Memory Capacity</h3>
+
+<table>
+   <tr><th colspan="2" style="text-align: center;"><br>rep.CapacityRemainingMemory / rep.CapacityTotalMemory<br><br></th></tr>
+   <tr>
+      <th width="25%">Description</th>
+     <td> Percentage of remaining memory capacity for a given cell. Monitor this derived metric across all cells in a deployment.
+<br><br>
+      The metric <code>rep.CapacityRemainingMemory</code> indicates the remaining amount in MiB of memory available for this cell to allocate to containers.<br>
+      The metric <code>rep.CapacityTotalMemory</code> indicates the total amount in MiB of memory available for this cell to allocate to containers.</td>
+ </tr>
+   <tr>
+      <th>Purpose</th>
+      <td>A best practice deployment of Cloud Foundry includes three availability zones (AZs).  
+          For these types of deployments, Pivotal recommends that you have enough capacity to suffer failure of an entire AZ.
+          <br><br>
+          The <em>Recommended threshold</em> assumes a three AZ configuration. Adjust the threshold percentage if you have more or less AZs. 
+      </td>
+   </tr>
+   <tr>
+      <th>Recommended thresholds</th>
+      <td>&lt; avg(30%)</td>
+   </tr>
+   <tr>
+      <th>How to scale</th>
+      <td>      
+      Scale up your Diego Cells 
+      </td>
+   </tr>
+    <tr>
+      <th>Additional Details</th>
+      <td> <strong>Origin</strong>: Doppler/Firehose<br>
+           <strong>Type</strong>: Gauge (%)<br>
+           <strong>Frequency</strong>: Emitted every 60 s<br>
+           <strong>Applies to</strong>: cf:diego_cells
+      </td>
+   </tr>
+</table>
+
+<h3><a id="cell-disk"></a>Diego Cell Disk Capacity</h3>
+
+<table>
+   <tr><th colspan="2" style="text-align: center;"><br>rep.CapacityRemainingDisk / rep.CapacityTotalDisk<br><br></th></tr>
+   <tr>
+      <th width="25%">Description</th>
+      <td> Percentage of remaining disk capacity for a given cell. Monitor this derived metric across all cells in a deployment.
+<br><br>
+      The metric <code>rep.CapacityRemainingDisk</code> indicates the remaining amount in MiB of disk available for this cell to allocate to containers.<br> 
+      The metric <code>rep.CapacityTotalDisk</code> indicates the total amount in MiB of disk available for this cell to allocate to containers.</td>
+ </tr>
+   <tr>
+       <th>Purpose</th>
+      <td>A best practice deployment of Cloud Foundry includes three availability zones (AZs).  
+          For these types of deployments, Pivotal recommends that you have enough capacity to suffer failure of an entire AZ.
+          <br><br>
+          The <em>Recommended threshold</em> assumes a three AZ configuration. Adjust the threshold percentage if you have more or less AZs.
+      </td>
+   </tr>
+   <tr>
+      <th>Recommended thresholds</th>
+      <td>&lt; avg(30%)</td>
+   </tr>
+   <tr>
+      <th>How to Scale</th>
+      <td>      
+      Scale up your Diego Cells 
+      </td>
+   </tr>
+    <tr>
+      <th>Additional Details</th>
+      <td> <strong>Origin</strong>: Doppler/Firehose<br>
+           <strong>Type</strong>: Gauge (%)<br>
+           <strong>Frequency</strong>: Emitted every 60 s<br>
+           <strong>Applies to</strong>: cf:diego_cells
+      </td>
+   </tr>
+</table>
+
+<h3><a id="cell-container"></a>Diego Cell Container Capacity</h3>
+
+<table>
+   <tr><th colspan="2" style="text-align: center;"><br>rep.CapacityRemainingContainers / 
+       rep.CapacityTotalContainers<br><br></th></tr>
+   <tr>
+      <th width="25%">Description</th>
+      <td> Percentage of remaining container capacity for a given cell. Monitor this derived metric across all cells in a deployment.
+      <br><br>
+      The metric <code>rep.CapacityRemainingContainers</code> indicates the remaining number of containers this cell can host.<br>
+      The metric  by <code>rep.CapacityTotalContainer</code> indicates the total number of containers this cell can host.</td>
+   <tr>
+      <th>Purpose</th>
+      <td>A best practice deployment of Cloud Foundry includes three availability zones (AZs).  
+          For these types of deployments, Pivotal recommends that you have enough capacity to suffer failure of an entire AZ.
+          <br><br>
+          The <em>Recommended threshold</em> assumes a three AZ configuration. Adjust the threshold percentage if you have more or less AZs.
+      </td>
+   </tr>
+   <tr>
+      <th>Recommended thresholds</th>
+      <td>&lt; avg(30%)</td>
+   </tr>
+   <tr>
+      <th>How to scale</th>
+      <td>
+      Scale up your Diego Cells 
+     </td>
+   </tr>
+    <tr>
+      <th>Additional Details</th>
+      <td> <strong>Origin</strong>: Doppler/Firehose<br>
+           <strong>Type</strong>: Gauge (%)<br>
+           <strong>Frequency</strong>: Emitted every 60 s<br>
+           <strong>Applies to</strong>: cf:diego_cells
+      </td>
+   </tr>
+</table>
+
+<h2><a id="doppler-server"></a> Firehose Performance Scaling Indicator</h2>
+
+<p>Currently, there is one key capacity scaling indicator recommended for Firehose performance. </p>
+
+<h3><a id="firehose-loss-rate"></a> Firehose Loss Rate</h3>
+
+<table>
+  <tr>
+      <th colspan="2" style="text-align: center;">(DopplerServer.TruncatingBuffer.totalDroppedMessages + 
+          DopplerServer.doppler.shedEnvelopes) / DopplerServer.listeners.totalReceivedMessageCount</th>
+  </tr>
+   <tr>
+      <th width="25">Description</th>
+      <td> This derived value represents the firehose loss rate, or the total messages dropped as a percentage of the total message throughput
+       </td>
+   </tr>
+   <tr>
+      <th>Purpose</th>
+      <td>Excessive dropped messages can indicate the Dopplers are not processing messages fast enough.
+        <br><br>
+        The recommended scaling indicator is to look at the total dropped as a percentage of the total throughput and scale if the derived loss rate value grows greater than <code>0.1</code>.
+   </tr>
+   <tr>
+      <th>Recommended thresholds</th>
+      <td><strong>Scale indicator</strong>: &ge; 0.1</br>
+      If alerting:<br>
+      <strong>Yellow warning</strong>: &ge; 0.05<br>
+      <strong>Red critical</strong>: &ge; 0.1</td>
+   </tr>
+   <tr>
+      <th>How to scale up</th>
+      <td>Scale up the Firehose log receiver and Dopplers. 
+      </td>
+   </tr>
+   <tr>
+      <th>Additional Details</th>
+      <td> <strong>Origin</strong>: Doppler/Firehose<br>
+           <strong>Type</strong>: Gauge (float)<br>
+           <strong>Frequency</strong>: Base metrics are emitted every 5 s<br>
+           <strong>Applies to</strong>: cf:doppler<br>
+      </td>
+   </tr>
+</table>
+
+<h2><a id="Router"></a> Router Performance Scaling Indicator</h2>
+
+<p>Currently, there is one key capacity scaling indicator recommended for Router performance. </p>
+
+<h3><a id="system.cpu.user"></a>Router VM CPU Utilization</h3>
+
+<table>
+  <tr>
+      <th colspan="2" style="text-align: center;">system.cpu.user of Gorouter VM(s)</th>
+  </tr>
+  <tr>
+      <th>Description</th>
+      <td>CPU utilization of the Gorouter VM(s)</td>
+  </tr>
+  <tr>
+      <th>Purpose</th>
+      <td>High CPU utilization of the Gorouter VMs can increase latency and cause throughput, or requests per/second, to level-off. Pivotal recommends keeping the CPU utilization within a maximum range of 60-70%  for best Gorouter performance. 
+      <br><br>
+      If you want to increase throughput capabilities while also keeping latency low, Pivotal recommends scaling the Gorouter while continuing to ensure that CPU utilization does not exceed the maximum recommended  range. 
+          </td>
+   </tr>
+   <tr>
+      <th>Recommended thresholds</th>
+      <td><strong>Scale indicator</strong>: &ge; 60%<br>
+      If alerting:<br>
+      <strong>Yellow warning</strong>: &ge; 60%<br>
+      <strong>Red critical</strong>: &ge; 70%<br>
+      </td>
+   </tr>
+   <tr>
+      <th>How to scale</th>
+      <td>Resolve high utilization by scaling the Gorouters horizontally or vertically (the <b>Router</b> VM in the <b>Resource Config</b> pane of the Elastic Runtime tile). 
+      </td>
+   </tr>
+   <tr>
+      <th>Additional Details</th>
+      <td> <strong>Origin</strong>: JMX Bridge or BOSH HM Forwarder<br>
+           <strong>Type</strong>: Gauge (float)<br>
+           <strong>Frequency</strong>: Emitted every 60 s<br>
+           <strong>Applies to</strong>: cf:router<br>
+      </td>
+   </tr>
+</table>
+
+<h2><a id="systemdiskpersist"></a>NFS/WebDAV Backed Blobstore</h2>
+
+<p class="note"><strong>Note</strong>: This metric is only relevant if your deployment does not use an external S3 repository for external storage with no capacity constraints</p>
+
+<table>
+   <tr><th colspan="2" style="text-align: center;"><br>system.disk.persistent.percent of NFS server VM(s)<br><br></th></tr>
+   <tr>
+      <th width="25%">Description</th>
+      <td><em>If applicable</em>: Monitor the percentage of persistent disk used on the VM for the NFS Server job.
+           </tr>
+   <tr>
+       <th>Purpose</th>
+       <td>If you do not use an external S3 repository for external storage with no capacity constraints, you must monitor the PCF object store to push new app and buildpacks.
+     <br><br>
+     If you use an internal NFS/WebDAV backed blobstore, consider scaling the persistent disk when it reaches 75% capacity.
+     </td>
+   </tr>
+   <tr>
+      <th>Recommended thresholds</th>
+      <td>&ge; 75%</td>
+   </tr>
+   <tr>
+      <th>How to scale</th>
+      <td>
+      Give your NFS Server additional persistent disk resources.  
+      </td>
+   </tr>
+    <tr>
+      <th>Additional Details</th>
+      <td> <strong>Origin</strong>: JMX Bridge or BOSH HM Forwarder<br>
+           <strong>Type</strong>: Gauge (%)<br>
+           <strong>Applies to</strong>: cf:nfs_server<br>
+      </td>
+   </tr>  
+</table>
+
+          <gcse:searchresults></gcse:searchresults>
+<a id='repo-link' href='http://github.com/docs-content/tree/master/key-cap-scaling.html.md.erb'>View the source for this page in GitHub</a>
+
+      </main>
+    </div>
+  </div>
+</div>
+
+<div id="scrim"></div>
+
+<div class="container">
+  <footer class="site-footer-links">
+    <div class="copyright">
+  <a href='http://pivotal.io/privacy-policy'>Privacy Policy</a> | 
+  <a href='http://pivotal.io/terms-of-use'>Terms of Use</a><br/>
+  <a href='/'>Pivotal Documentation</a>
+  &copy; 2017 <a href='http://pivotal.io'>Pivotal Software</a>, Inc. All Rights Reserved.
+</div>
+<div class="support">
+  Need help? <a href="" target="_blank">Visit Support</a>
+</div>
+
+  </footer>
+</div><!--end of container-->
+
+</body>
+</html>
