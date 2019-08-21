@@ -21,6 +21,13 @@ This table highlights new and changed KPIs in PAS v2.4.
 
 <table> 
   <tr>
+    <td><em>Removed</em></td>
+    <td>KPI: <strong><code>gorouter.registry_message.route-emitter<br>route_emitter.HTTPRouteNATSMessagesEmitted</code></strong><br><br>
+          In PAS 2.4 and above, GoRouter will skip the TTL for routes that are registered with TLS. So the routes will never expire or be pruned (other than in an attempt to connect to an invalid backend), which means these metrics are no longer an accurate representation of routing health.
+    </td>
+    <td>N/A</td>
+  </tr>
+  <tr>
     <td><em>Modified</em></td>
     <td>KPI: <strong><code>locket.ActiveLocks</code></strong><br><br>
       The Clock Global (Cloud Controller clock) job now also holds a component lock. Therefore the expected number of Active Locks increased to 5. If the Operator disables Zero Downtime App Deployments when configuring PAS, then the expected value will remain 4 for PAS v2.4.
