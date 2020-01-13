@@ -300,7 +300,7 @@ There are three key capacity scaling indicators recommended for a Diego Cell:
     </tr>
     <tr>
       <th>Recommended thresholds</th>
-        <td><strong>Scale indicator:</strong> It is recommended to scale when the rate of Firehose Slow Consumer Drops is anomalous for a given environment.</td>
+        <td><strong>Scale indicator:</strong> <%=vars.recommended_by %> recommends scaling when the rate of Firehose Slow Consumer Drops is anomalous for a given environment.</td>
     </tr>
     <tr>
       <th>How to scale</th>
@@ -404,13 +404,13 @@ There are three key capacity scaling indicators recommended for CF Syslog Drain 
     </tr>
 </table>
 
-### <a id="scalable-syslog-ksi"></a> CF Syslog Drain Bindings Count
+### <a id="scalable-syslog-ksi"></a> Syslog Drain Bindings Count
 
 <table>
   <tr><th colspan="2" style="text-align: center;">cf-syslog-drain.drain_adapter.drain_bindings (sum across instances) / number of Syslog Adapters</th></tr>
     <tr>
       <th width="25">Description</th>
-        <td>The number of CF syslog drain bindings. CF syslog drain bindings enable app syslog drains by managing the connections between the Syslog Adapters and the Reverse Log Proxies (RLPs).</td>
+        <td>The number of syslog drain bindings. Syslog drain bindings enable app syslog drains by managing the connections between the Syslog Adapters and the Reverse Log Proxies (RLPs).</td>
     </tr>
     <tr>
       <th>Purpose</th>
@@ -497,7 +497,7 @@ There is one key capacity scaling indicator recommended for Router performance.
     <tr>
       <th>Purpose</th>
         <td>
-          High CPU utilization of the Gorouter VMs can increase latency and cause throughput, or requests per/second, to level-off. <%=vars.recommended_by %> recommends keeping the CPU utilization within a maximum range of 60-70% for best Gorouter performance.<br><br>
+          High CPU utilization of the Gorouter VMs can increase latency and cause throughput, or requests per second, to level off. <%=vars.recommended_by %> recommends keeping the CPU utilization within a maximum range of 60-70% for best Gorouter performance.<br><br>
           If you want to increase throughput capabilities while also keeping latency low, <%=vars.recommended_by %> recommends scaling the Gorouter while continuing to ensure that CPU utilization does not exceed the maximum recommended range.
           <p class="note"><strong>Note:</strong> At greater than 8 CPUs, vertical scaling is no longer beneficial for increasing throughput.</p>
         </td>
@@ -542,7 +542,7 @@ There is one key capacity scaling indicator recommended for UAA performance.
     <tr>
       <th>Purpose</th>
         <td>
-          High CPU utilization of the UAA VMs can increase latency and cause throughput, or requests per/second, to level-off. <%=vars.recommended_by %> recommends keeping the CPU utilization within a maximum range of 80-90% for best UAA performance.<br><br>
+          High CPU utilization of the UAA VMs can increase latency and cause throughput, or requests per second, to level off. <%=vars.recommended_by %> recommends keeping the CPU utilization within a maximum range of 80-90% for best UAA performance.<br><br>
           If you want to increase throughput capabilities while keeping latency low, <%=vars.recommended_by %> recommends scaling the UAA VMs and ensuring that CPU utilization does not exceed the maximum recommended range.</td>
     </tr>
     <tr>
