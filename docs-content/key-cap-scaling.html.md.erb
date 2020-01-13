@@ -242,7 +242,8 @@ There are three key capacity scaling indicators recommended for a Diego Cell:
     <tr>
       <th width="25">Description</th>
         <td>
-          The loss rate of the reverse log proxies (RLP), or the total messages dropped as a percentage of the total traffic coming through the <a href="../loggregator/architecture.html">reverse log proxy</a>. Total messages include only logs for bound apps.<br><br>This loss rate is specific to the RLP and does not impact the Firehose loss rate. For example, you can suffer lossiness in the RLP while not suffering any lossiness in the Firehose.
+          The loss rate of the reverse log proxies (RLP), or the total messages dropped as a percentage of the total traffic coming through the RLP. Total messages include only logs for bound apps.<br><br>
+          This loss rate is specific to the RLP and does not impact the Firehose loss rate. For example, you can suffer lossiness in the RLP while not suffering any lossiness in the Firehose.
         </td>
     </tr>
     <tr>
@@ -299,7 +300,7 @@ There are three key capacity scaling indicators recommended for a Diego Cell:
     </tr>
     <tr>
       <th>Recommended thresholds</th>
-        <td><strong>Scale indicator:</strong> It is recommended to scale when the rate of Firehose Slow Consumer Drops is anomalous for a given environment.</td>
+        <td><strong>Scale indicator:</strong> <%=vars.recommended_by %> recommends scaling when the rate of Firehose Slow Consumer Drops is anomalous for a given environment.</td>
     </tr>
     <tr>
       <th>How to scale</th>
@@ -385,104 +386,96 @@ There are three key capacity scaling indicators recommended for a Diego Cell:
 </table>
 
 
-## <a id="scalable-syslog"></a> CF Syslog Drain Performance Scaling Indicators
+## <a id="scalable-syslog"></a> Syslog Drain Performance Scaling Indicators
 
-There are three key capacity scaling indicators recommended for CF Syslog Drain performance.
+There is a single key capacity scaling indicator recommended for Syslog Drain performance.
 
-<p class="note"><strong>Note:</strong> These CF Syslog Drain scaling indicators are only relevant if your deployment contains apps using the CF syslog drain binding feature.</p>
+<p class="note"><strong>Note:</strong> These Syslog Drain scaling indicators are only relevant if your deployment contains apps using the syslog drain binding feature.</p>
 
-<p class="note"><strong>Note</strong>: If you enable agent-based syslog on your deployment, the Adapter Loss Rate and CF Syslog Drain Bindings Count indicators are not relevant and should be ignored. For more information about the Adapter Loss Rate and CF Syslog Drain Bindings Count indicators, see <a href="#syslog-adapter-ksi">Adapter Loss Rate</a> and <a href="#scalable-syslog-ksi">CF Syslog Drain Bindings Count</a>. For more information about enabling agent-based syslog, see <a href="https://docs.pivotal.io/pivotalcf/2-6/pcf-release-notes/runtime-rn.html#syslog">Loggregator Syslog Agent Increases Scale For Syslog Drains</a>.</p>  
+<p class="note"><strong>Note:</strong> If you enable agent-based syslog on your deployment, the Adapter Loss Rate and Syslog Drain Bindings Count indicators are not relevant and should be ignored. For more information about the Adapter Loss Rate and Syslog Drain Bindings Count indicators, see <a href="#syslog-adapter-ksi">Adapter Loss Rate</a> and <a href="#scalable-syslog-ksi">Syslog Drain Bindings Count</a>. For more information about enabling agent-based syslog, see <a href="https://docs.pivotal.io/pivotalcf/2-6/pcf-release-notes/runtime-rn.html#syslog">Loggregator Syslog Agent Increases Scale For Syslog Drains</a>.</p>  
 
 ### <a id="syslog-adapter-ksi"></a> Adapter Loss Rate
 
 <table>
-  <tr>
-      <th colspan="2" style="text-align: center;">cf-syslog-drain.adapter.dropped 
-                       / cf-syslog-drain.adapter.ingress</th>
-  </tr>
-   <tr>
+  <tr><th colspan="2" style="text-align: center;">cf-syslog-drain.adapter.dropped / cf-syslog-drain.adapter.ingress</th></tr>
+    <tr>
       <th width="25">Description</th>
-      <td>The loss rate of the Syslog Adapters, that is, the total messages dropped as a percentage of the total traffic coming through the <a href="../loggregator/architecture.html">Syslog Adapters</a>. Total messages include only logs for bound apps.
-      <br><br>
-			This loss rate is specific to the Syslog Adapters and does not impact the Firehose loss rate. For example, you can suffer lossiness in syslog while not suffering any lossiness in the Firehose.
-      </td>
-   </tr>
-   <tr>
+        <td>
+          The loss rate of the Syslog Adapters, that is, the total messages dropped as a percentage of the total traffic coming through the Syslog Adapters. Total messages include only logs for bound apps.<br><br>
+          This loss rate is specific to the Syslog Adapters and does not impact the Firehose loss rate. For example, you can suffer lossiness in syslog while not suffering any lossiness in the Firehose.
+        </td>
+    </tr>
+    <tr>
       <th>Purpose</th>
-      <td>Indicates that the syslog drains are not keeping up with the number of logs that a syslog-drain-bound app is producing. This likely means that the syslog-drain consumer is failing to keep up with the incoming log volume.         
-      <br><br>
-      The recommended scaling indicator is to look at the maximum per minute loss rate over a 5-minute window and scale if the derived loss rate value grows greater than <code>0.1</code>.
-   </tr>
-   <tr>
+        <td>
+          Indicates that the syslog drains are not keeping up with the number of logs that a syslog-drain-bound app is producing. This likely means that the syslog-drain consumer is failing to keep up with the incoming log volume.<br><br>
+          The recommended scaling indicator is to look at the maximum per minute loss rate over a 5-minute window and scale if the derived loss rate value grows greater than <code>0.1</code>.
+        </td>
+    </tr>
+    <tr>
       <th>Recommended thresholds</th>
-      <td><strong>Scale indicator</strong>: &ge; 0.1</br>
-      If alerting:<br>
-      <strong>Yellow warning</strong>: &ge; 0.01<br>
-      <strong>Red critical</strong>: &ge; 0.1</td>
-   </tr>
-   <tr>
+        <td>
+          <strong>Scale indicator:</strong> &ge; 0.1</br>
+          If alerting:<br>
+          <strong>Yellow warning:</strong> &ge; 0.01<br>
+          <strong>Red critical:</strong> &ge; 0.1
+        </td>
+    </tr>
+    <tr>
       <th>How to scale</th>
-      <td>Performance test your syslog server, review the logs of the syslog consuming system for intake and other performance issues that indicate a need to scale the consuming system.
-      </td>
-   </tr>
-   <tr>
+        <td>Performance test your syslog server, review the logs of the syslog consuming system for intake and other performance issues that indicate a need to scale the consuming system.</td>
+    </tr>
+    <tr>
       <th>Additional details</th>
-      <td> <strong>Origin</strong>: Firehose<br>
-           <strong>Type</strong>: Counter (Integer)<br>
-           <strong>Frequency</strong>: Emitted every 60&nbsp;s<br>
-           <strong>Applies to</strong>: cf:cf-syslog<br>
+        <td>
+          <strong>Origin:</strong> Firehose<br>
+           <strong>Type:</strong> Counter (Integer)<br>
+           <strong>Frequency:</strong> Emitted every 60&nbsp;s<br>
+           <strong>Applies to:</strong> cf:cf-syslog<br>
       </td>
-   </tr>
-   <tr>
+    </tr>
+    <tr>
       <th>Alternative Metric</th>
-      <td>
-      PCF Healthwatch expresses this indicator with the metric <a href="https://docs.pivotal.io/pcf-healthwatch/1-2/metrics.html#adapter-loss"><code>healthwatch.SyslogDrain.Adapter.LossRate.1M</code></a>.
-      </td>
-   </tr>
+        <td><%= vars.product_name %> Healthwatch expresses this indicator with the metric <code>healthwatch.SyslogDrain.Adapter.LossRate.1M</code>. For more information, see the <a href="https://docs.pivotal.io/pcf-healthwatch/1-8/metrics.html#adapter-loss">Adapter Loss Rate</a> section of the <em><%= vars.product_name %> Healthwatch Metrics</em> topic in the <%= vars.product_name %> Healthwatch documentation.</td>
+    </tr>
 </table>
 
-### <a id="scalable-syslog-ksi"></a> CF Syslog Drain Bindings Count
+### <a id="scalable-syslog-ksi"></a> Syslog Drain Bindings Count
 
 <table>
-  <tr>
-      <th colspan="2" style="text-align: center;">cf-syslog-drain.drain_adapter.drain_bindings (sum across instances) / number of Syslog Adapters</th>
-  </tr>
-   <tr>
+  <tr><th colspan="2" style="text-align: center;">cf-syslog-drain.drain_adapter.drain_bindings (sum across instances) / number of Syslog Adapters</th></tr>
+    <tr>
       <th width="25">Description</th>
-       <td>The number of CF syslog drain bindings. CF syslog drain bindings enable app syslog drains by managing the connections between the Syslog Adapters and the Reverse Log Proxies (RLPs). 
-	    <br>
-      </td>
-   </tr>
-   <tr>
+        <td>The number of syslog drain bindings. Syslog drain bindings enable app syslog drains by managing the connections between the Syslog Adapters and the Reverse Log Proxies (RLPs).</td>
+    </tr>
+    <tr>
       <th>Purpose</th>
-      <td>Each syslog drain binding requires two Syslog Adapters. A configuration with two Syslog Adapters allows for approximately 500 syslog drain bindings. Pivotal recommends adding one Syslog Adapter instance for every 250 additional syslog drain bindings.       
-   </tr>
-   <tr>
+        <td>Each syslog drain binding requires two Syslog Adapters. A configuration with two Syslog Adapters allows for approximately 500 syslog drain bindings. <%= vars.recommended_by %> recommends adding one Syslog Adapter instance for every 250 additional syslog drain bindings.</td>
+    </tr>
+    <tr>
       <th>Recommended thresholds</th>
-      <td><strong>Scale indicator</strong>: &ge; 450 syslog drain bindings
-      <br><br>
-      Pivotal recommends scaling to three Syslog Adapters if a maximum of 450 syslog drain bindings is reached in a one hour window.
-      <br></td>
-   </tr>
-   <tr>
+        <td>
+          <strong>Scale indicator:</strong> &ge; 450 syslog drain bindings<br><br>
+          <%= vars.recommended_by %> recommends scaling to three Syslog Adapters if a maximum of 450 syslog drain bindings is reached in a one-hour window.
+        </td>
+    </tr>
+    <tr>
       <th>How to scale</th>
-      <td>Increase the number of Syslog Adapter VMs in the <strong>Resource Config</strong> pane of the PAS tile.
-      </td>
-   </tr>
-   <tr>
+        <td>Increase the number of Syslog Adapter VMs in the <strong>Resource Config</strong> pane of the <%= vars.product_short %> tile.</td>
+    </tr>
+    <tr>
       <th>Additional details</th>
-      <td> <strong>Origin</strong>: Firehose<br>
-           <strong>Type</strong>: Gauge (float)<br>
-           <strong>Frequency</strong>: Emitted every 60&nbsp;s<br>
-           <strong>Applies to</strong>: cf:cf-syslog<br>
-      </td>
-   </tr>
-   <tr>
+        <td>
+          <strong>Origin:</strong> Firehose<br>
+          <strong>Type:</strong> Gauge (float)<br>
+          <strong>Frequency:</strong> Emitted every 60&nbsp;s<br>
+          <strong>Applies to:</strong> cf:cf-syslog<br>
+        </td>
+    </tr>
+    <tr>
       <th>Alternative Metric</th>
-      <td>      
-      PCF Healthwatch expresses this indicator with the metric <a href="https://docs.pivotal.io/pcf-healthwatch/1-2/metrics.html#syslog-drain-binding-capacity"><code>healthwatch.SyslogDrain.Adapter.BindingsAverage.5M</code></a>. 
-      </td>
-</tr>
+        <td><%= vars.product_name %> Healthwatch expresses this indicator with the metric <code>healthwatch.SyslogDrain.Adapter.BindingsAverage.5M</code>. For more information, see the <a href="https://docs.pivotal.io/pcf-healthwatch/1-8/metrics.html#syslog-drain-binding-capacity">Syslog Drain Binding Capacity</a> section of the <em><%= vars.product_name %> Healthwatch Metrics</em> topic in the <%= vars.product_name %> Healthwatch documentation.</td>
+    </tr>
 </table>
 
 ### <a id="syslog-agent-ksi"></a> Syslog Agent Loss Rate
@@ -580,7 +573,7 @@ There is one key capacity scaling indicator recommended for Router performance.
     <tr>
       <th>Purpose</th>
         <td>
-          High CPU utilization of the Gorouter VMs can increase latency and cause throughput, or requests per/second, to level-off. <%=vars.recommended_by %> recommends keeping the CPU utilization within a maximum range of 60-70% for best Gorouter performance.<br><br>
+          High CPU utilization of the Gorouter VMs can increase latency and cause throughput, or requests per second, to level off. <%=vars.recommended_by %> recommends keeping the CPU utilization within a maximum range of 60-70% for best Gorouter performance.<br><br>
           If you want to increase throughput capabilities while also keeping latency low, <%=vars.recommended_by %> recommends scaling the Gorouter while continuing to ensure that CPU utilization does not exceed the maximum recommended range.
           <p class="note"><strong>Note:</strong> At greater than 8 CPUs, vertical scaling is no longer beneficial for increasing throughput.</p>
         </td>
@@ -625,7 +618,7 @@ There is one key capacity scaling indicator recommended for UAA performance.
     <tr>
       <th>Purpose</th>
         <td>
-          High CPU utilization of the UAA VMs can increase latency and cause throughput, or requests per/second, to level-off. <%=vars.recommended_by %> recommends keeping the CPU utilization within a maximum range of 80-90% for best UAA performance.<br><br>
+          High CPU utilization of the UAA VMs can increase latency and cause throughput, or requests per second, to level off. <%=vars.recommended_by %> recommends keeping the CPU utilization within a maximum range of 80-90% for best UAA performance.<br><br>
           If you want to increase throughput capabilities while keeping latency low, <%=vars.recommended_by %> recommends scaling the UAA VMs and ensuring that CPU utilization does not exceed the maximum recommended range.</td>
     </tr>
     <tr>
