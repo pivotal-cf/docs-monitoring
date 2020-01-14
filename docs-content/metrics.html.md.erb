@@ -3,10 +3,6 @@ title: Selecting and Configuring a Monitoring System
 owner: Cloud Ops
 ---
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 97f89cf... Light style/formatting sweep
 This topic describes considerations for selecting and configuring a system to continuously monitor Pivotal Cloud Foundry (PCF) component performance and health.
 
 
@@ -44,21 +40,21 @@ There are many monitoring options available, both open source and commercial pro
 * Open Source Tooling
   - [Prometheus + Grafana](https://github.com/bosh-prometheus/prometheus-boshrelease)
   - [OpenTSDB](http://opentsdb.net)
-  
+
 ### <a id='cloud-ops'></a> Pivotal Cloud Ops Tools
 
 The Pivotal Cloud Ops Team manages two types of deployments for internal Pivotal use: open-source Cloud Foundry, and Pivotal Cloud Foundry (PCF).
 
 For **Cloud Foundry**, Pivotal Cloud Ops uses several monitoring tools. The [Datadog Config repository](https://github.com/pivotal-cf-experimental/datadog-config-oss) provides an example of how the Pivotal Cloud Ops team uses a customized Datadog dashboard to monitor the health of its open-source Cloud Foundry deployments.
 
-To monitor its **PCF** deployments, Pivotal Cloud Ops leverages a combination of [PCF Healthwatch](https://docs.pivotal.io/pcf-healthwatch/1-2/index.html) and [Google Stackdriver](https://cloud.google.com/stackdriver/). 
+To monitor its **PCF** deployments, Pivotal Cloud Ops leverages a combination of [PCF Healthwatch](https://docs.pivotal.io/pcf-healthwatch/1-2/index.html) and [Google Stackdriver](https://cloud.google.com/stackdriver/).
 
 
 ## <a id='cloud-ops'></a> Key Inputs for Platform Monitoring
 
 ### <a id='component-metrics'></a> BOSH VM and PCF Component Health Metrics
 
-Most monitoring service tiles for PCF come packaged with the Firehose nozzle necessary to extract the BOSH and PCF metrics leveraged for platform monitoring. Nozzles are programs that consume data from the Loggregator Firehose. Nozzles can be configured to select, buffer, and transform data, and to forward it to other apps and services. 
+Most monitoring service tiles for PCF come packaged with the Firehose nozzle necessary to extract the BOSH and PCF metrics leveraged for platform monitoring. Nozzles are programs that consume data from the Loggregator Firehose. Nozzles can be configured to select, buffer, and transform data, and to forward it to other apps and services.
 
 The nozzles gather the component logs and metrics streaming from the Loggregator Firehose endpoint. For more information about the Firehose, see [Loggregator Architecture](https://docs.pivotal.io/pivotalcf/loggregator/architecture.html).
 
@@ -80,7 +76,7 @@ PCF includes smoke tests, which are functional unit and integration tests on all
 Pivotal recommends additional higher-resolution monitoring by the execution of continuous smoke tests, or Service Level Indicator tests, that measure user-defined features and check them against expected levels.
 
 - [PCF Healthwatch](https://network.pivotal.io/products/p-healthwatch) automatically executes these tests for PAS Service Level Indicators.
-  
+
 - The Pivotal Cloud Ops [CF Smoke Tests](https://github.com/pivotal-cloudops/cf-smoke-tests/tree/Dockerfile) repository offers additional testing examples.
 
 For information about how to set up Concourse to generate custom component metrics, see [Metrics](https://concourse-ci.org/metrics.html) in the Concourse documentation.
@@ -88,7 +84,7 @@ For information about how to set up Concourse to generate custom component metri
 
 ## <a id="thresholds"></a> Warning and Critical Thresholds
 
-To properly configure your monitoring dashboard and alerts, you must establish what thresholds should drive alerting and red/yellow/green dashboard behavior. 
+To properly configure your monitoring dashboard and alerts, you must establish what thresholds should drive alerting and red/yellow/green dashboard behavior.
 
 Some key metrics have more fixed thresholds, with similar threshold numbers numbers recommended across different foundations and use cases. These metrics tend to revolve around the health and performance of key components that can impact the performance of the entire system.
 
