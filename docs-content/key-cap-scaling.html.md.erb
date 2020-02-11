@@ -3,21 +3,23 @@ title: Key Capacity Scaling Indicators
 owner: PCF Metrics Platform Monitoring
 ---
 
-This topic describes key capacity scaling indicators that operators monitor to determine when they need to scale their <%=vars.product_runtime %> (<%=vars.product_short %>) deployments.
+This topic describes key capacity scaling indicators that operators monitor to determine when they need to scale their <%= vars.product_runtime %> (<%= vars.product_short %>) deployments.
 
 
 ## <a id='overview'></a> Overview
 
-Pivotal provides these indicators to operators as general guidance for capacity scaling. Each indicator is based on platform metrics from different components. This guidance is applicable to most <%=vars.product_short %> deployments. <%=vars.recommended_by %> recommends that operators fine-tune the suggested alert thresholds by observing historical trends for their deployments.
+Pivotal provides these indicators to operators as general guidance for capacity scaling. Each indicator is based on platform metrics from different components. This guidance is applicable to most <%= vars.product_short %> deployments. <%= vars.recommended_by %> recommends that operators fine-tune the suggested alert thresholds by observing historical trends for their deployments.
 
 
 ## <a id="cell"></a> Diego Cell Capacity Scaling Indicators
 
 There are three key capacity scaling indicators <%= vars.recommended_by %> recommends for a Diego Cell:
 
-+ [Diego Cell Memory Capacity](#cell-memory) is a measure of the percentage of remaining memory capacity.
-+ [Diego Cell Disk Capacity](#cell-disk) is a measure of the percentage of remaining disk capacity.
-+ [Diego Cell Container Capacity](#cell-container) is a measure of the percentage of remaining container capacity.
+* Diego Cell memory capacity is a measure of the percentage of remaining memory capacity. For more information, see [Diego Cell Memory Capacity](#cell-memory).
+
+* Diego Cell disk capacity is a measure of the percentage of remaining disk capacity. For more information, see [Diego Cell Disk Capacity](#cell-disk).
+
+* Diego Cell container capacity is a measure of the percentage of remaining container capacity. For more information, see [Diego Cell Container Capacity](#cell-container).
 
 ### <a id="cell-memory"></a> Diego Cell Memory Capacity
 
@@ -34,7 +36,7 @@ There are three key capacity scaling indicators <%= vars.recommended_by %> recom
     <tr>
       <th>Purpose</th>
         <td>
-          A best practice deployment of <%= vars.product_short %> includes three availability zones (AZs). For these types of deployments, <%=vars.recommended_by %> recommends that you have enough capacity to suffer failure of an entire AZ.<br><br>
+          A best practice deployment of <%= vars.product_short %> includes three availability zones (AZs). For these types of deployments, <%= vars.recommended_by %> recommends that you have enough capacity to suffer failure of an entire AZ.<br><br>
           The <em>Recommended threshold</em> assumes a three-AZ configuration. Adjust the threshold percentage if you have more or fewer AZs.
         </td>
     </tr>
@@ -57,7 +59,7 @@ There are three key capacity scaling indicators <%= vars.recommended_by %> recom
     </tr>
     <tr>
       <th>Alternative Metric</th>
-        <td><%= vars.product_name %> Healthwatch expresses this indicator with the metric <code>healthwatch.Diego.TotalPercentageAvailableMemoryCapacity.5M</code>. For more information, see the <a href="https://docs.pivotal.io/pcf-healthwatch/1-8/metrics.html#memory">Percentage of Memory Available</a> section of the <em><%= vars.product_name %> Healthwatch Metrics</em> topic in the <%= vars.product_name %> Healthwatch documentation.</td>
+        <td><%= vars.product_name %> Healthwatch expresses this indicator with the metric <code>healthwatch.Diego.TotalPercentageAvailableMemoryCapacity.5M</code>. For more information, see <a href="https://docs.pivotal.io/pcf-healthwatch/1-8/metrics.html#memory">Percentage of Memory Available</a> in <em><%= vars.product_name %> Healthwatch Metrics</em> in the <%= vars.product_name %> Healthwatch documentation.</td>
     </tr>
 </table>
 
@@ -76,7 +78,7 @@ There are three key capacity scaling indicators <%= vars.recommended_by %> recom
     <tr>
       <th>Purpose</th>
         <td>
-          A best practice deployment of <%= vars.product_short %> includes three availability zones (AZs). For these types of deployments, <%=vars.recommended_by %> recommends that you have enough capacity to suffer failure of an entire AZ.<br><br>
+          A best practice deployment of <%= vars.product_short %> includes three availability zones (AZs). For these types of deployments, <%= vars.recommended_by %> recommends that you have enough capacity to suffer failure of an entire AZ.<br><br>
           The <em>Recommended threshold</em> assumes a three-AZ configuration. Adjust the threshold percentage if you have more or fewer AZs.
         </td>
     </tr>
@@ -99,7 +101,7 @@ There are three key capacity scaling indicators <%= vars.recommended_by %> recom
     </tr>
     <tr>
       <th>Alternative Metric</th>
-        <td><%= vars.product_name %> Healthwatch expresses this indicator with the metric <code>healthwatch.Diego.TotalPercentageAvailableMemoryCapacity.5M</code>. For more information, see the <a href="https://docs.pivotal.io/pcf-healthwatch/1-8/metrics.html#memory">Percentage of Memory Available</a> section of the <em><%= vars.product_name %> Healthwatch Metrics</em> topic in the <%= vars.product_name %> Healthwatch documentation.</td>
+        <td><%= vars.product_name %> Healthwatch expresses this indicator with the metric <code>healthwatch.Diego.TotalPercentageAvailableMemoryCapacity.5M</code>. For more information, see <a href="https://docs.pivotal.io/pcf-healthwatch/1-8/metrics.html#memory">Percentage of Memory Available</a> in <em><%= vars.product_name %> Healthwatch Metrics</em> in the <%= vars.product_name %> Healthwatch documentation.</td>
     </tr>
 </table>
 
@@ -116,7 +118,7 @@ There are three key capacity scaling indicators <%= vars.recommended_by %> recom
         </td>
     <tr>
         <td>
-          A best practice deployment of <%= vars.product_short %> includes three availability zones (AZs). For these types of deployments, <%=vars.recommended_by %> recommends that you have enough capacity to suffer failure of an entire AZ.<br><br>
+          A best practice deployment of <%= vars.product_short %> includes three availability zones (AZs). For these types of deployments, <%= vars.recommended_by %> recommends that you have enough capacity to suffer failure of an entire AZ.<br><br>
           The <em>Recommended threshold</em> assumes a three-AZ configuration. Adjust the threshold percentage if you have more or fewer AZs.
         </td>
     </tr>
@@ -139,14 +141,14 @@ There are three key capacity scaling indicators <%= vars.recommended_by %> recom
     </tr>
     <tr>
       <th>Alternative Metric</th>
-        <td><%= vars.product_name %> Healthwatch expresses this indicator with the metric <code>healthwatch.Diego.TotalPercentageAvailableMemoryCapacity.5M</code>. For more information, see the <a href="https://docs.pivotal.io/pcf-healthwatch/1-8/metrics.html#memory">Percentage of Memory Available</a> section of the <em><%= vars.product_name %> Healthwatch Metrics</em> topic in the <%= vars.product_name %> Healthwatch documentation.</td>
+        <td><%= vars.product_name %> Healthwatch expresses this indicator with the metric <code>healthwatch.Diego.TotalPercentageAvailableMemoryCapacity.5M</code>. For more information, see <a href="https://docs.pivotal.io/pcf-healthwatch/1-8/metrics.html#memory">Percentage of Memory Available</a> in <em><%= vars.product_name %> Healthwatch Metrics</em> in the <%= vars.product_name %> Healthwatch documentation.</td>
     </tr>
 </table>
 
 
 ## <a id="doppler-server"></a> Firehose Performance Scaling Indicators
 
-<%=vars.recommended_by %> recommends two key capacity scaling indicators for monitoring Firehose performance.
+<%= vars.recommended_by %> recommends two key capacity scaling indicators for monitoring Firehose performance.
 
 ### <a id="firehose-loss-rate"></a> Log Transport Loss Rate
 
@@ -196,7 +198,7 @@ There are three key capacity scaling indicators <%= vars.recommended_by %> recom
     </tr>
     <tr>
       <th>Alternative Metrics</th>
-      <td><%= vars.product_name %> Healthwatch expresses this indicator with the metric <code>healthwatch.Firehose.LossRate.1H</code>. For more information, see the <a href="https://docs.pivotal.io/pcf-healthwatch/1-7/metrics.html#firehose-loss">Log Transport Loss Rate</a> section of the <em><%= vars.product_name %> Healthwatch Metrics</em> topic in the <%= vars.product_name %> Healthwatch documentation.</td>
+      <td><%= vars.product_name %> Healthwatch expresses this indicator with the metric <code>healthwatch.Firehose.LossRate.1H</code>. For more information, see <a href="https://docs.pivotal.io/pcf-healthwatch/1-7/metrics.html#firehose-loss">Log Transport Loss Rate</a> in <em><%= vars.product_name %> Healthwatch Metrics</em> in the <%= vars.product_name %> Healthwatch documentation.</td>
     </tr>
 </table>
 
@@ -218,7 +220,7 @@ There are three key capacity scaling indicators <%= vars.recommended_by %> recom
     </tr>
     <tr>
       <th>How to scale</th>
-        <td>Increase the number of Doppler VMs in the <strong>Resource Config</strong> pane of the <%=vars.product_short %> tile.</td>
+        <td>Increase the number of Doppler VMs in the <strong>Resource Config</strong> pane of the <%= vars.product_short %> tile.</td>
      </tr>
     <tr>
       <th>Additional details</th>
@@ -231,7 +233,7 @@ There are three key capacity scaling indicators <%= vars.recommended_by %> recom
     </tr>
     <tr>
       <th>Alternative Metric</th>
-        <td><%= vars.product_name %> Healthwatch expresses this indicator with the metric <code>healthwatch.Doppler.MessagesAverage.1M</code>. For more information, see the <a href="https://docs.pivotal.io/pcf-healthwatch/1-8/metrics.html#doppler-capacity">Doppler Message Rate Capacity</a> section of the <em><%= vars.product_name %> Healthwatch Metrics</em> topic in the <%= vars.product_name %> Healthwatch documentation.</td>
+        <td><%= vars.product_name %> Healthwatch expresses this indicator with the metric <code>healthwatch.Doppler.MessagesAverage.1M</code>. For more information, see <a href="https://docs.pivotal.io/pcf-healthwatch/1-8/metrics.html#doppler-capacity">Doppler Message Rate Capacity</a> in <em><%= vars.product_name %> Healthwatch Metrics</em> in the <%= vars.product_name %> Healthwatch documentation.</td>
     </tr>
 </table>
 
@@ -277,14 +279,14 @@ There are three key capacity scaling indicators <%= vars.recommended_by %> recom
     </tr>
     <tr>
       <th>Alternative Metric</th>
-        <td><%= vars.product_name %> Healthwatch expresses this indicator with the metric <code>healthwatch.SyslogDrain.RLP.LossRate.1M</code>. For more information, see the <a href="https://docs.pivotal.io/pcf-healthwatch/1-8/metrics.html#rlp-loss">Reverse Log Proxy Loss Rate</a> section of the <em><%= vars.product_name %> Healthwatch Metrics</em> topic in the <%= vars.product_name %> Healthwatch documentation.</td>
+        <td><%= vars.product_name %> Healthwatch expresses this indicator with the metric <code>healthwatch.SyslogDrain.RLP.LossRate.1M</code>. For more information, see <a href="https://docs.pivotal.io/pcf-healthwatch/1-8/metrics.html#rlp-loss">Reverse Log Proxy Loss Rate</a> in <em><%= vars.product_name %> Healthwatch Metrics</em> in the <%= vars.product_name %> Healthwatch documentation.</td>
     </tr>
 </table>
 
 
 ## <a id="firehose-consumer"></a> Firehose Consumer Scaling Indicator
 
-<%=vars.recommended_by %> recommends the following scaling indicator for monitoring the performance of consumers of the Firehose.
+<%= vars.recommended_by %> recommends the following scaling indicator for monitoring the performance of consumers of the Firehose.
 
 ### <a id="slow-consumer"></a> Slow Consumer Drops
 
@@ -292,7 +294,7 @@ There are three key capacity scaling indicators <%= vars.recommended_by %> recom
   <tr><th colspan="2" style="text-align: center;">doppler_proxy.slow_consumer</th></tr>
     <tr>
       <th width="25">Description</th>
-        <td>Within <%=vars.product_short %>, metrics and logs enter the Firehose for transport and exit out of the platform via a consumer nozzle. If the consuming downstream system fails to keep up with the exiting stream of metrics, the Firehose is forced to close the connection to protect itself from back-pressure. The Firehose increments <code>slow_consumer</code> with each connection that it closes because a consumer could not keep up.</td>
+        <td>Within <%= vars.product_short %>, metrics and logs enter the Firehose for transport and exit out of the platform via a consumer nozzle. If the consuming downstream system fails to keep up with the exiting stream of metrics, the Firehose is forced to close the connection to protect itself from back-pressure. The Firehose increments <code>slow_consumer</code> with each connection that it closes because a consumer could not keep up.</td>
     </tr>
     <tr>
       <th>Purpose</th>
@@ -300,7 +302,7 @@ There are three key capacity scaling indicators <%= vars.recommended_by %> recom
     </tr>
     <tr>
       <th>Recommended thresholds</th>
-        <td><strong>Scale indicator:</strong> <%=vars.recommended_by %> recommends scaling when the rate of Firehose Slow Consumer Drops is anomalous for a given environment.</td>
+        <td><strong>Scale indicator:</strong> <%= vars.recommended_by %> recommends scaling when the rate of Firehose Slow Consumer Drops is anomalous for a given environment.</td>
     </tr>
     <tr>
       <th>How to scale</th>
@@ -324,7 +326,7 @@ There are three key capacity scaling indicators <%= vars.recommended_by %> recom
     <tr>
       <th width="25">Description</th>
         <td>
-          Within <%=vars.product_short %>, logs and metrics enter Loggregator for transport and then egress through the Reverse Log Proxy (RLP). The RLP drops messages when consumers of the RLP, such as monitoring tool nozzles, ingest the exiting stream of logs and metrics too slowly.
+          Within <%= vars.product_short %>, logs and metrics enter Loggregator for transport and then egress through the Reverse Log Proxy (RLP). The RLP drops messages when consumers of the RLP, such as monitoring tool nozzles, ingest the exiting stream of logs and metrics too slowly.
           <p class="note"><strong>Note:</strong> The <code>rlp.dropped</code> metric includes both <code>ingress</code> and <code>egress</code> directions. To differentiate between <code>ingress</code> and <code>egress</code>, refer to the <code>direction</code> tag on the metric.</p>
         </td>
     </tr>
@@ -354,7 +356,7 @@ There are three key capacity scaling indicators <%= vars.recommended_by %> recom
 
 ## <a id="scalable-syslog"></a> CF Syslog Drain Performance Scaling Indicators
 
-There are three key capacity scaling indicators <%=vars.recommended_by %> recommends for CF Syslog Drain performance.
+There are three key capacity scaling indicators <%= vars.recommended_by %> recommends for CF Syslog Drain performance.
 
 <p class="note"><strong>Note:</strong> These CF Syslog Drain scaling indicators are only relevant if your deployment contains apps using the CF syslog drain binding feature.</p>
 
@@ -445,7 +447,7 @@ There are three key capacity scaling indicators <%=vars.recommended_by %> recomm
 
 ## <a id="log-cache"></a> Log Cache Scaling Indicator
 
-<%=vars.recommended_by %> recommends the following scaling indicator for monitoring the performance of Log Cache.
+<%= vars.recommended_by %> recommends the following scaling indicator for monitoring the performance of Log Cache.
 
 ### <a id="cache-duration"></a> Log Cache Caching Duration
 
@@ -458,8 +460,8 @@ There are three key capacity scaling indicators <%=vars.recommended_by %> recomm
     <tr>
       <th>Purpose</th>
         <td>
-          Log Cache stores all messages that are passed through the Firehose in an ephemeral in-memory store. The size of this store and the cache duration are dependent on the amount of memory available on the VM on which Log Cache runs. Some features of <%=vars.product_short %> rely on data being available in Log Cache, such as App Autoscaler.<br><br>
-          <%=vars.recommended_by %> recommends scaling the VM on which Log Cache runs, so Log Cache can hold all messages that pass through Loggregator in the last 15 minutes, or 900000 milliseconds.
+          Log Cache stores all messages that are passed through the Firehose in an ephemeral in-memory store. The size of this store and the cache duration are dependent on the amount of memory available on the VM on which Log Cache runs. Some features of <%= vars.product_short %> rely on data being available in Log Cache, such as App Autoscaler.<br><br>
+          <%= vars.recommended_by %> recommends scaling the VM on which Log Cache runs, so Log Cache can hold all messages that pass through Loggregator in the last 15 minutes, or 900000 milliseconds.
         </td>
     </tr>
     <tr>
@@ -497,8 +499,8 @@ There is one key capacity scaling indicator <%= vars.recommended_by %> recommend
     <tr>
       <th>Purpose</th>
         <td>
-          High CPU utilization of the Gorouter VMs can increase latency and cause throughput, or requests per second, to level off. <%=vars.recommended_by %> recommends keeping the CPU utilization within a maximum range of 60-70% for best Gorouter performance.<br><br>
-          If you want to increase throughput capabilities while also keeping latency low, <%=vars.recommended_by %> recommends scaling the Gorouter while continuing to ensure that CPU utilization does not exceed the maximum range <%= vars.recommended_by %> recommends.
+          High CPU utilization of the Gorouter VMs can increase latency and cause throughput, or requests per second, to level off. <%= vars.recommended_by %> recommends keeping the CPU utilization within a maximum range of 60-70% for best Gorouter performance.<br><br>
+          If you want to increase throughput capabilities while also keeping latency low, <%= vars.recommended_by %> recommends scaling the Gorouter while continuing to ensure that CPU utilization does not exceed the maximum range <%= vars.recommended_by %> recommends.
           <p class="note"><strong>Note:</strong> At greater than 8 CPUs, vertical scaling is no longer beneficial for increasing throughput.</p>
         </td>
     </tr>
@@ -513,7 +515,7 @@ There is one key capacity scaling indicator <%= vars.recommended_by %> recommend
     </tr>
     <tr>
       <th>How to scale</th>
-        <td>Resolve high utilization by scaling the Gorouters horizontally or vertically by editing the <strong>Router</strong> VM in the <strong>Resource Config</strong> pane of the <%=vars.product_short %> tile.</td>
+        <td>Resolve high utilization by scaling the Gorouters horizontally or vertically by editing the <strong>Router</strong> VM in the <strong>Resource Config</strong> pane of the <%= vars.product_short %> tile.</td>
     </tr>
     <tr>
       <th>Additional details</th>
@@ -542,8 +544,8 @@ There is one key capacity scaling indicator <%= vars.recommended_by %> recommend
     <tr>
       <th>Purpose</th>
         <td>
-          High CPU utilization of the UAA VMs can increase latency and cause throughput, or requests per second, to level off. <%=vars.recommended_by %> recommends keeping the CPU utilization within a maximum range of 80-90% for best UAA performance.<br><br>
-          If you want to increase throughput capabilities while keeping latency low, <%=vars.recommended_by %> recommends scaling the UAA VMs and ensuring that CPU utilization does not exceed the maximum range <%= vars.recommended_by %> recommends.</td>
+          High CPU utilization of the UAA VMs can increase latency and cause throughput, or requests per second, to level off. <%= vars.recommended_by %> recommends keeping the CPU utilization within a maximum range of 80-90% for best UAA performance.<br><br>
+          If you want to increase throughput capabilities while keeping latency low, <%= vars.recommended_by %> recommends scaling the UAA VMs and ensuring that CPU utilization does not exceed the maximum range <%= vars.recommended_by %> recommends.</td>
     </tr>
     <tr>
       <th>Recommended thresholds</th>
@@ -556,7 +558,7 @@ There is one key capacity scaling indicator <%= vars.recommended_by %> recommend
     </tr>
     <tr>
       <th>How to scale</th>
-        <td>Resolve high utilization by scaling UAA horizontally or vertically. To scale UAA, navigate to the <strong>Resource Config</strong> pane of the <%=vars.product_short %> tile and edit the number of your <strong>UAA</strong> VM instances or change the VM type to a type that utilizes more CPU cores.</td>
+        <td>Resolve high utilization by scaling UAA horizontally or vertically. To scale UAA, navigate to the <strong>Resource Config</strong> pane of the <%= vars.product_short %> tile and edit the number of your <strong>UAA</strong> VM instances or change the VM type to a type that utilizes more CPU cores.</td>
     </tr>
     <tr>
       <th>Additional details</th>
@@ -585,7 +587,7 @@ There is one key capacity scaling indicator for external S3 external storage.
     <tr>
       <th>Purpose</th>
         <td>
-          If you do not use an external S3 repository for external storage with no capacity constraints, you must monitor the <%=vars.product_short %> object store to push new app and buildpacks.<br><br>
+          If you do not use an external S3 repository for external storage with no capacity constraints, you must monitor the <%= vars.product_short %> object store to push new app and buildpacks.<br><br>
           If you use an internal NFS/WebDAV backed blobstore, consider scaling the persistent disk when it reaches 75% capacity.
         </td>
     </tr>

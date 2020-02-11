@@ -1,27 +1,27 @@
 ---
-title: Monitoring PAS 
-owner: PCF Metrics Platform Monitoring
+title: Monitoring PAS
+owner: <%= vars.product_name %> Metrics Platform Monitoring
 ---
 
-This guide describes how Pivotal Cloud Foundry (PCF) operators can monitor their Pivotal Application Service (PAS) deployments. For information about monitoring Pivotal Container Service (PKS) deployments, see [Logging and Monitoring PKS](https://docs.pivotal.io/runtimes/pks/monitor.html).
+These topics describe how <%= vars.product_name_full %> (<%= vars.product_name %>) operators can monitor their <%= vars.product_runtime %> (<%= vars.product_short %>) deployments. For information about monitoring <%= vars.pks_product_full %> (<%= vars.pks_product_short %>) deployments, see [Logging and Monitoring <%= vars.pks_product_short %>](https://docs.pivotal.io/pks/monitor.html).
 
-For more information about logging and metrics in PCF, see [Overview of Logging and Metrics](../loggregator/data-sources.html).
+For more information about logging and metrics in <%= vars.product_name %>, see [Overview of Logging and Metrics](../loggregator/data-sources.html).
 
 
 ##<a id="guide"></a> Overview
 
-This guide includes the following topics: 
+This guide includes the following topics:
 
-* <a class="subnav" href="./kpi.html">Key Performance Indicators</a>: A list of Key Performance Indicators (KPIs) that operators may want to monitor with their PAS deployment to help ensure it is in a good operational state.
+* [Key Performance Indicators](kpi.html): A list of Key Performance Indicators (KPIs) that operators may want to monitor with their <%= vars.product_short %> deployment to help ensure it is in a good operational state.
 
-* <a class="subnav" href="./key-cap-scaling.html">Key Capacity Scaling Indicators</a>: A list of capacity scaling indicators that operators may want to  monitor to determine when they need to scale their PAS deployments.
+* [Key Capacity Scaling Indicators](key-cap-scaling.html): A list of capacity scaling indicators that operators may want to  monitor to determine when they need to scale their <%= vars.product_short %> deployments.
 
-* <a class="subnav" href="./metrics.html">Selecting and Configuring a Monitoring System</a>: Guidance for setting up PAS with monitoring platforms to continuously monitor component metrics and trigger health alerts.
+* [Selecting and Configuring a Monitoring System](metrics.html): Guidance for setting up <%= vars.product_short %> with monitoring platforms to continuously monitor component metrics and trigger health alerts.
 
 
-##<a id="new"></a> KPI and Scaling Changes from PAS v2.4 to v2.5
+## <a id="new"></a> KPI and Scaling Changes from <%= vars.product_short %> v2.4 to <%= vars.v_major_version %>.
 
-This table highlights new and changed KPIs and scaling indicators in PAS v2.5.
+This table highlights new and changed KPIs and scaling indicators in <%= vars.product_short %> <%= vars.v_major_version %>.
 
 <table>
   <tr>
@@ -29,12 +29,12 @@ This table highlights new and changed KPIs and scaling indicators in PAS v2.5.
     <th>Metric</th>
     <th>Description</th>
     <th>Reference</th>
-  </tr> 
+  </tr>
   <tr>
     <td width='10%'>Removed</td>
     <td width='20%'>Number of Route Registration Messages Sent and Received
     <td width='50%'>
-        These <code>gorouter.registry_message.route-emitter</code> and <code>route_emitter.HTTPRouteNATSMessagesEmitted</code>metrics are no longer an accurate representation of routing health. In PAS v2.4 and later, Gorouter skips the TTL for routes that are registered with TLS. This means the routes never expire or get pruned, other than in an attempt to connect to an invalid backend.  
+        These <code>gorouter.registry_message.route-emitter</code> and <code>route_emitter.HTTPRouteNATSMessagesEmitted</code>metrics are no longer an accurate representation of routing health. In <%= vars.product_short %> v2.4 and later, Gorouter skips the TTL for routes that are registered with TLS. This means the routes never expire or get pruned, other than in an attempt to connect to an invalid back end.
       </td>
     <td width='20%'>N/A</td>
   </tr>
@@ -42,7 +42,7 @@ This table highlights new and changed KPIs and scaling indicators in PAS v2.5.
     <td width='10%'>Modified</td>
     <td width='20%'>CF Syslog Drain Bindings Count
     <td width='50%'>
-      In PAS v2.5, the CF Syslog Drain Bindings Count scaling indicator uses the following derived metric:
+      In <%= vars.product_short %> v2.5, the CF Syslog Drain Bindings Count scaling indicator uses the following derived metric:
       <code>cf-syslog-drain.drain_adapter.drain_bindings / number of Syslog Adapters</code>
     </td>
     <td width='20%'><a href="./key-cap-scaling.html#scalable-syslog-ksi">CF Syslog Drain Bindings Count</a></td>
@@ -54,16 +54,18 @@ This table highlights new and changed KPIs and scaling indicators in PAS v2.5.
       The Log Cache Caching Duration scaling indicator indicates the age in milliseconds of the oldest data point stored in Log Cache. This metric is useful for determining when to scale the VMs on which Log Cache runs.
     </td>
     <td width='20%'><a href="./key-cap-scaling.html#cache-duration">Log Cache Caching Duration</a></td>
-  </tr>  
-</table> 
+  </tr>
+</table>
 
 
-##<a id="resources"></a> Monitor PCF Services
+## <a id="resources"></a> Monitor <%= vars.product_name %> Services
 
-For information about KPIs and metrics for PCF services, see the following topics:
+For information about KPIs and metrics for <%= vars.product_name %> services, see:
 
-* **MySQL for PCF**: [Monitoring MySQL for PCF](https://docs.pivotal.io/p-mysql/monitor.html).
-* **Pivotal Cloud Cache**: See [Monitoring Pivotal Cloud Cache](https://docs.pivotal.io/p-cloud-cache/monitoring.html).
-* **Redis for PCF**: [Monitoring Redis for PCF](https://docs.pivotal.io/redis/2-0/monitoring.html).
-* **RabbitMQ for PCF (pre-provisioned)**: See [Monitoring and KPIs for Pre-Provisioned RabbitMQ for PCF](https://docs.pivotal.io/rabbitmq-cf/monitor-pp.html).
-* **RabbitMQ for PCF (on-demand)**: See [Monitoring and KPIs for On-Demand RabbitMQ for PCF](https://docs.pivotal.io/rabbitmq-cf/monitor.html).
+* **<%= vars.product_name %> Cloud Cache**: [Monitoring <%= vars.product_name %> Cloud Cache](https://docs.pivotal.io/p-cloud-cache/monitoring.html).
+
+* **Redis for <%= vars.product_name %>**: [Monitoring Redis for <%= vars.product_name %>](https://docs.pivotal.io/redis/2-0/monitoring.html)
+
+* **RabbitMQ for <%= vars.product_name %> (pre-provisioned)**: [Monitoring and KPIs for Pre-Provisioned RabbitMQ for <%= vars.product_name %>](https://docs.pivotal.io/rabbitmq-cf/monitor-pp.html)
+
+* **RabbitMQ for <%= vars.product_name %> (on-demand)**: [Monitoring and KPIs for On-Demand RabbitMQ for <%= vars.product_name %>](https://docs.pivotal.io/rabbitmq-cf/monitor.html)
